@@ -16,6 +16,9 @@ Floating Camera: always-on-top/picture-in-picture MacOS webcam/iSight/security c
 Our values aim to limit quantity/lines of code to the minimum required amount, with no external library and with minimal (here: none) dependencies: actual executable is 211KB, and 80% of app weight is from its icons.
 
 Floating Camera was inspired from Chi Won's [FloatingMirror](https://github.com/iamchiwon/FloatingMirror/)
+
 Floating Camera was initially tought to check on _those weird noises_ that I heard downstairs most nights.
+
 Downstairs I have a powerhouse but broken screen macbookpro m1 max to which I connect via SSH or apple remote desktop/screen sharing to do all the Machine Learning work, and also to see from its iSight camera.
+
 FYI Amazingly the noises were from two cats that sneaked in through a window I leave ajar.
