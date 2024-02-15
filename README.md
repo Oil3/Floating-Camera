@@ -1,5 +1,5 @@
 # Floating-Camera
-Floating Camera: always-on-top MacOS webcam/iSight/security camera live feed viewer. Notarized/hardened/sandboxed
+Floating Camera: always-on-top/picture-in-picture MacOS webcam/iSight/security camera live feed viewer. Notarized/hardened/sandboxed
 
 
 **What is this:** this is is a MacOS app that uses available camera/webcam/iSight in order to display the video feed live, full 16/9 view (non-cropped), resizable, always-on-top (picture in picture). Native, notarized, sandboxed, hardened, and coded using no dependeny, no external libraries and only the required code.
