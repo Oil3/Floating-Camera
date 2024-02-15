@@ -11,6 +11,8 @@
 		728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FC12B7DAD8D00E10802 /* ViewController.swift */; };
 		728A8FC42B7DAD8F00E10802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 728A8FC32B7DAD8F00E10802 /* Assets.xcassets */; };
 		728A8FC72B7DAD8F00E10802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 728A8FC52B7DAD8F00E10802 /* Main.storyboard */; };
+		728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */; };
+		728A8FD12B7DC0C200E10802 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FD02B7DC0C200E10802 /* WindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		728A8FC32B7DAD8F00E10802 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		728A8FC62B7DAD8F00E10802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		728A8FC82B7DAD8F00E10802 /* Floating_Camera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Floating_Camera.entitlements; sourceTree = "<group>"; };
+		728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeData.swift; sourceTree = "<group>"; };
+		728A8FD02B7DC0C200E10802 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */,
+				728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */,
+				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
 				728A8FC12B7DAD8D00E10802 /* ViewController.swift */,
 				728A8FC32B7DAD8F00E10802 /* Assets.xcassets */,
 				728A8FC52B7DAD8F00E10802 /* Main.storyboard */,
@@ -131,6 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */,
+				728A8FD12B7DC0C200E10802 /* WindowController.swift in Sources */,
 				728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */,
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,
 			);
@@ -273,6 +281,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Floating Camera/Floating_Camera.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -280,13 +289,15 @@
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app main function is to provide a live feed from integrated Isight or connected camera, and thus requires camera usage authorization";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2024 © Quet Almahdi Morris";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -300,6 +311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Floating Camera/Floating_Camera.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -307,13 +319,15 @@
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app main function is to provide a live feed from integrated Isight or connected camera, and thus requires camera usage authorization";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2024 © Quet Almahdi Morris";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";

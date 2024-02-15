@@ -9,22 +9,29 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    var runtimeData = RuntimeData()
     
-
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+    @IBAction func openPreferences  (_ sender: AnyObject) {
+        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("SettingsWctl")) as! NSWindowController
+        windowController.showWindow(sender)
     }
+
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    // Saving any settings or application state as needed
+        let currentWindowSize = NSApplication.shared.mainWindow?.frame.size
+        UserDefaults.standard.set(currentWindowSize, forKey: "lastWindowSize")
+    
+    // Perform additional cleanup if required
     }
 
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
+//    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+//        return true
+//    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
     }
-
-
 }
 
