@@ -14,6 +14,7 @@ Native, notarized, sandboxed, hardened, and coded using no dependeny, no externa
 
 **Download** from Releases.
 
+![image](https://github.com/Oil3/Floating-Camera/assets/22565084/53e444c3-9de2-447f-8d9f-07333c861854)
 
 Our values aim to limit quantity/lines of code to the minimum required amount, with no external library and with minimal (here: none) dependencies: actual executable is 211KB, and 80% of app weight is from its icons.
 
