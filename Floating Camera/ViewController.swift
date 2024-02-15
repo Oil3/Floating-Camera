@@ -1,9 +1,7 @@
 //
 //  ViewController.swift
 //  Floating Camera
-//
 //  Created by ZZS on 14/02/2024.
-//
 
 import AVFoundation
 import Cocoa

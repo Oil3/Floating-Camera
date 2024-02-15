@@ -8,7 +8,7 @@ Native, notarized, sandboxed, hardened, and coded using no dependeny, no externa
 
 **How to install?** Move the extracted app in /Applications, or anywhere you choose.
 
-**How to use?** Run the app, its window floats on top of all other windows. Resize by the edges/corners. You can notice a wider effective field-of-view than PhotoBooth: app uses all visible, and is non-mirrord.
+**How to use?** Run the app, its window floats on top of all other windows. Resize by the edges/corners. You can notice a wider effective field-of-view than PhotoBooth: app uses all visible, and is non-mirrored.
 
 **How to uninstall?** Delete the app. 
 
@@ -20,7 +20,7 @@ Our values aim to limit quantity/lines of code to the minimum required amount, w
 
 Floating Camera was inspired from Chi Won's [FloatingMirror](https://github.com/iamchiwon/FloatingMirror/)
 
-Floating Camera was initially tought to check on _those weird noises_ that I heard downstairs most nights.
+Floating Camera was initially tought so I could check on _those weird noises_ that I heard downstairs most nights.
 
 Downstairs I have a powerhouse but broken screen macbookpro m1 max to which I connect via SSH or apple remote desktop/screen sharing to do all the Machine Learning work, and also to see from its iSight camera.
 
