@@ -11,6 +11,10 @@ class ViewController: NSViewController {
     private weak var runtimeData: RuntimeData!
     private let cameraSession = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer?
+//        @IBOutlet private weak var previewLayer : previewLayer!
+
+  
+    private var videoDeviceInput: AVCaptureDeviceInput!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +28,18 @@ class ViewController: NSViewController {
                 self?.setupCameraPreview()
             }
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(setupCameraAutoFocusAndExposure), name: .setupCamera, object: nil)
     }
-
 
 
     private func setupCameraPreview() {
         guard let device = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: device) else { return }
       
-//        cameraSession.sessionPreset = .high //ZZ it's the default anyway
+//        cameraSession.sessionPreset = .high //ZZ haven't see much difference
+        cameraSession.sessionPreset = .hd1280x720
         cameraSession.addInput(input)
+        
 
         previewLayer = AVCaptureVideoPreviewLayer(session: cameraSession)
         if let preview = previewLayer {
@@ -55,8 +61,7 @@ class ViewController: NSViewController {
         super.viewDidLayout()
         previewLayer?.frame = view.bounds
 }
-
-
+   
     private func requestPermission(completion: @escaping (Bool) -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -64,7 +69,7 @@ class ViewController: NSViewController {
 
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { //ZZ works good.
                     completion(granted)
                 }
             }
@@ -76,13 +81,36 @@ class ViewController: NSViewController {
             completion(false)
         }
     }
+    
+    @objc func setupCameraAutoFocusAndExposure() {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        do {
+            try device.lockForConfiguration()
+            if device.isFocusModeSupported(.continuousAutoFocus) {
+                device.focusMode = .continuousAutoFocus
+            }
+            if device.isExposureModeSupported(.continuousAutoExposure) {
+                device.exposureMode = .continuousAutoExposure
+            }
+            device.unlockForConfiguration()
+                } catch {
+                    print("Could not lock device for configuration: \(error)")
+            }
+    }
+       
+//    @objc func setautomaticallyEnablesLowLightBoostWhenAvailable() {
+//        guard let device = AVCaptureDevice.default(for: .video) else { return }
+//        do {
+//            try device.lockForConfiguration()
+//            if device.isLowLightBoostSupported {// oops its just for IOS, keeping
+//     }
 
-//    @objc private func c(notification: Notification) {
-//        if let size = notification.userInfo?["size"] as? CGFloat {
-//            self.previewLayer?.frame = CGRect (x: 0, y: 0, width: size, height: size)
-//            self.view.layer?.cornerRadius = 0
+//     @objc
+//        func subjectAreaDidChange(notification: NSNotification) {
+//            let devicePoint = CGPoint(x: 0.5, y: 0.5)
+//            focus(with: .continuousAutoFocus, exposureMode: .continuousAutoExposure, at: devicePoint, monitorSubjectAreaChange: false)
 //        }
-//    }
+
     @objc private func updateWindowSize(notification: Notification) {
         if let sizeValue = notification.userInfo?["size"] as? CGSize {
             self.previewLayer?.frame = CGRect(origin: .zero, size: sizeValue)

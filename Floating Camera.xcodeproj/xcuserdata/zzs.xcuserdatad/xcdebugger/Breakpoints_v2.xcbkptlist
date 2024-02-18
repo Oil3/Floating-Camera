@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "69F77A24-A8A2-4B22-AE80-6A3483AEC785"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Floating Camera/RuntimeData.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "7"
+            endingLineNumber = "7"
+            landmarkName = "windowSize"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690 - 3aeaa63aa3181eb3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Floating_Camera.RuntimeData.windowSize.getter : __C.CGSize"
+                  moduleName = "Floating Camera"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/RuntimeData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690 - 4abee3003af575e5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Floating_Camera.RuntimeData.windowSize.setter : __C.CGSize"
+                  moduleName = "Floating Camera"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/RuntimeData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690 - 4babdced5fb873f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Floating_Camera.RuntimeData.windowSize.modify : __C.CGSize"
+                  moduleName = "Floating Camera"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/RuntimeData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690 - c1f06fb4f693b57b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Floating_Camera.RuntimeData.windowSize.modify : __C.CGSize with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Floating Camera"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "E4941B54-9430-4A35-9B4B-87A3243B3690 - 4e2186a539d7e9be"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Floating_Camera.RuntimeData.init() -&gt; Floating_Camera.RuntimeData"
+                  moduleName = "Floating Camera"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/RuntimeData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
