@@ -19,164 +19,124 @@ class ViewController: NSViewController {
 
         runtimeData = (NSApplication.shared.delegate as? AppDelegate)?.runtimeData
         view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.black.cgColor //resizing more responsive with an opaque bg
-        
+        view.layer?.backgroundColor = NSColor.black.cgColor
+
         requestPermission { [weak self] granted in
             if granted {
                 self?.setupCameraPreview()
-                self?.addDoubleClickGestureRecognizer()
             }
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(setupCameraAutoFocusAndExposure), name: .setupCamera, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(setupCameraAutoFocusAndExposure), name: .setupCamera, object: nil)
     }
 
 
     private func setupCameraPreview() {
         guard let device = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: device) else { return }
-      
-//        cameraSession.sessionPreset = .high //ZZ haven't see much difference
+
+
         cameraSession.sessionPreset = .hd1280x720
-        cameraSession.addInput(input)
-        
+        if !cameraSession.inputs.contains(where: { $0 == input }) {
+            cameraSession.addInput(input)
+        }
 
         previewLayer = AVCaptureVideoPreviewLayer(session: cameraSession)
+        videoDeviceInput = input // Make sure to assign the input to the property
+
         if let preview = previewLayer {
             view.layer?.addSublayer(preview)
             preview.videoGravity = .resizeAspectFill
-            preview.frame = view.bounds //bounds
+            preview.frame = view.bounds
         }
     }
 
     override func viewDidAppear() {
+        super.viewDidAppear()
         cameraSession.startRunning()
     }
 
     override func viewWillDisappear() {
+        super.viewWillDisappear()
         cameraSession.stopRunning()
     }
-    
+
     override func viewDidLayout() {
         super.viewDidLayout()
         previewLayer?.frame = view.bounds
-}
-   
+    }
+
     private func requestPermission(completion: @escaping (Bool) -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             completion(true)
-
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async { //ZZ works good.
+                DispatchQueue.main.async {
                     completion(granted)
                 }
             }
-
-        case .denied, .restricted:
-            completion(false)
-
         default:
             completion(false)
         }
     }
-    
-    @objc func setupCameraAutoFocusAndExposure() {
-        guard let device = AVCaptureDevice.default(for: .video) else { return }
-        do {
-            try device.lockForConfiguration()
-            if device.isFocusModeSupported(.continuousAutoFocus) {
-                device.focusMode = .continuousAutoFocus
-            }
-            if device.isExposureModeSupported(.continuousAutoExposure) {
-                device.exposureMode = .continuousAutoExposure
-            }
-            device.unlockForConfiguration()
-                } catch {
-                    print("Could not lock device for configuration: \(error)")
-            }
-    }
-    
-     private func addDoubleClickGestureRecognizer() {
-        let doubleClickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(handleDoubleClick(_:)))
-        doubleClickRecognizer.numberOfClicksRequired = 2
-        view.addGestureRecognizer(doubleClickRecognizer)
-    }
 
-    @objc private func handleDoubleClick(_ gestureRecognizer: NSClickGestureRecognizer) {
-        let devicePoint = self.previewLayer?.captureDevicePointConverted(fromLayerPoint: gestureRecognizer.location(in: gestureRecognizer.view))
+//    @objc func setupCameraAutoFocusAndExposure(notification: NSNotification) {
+//        guard let device = videoDeviceInput?.device else { return }
+//        let devicePoint = CGPoint(x: 0.5, y: 0.5)
+//        focus(with: .continuousAutoFocus, exposureMode: .continuousAutoExposure, at: devicePoint)
+//        do {
+//            try device.lockForConfiguration()
+//            if device.isFocusModeSupported(.continuousAutoFocus) {
+//                device.focusMode = .continuousAutoFocus
+//            }
+//            if device.isExposureModeSupported(.continuousAutoExposure) {
+//                device.exposureMode = .continuousAutoExposure
+//            }
+//            device.unlockForConfiguration()
+//        } catch {
+//            print("Could not lock device for configuration: \(error)")
+//        }
+//    }
+
+    @IBAction private func focusAndExpose(_ gestureRecognizer: NSClickGestureRecognizer)
+        {
+        guard let view = gestureRecognizer.view else { return }
+        let clickLocation = gestureRecognizer.location(in: view)
+        let devicePoint = previewLayer?.captureDevicePointConverted(fromLayerPoint: clickLocation)
         if let devicePoint = devicePoint {
-            focusAndExpose(at: devicePoint)
+            focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint)
         }
     }
-    
-    private func focusAndExpose(at devicePoint: CGPoint) {
-        guard let device = videoDeviceInput?.device else { return }
+    private func focus(with focusMode: AVCaptureDevice.FocusMode,
+                       exposureMode: AVCaptureDevice.ExposureMode,
+                       at devicePoint: CGPoint) {
+                       
+        let device = self.videoDeviceInput.device
         do {
             try device.lockForConfiguration()
-            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
+//            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
                 device.focusPointOfInterest = devicePoint
-                device.focusMode = .autoFocus
-            }
-            if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(.autoExpose) {
-                device.exposurePointOfInterest = devicePoint
-                device.exposureMode = .autoExpose
-            }
+                device.focusMode = focusMode
+                
+//            if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
+            device.exposurePointOfInterest = devicePoint
+            device.exposureMode = exposureMode
+            
             device.unlockForConfiguration()
         } catch {
             print("Could not lock device for configuration: \(error)")
         }
     }
-    
-    private func focus(with focusMode: AVCaptureDevice.FocusMode,
-                   exposureMode: AVCaptureDevice.ExposureMode,
-                   at devicePoint: CGPoint,
-                   monitorSubjectAreaChange: Bool) {
-    guard let device = videoDeviceInput?.device else { return }
-    do {
-        try device.lockForConfiguration()
-
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
-            device.focusPointOfInterest = devicePoint
-            device.focusMode = focusMode
-        }
-        
-        if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
-            device.exposurePointOfInterest = devicePoint
-            device.exposureMode = exposureMode
-        }   
-        //device.isSubjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange//s unavailable in macOS
-        device.unlockForConfiguration()
-    } catch {
-        print("Could not lock device for configuration: \(error)")
-    }
-}
-       
-//    @objc func setautomaticallyEnablesLowLightBoostWhenAvailable() {
-//        guard let device = AVCaptureDevice.default(for: .video) else { return }
-//        do {
-//            try device.lockForConfiguration()
-//            if device.isLowLightBoostSupported {// oops its just for IOS, keeping
-//     }
-
-//     @objc
-//        func subjectAreaDidChange(notification: NSNotification) {
-//            let devicePoint = CGPoint(x: 0.5, y: 0.5)
-//            focus(with: .continuousAutoFocus, exposureMode: .continuousAutoExposure, at: devicePoint, monitorSubjectAreaChange: false)
-//        }
-
-    @objc private func updateWindowSize(notification: Notification) {
-        if let sizeValue = notification.userInfo?["size"] as? CGSize {
-            self.previewLayer?.frame = CGRect(origin: .zero, size: sizeValue)
-        }
-    }
-
-
-    
     override func mouseDown(with event: NSEvent) {
-        guard let window = view.window else { return }
+        guard let window = view.window, let previewLayer = self.previewLayer else { return }
 
         let startingPoint = event.locationInWindow
+        // Convert the starting point to the view's coordinate system
+        let pointInView = view.convert(startingPoint, from: nil)
+        // Convert the point from the view's coordinate system to the AVCaptureDevice's coordinate system
+        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: pointInView)
+
+        print("Device point: \(devicePoint)")
 
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: .infinity, mode: .default) { event, stop in
             guard let event = event else { return }
@@ -194,8 +154,7 @@ class ViewController: NSViewController {
 
             default:
                 break
-            }
         }
     }
 }
-
+}

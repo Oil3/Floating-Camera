@@ -590,6 +590,11 @@
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="2" id="0Si-lL-Qmu">
+                    <connections>
+                        <action selector="focusAndExpose:" target="XfG-lQ-9wD" id="LKL-YH-FCL"/>
+                    </connections>
+                </clickGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="74" y="764"/>
         </scene>
