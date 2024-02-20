@@ -2,6 +2,7 @@
 Floating Camera: always-on-top/picture-in-picture MacOS webcam/iSight/security camera live feed viewer.  
 Notarized/hardened/sandboxed
 
+Feb17 new version.
 
 **What is this:** this is is a MacOS app that uses available camera/webcam/iSight in order to display the video feed live, full 16/9 view (non-cropped), resizable, always-on-top (picture in picture).  
 Native, notarized, sandboxed, hardened, and coded using no dependeny, no external libraries and only the required code.
@@ -29,6 +30,6 @@ Floating Camera was inspired from Chi Won's [FloatingMirror](https://github.com/
 
 Floating Camera was initially tought to check on _those weird noises_ that I heard downstairs most nights.
 
-Downstairs I have a powerhouse but broken screen macbookpro m1 max to which I connect via SSH or apple remote desktop/screen sharing to do all the Machine Learning work, and also to see from its iSight camera.
+Downstairs I have a powerhouse but broken screen macbookpro used via SSH/ARD for  machine learning work. 
 
 FYI Amazingly the noises were from _two cats_ that sneaked in through a window I leave ajar. 
