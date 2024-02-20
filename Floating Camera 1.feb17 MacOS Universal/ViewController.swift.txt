@@ -11,20 +11,21 @@ class ViewController: NSViewController {
     private weak var runtimeData: RuntimeData!
     private let cameraSession = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer?
-    private var videoDeviceInput: AVCaptureDeviceInput!
+//        @IBOutlet private weak var previewLayer : previewLayer!
 
+  
+    private var videoDeviceInput: AVCaptureDeviceInput!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         runtimeData = (NSApplication.shared.delegate as? AppDelegate)?.runtimeData
+
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.black.cgColor //resizing more responsive with an opaque bg
-        
         requestPermission { [weak self] granted in
             if granted {
                 self?.setupCameraPreview()
-                self?.addDoubleClickGestureRecognizer()
             }
         }
         NotificationCenter.default.addObserver(self, selector: #selector(setupCameraAutoFocusAndExposure), name: .setupCamera, object: nil)
@@ -96,61 +97,6 @@ class ViewController: NSViewController {
                     print("Could not lock device for configuration: \(error)")
             }
     }
-    
-     private func addDoubleClickGestureRecognizer() {
-        let doubleClickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(handleDoubleClick(_:)))
-        doubleClickRecognizer.numberOfClicksRequired = 2
-        view.addGestureRecognizer(doubleClickRecognizer)
-    }
-
-    @objc private func handleDoubleClick(_ gestureRecognizer: NSClickGestureRecognizer) {
-        let devicePoint = self.previewLayer?.captureDevicePointConverted(fromLayerPoint: gestureRecognizer.location(in: gestureRecognizer.view))
-        if let devicePoint = devicePoint {
-            focusAndExpose(at: devicePoint)
-        }
-    }
-    
-    private func focusAndExpose(at devicePoint: CGPoint) {
-        guard let device = videoDeviceInput?.device else { return }
-        do {
-            try device.lockForConfiguration()
-            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.autoFocus) {
-                device.focusPointOfInterest = devicePoint
-                device.focusMode = .autoFocus
-            }
-            if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(.autoExpose) {
-                device.exposurePointOfInterest = devicePoint
-                device.exposureMode = .autoExpose
-            }
-            device.unlockForConfiguration()
-        } catch {
-            print("Could not lock device for configuration: \(error)")
-        }
-    }
-    
-    private func focus(with focusMode: AVCaptureDevice.FocusMode,
-                   exposureMode: AVCaptureDevice.ExposureMode,
-                   at devicePoint: CGPoint,
-                   monitorSubjectAreaChange: Bool) {
-    guard let device = videoDeviceInput?.device else { return }
-    do {
-        try device.lockForConfiguration()
-
-        if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
-            device.focusPointOfInterest = devicePoint
-            device.focusMode = focusMode
-        }
-        
-        if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
-            device.exposurePointOfInterest = devicePoint
-            device.exposureMode = exposureMode
-        }   
-        //device.isSubjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange//s unavailable in macOS
-        device.unlockForConfiguration()
-    } catch {
-        print("Could not lock device for configuration: \(error)")
-    }
-}
        
 //    @objc func setautomaticallyEnablesLowLightBoostWhenAvailable() {
 //        guard let device = AVCaptureDevice.default(for: .video) else { return }
