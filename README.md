@@ -2,7 +2,10 @@
 Floating Camera: always-on-top/picture-in-picture MacOS webcam/iSight/security camera live feed viewer.  
 Notarized/hardened/sandboxed
 
-Feb17 new version.
+Feb19 new version. Double clicking in the view triggers autofocus and autoexpose at that point.
+
+Cmd+H to hide when selected is functional.
+
 
 **What is this:** this is is a MacOS app that uses available camera/webcam/iSight in order to display the video feed live, full 16/9 view (non-cropped), resizable, always-on-top (picture in picture).  
 Native, notarized, sandboxed, hardened, and coded using no dependeny, no external libraries and only the required code.
