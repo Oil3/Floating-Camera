@@ -60,10 +60,16 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Camera" id="5PV-c6-QUR" userLabel="Device">
+                            <menuItem title="Device" id="5PV-c6-QUR" userLabel="Device">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Camera" id="vQC-qb-rZB" userLabel="Device">
+                                <menu key="submenu" title="Device" id="vQC-qb-rZB" userLabel="Device">
                                     <items>
+                                        <menuItem title="Device Info" id="agn-N2-EId" userLabel="Device Info">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="XSD-0T-W1e" kind="show" id="bkd-f4-71w"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Automatic Focus / exposé" id="vC3-K0-eD1">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -72,9 +78,6 @@
                                         </menuItem>
                                         <menuItem title="Unlock settings" id="fUK-KA-lFA" userLabel="Unlock">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="unlockConfiguration:" target="Voe-Tx-rLC" id="QnB-px-Y0r"/>
-                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -406,10 +409,10 @@
                                 <rect key="frame" x="20" y="20" width="356" height="279"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="60" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Dv-BD-o91">
-                                        <rect key="frame" x="0.0" y="170" width="356" height="109"/>
+                                        <rect key="frame" x="0.0" y="259" width="356" height="20"/>
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6AF-81-8hU">
-                                                <rect key="frame" x="-2" y="47" width="91" height="16"/>
+                                                <rect key="frame" x="-2" y="2" width="91" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="White balance" id="gzV-3q-Cqg">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -417,7 +420,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jFK-o8-YLk">
-                                                <rect key="frame" x="145" y="39" width="213" height="28"/>
+                                                <rect key="frame" x="145" y="-6" width="213" height="28"/>
                                                 <sliderCell key="cell" state="on" alignment="left" maxValue="10" tickMarkPosition="above" numberOfTickMarks="10" sliderType="linear" id="g1m-KY-CbL"/>
                                             </slider>
                                         </subviews>
@@ -430,8 +433,23 @@
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
-                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="60" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UyV-ac-xGZ">
-                                        <rect key="frame" x="0.0" y="112" width="356" height="50"/>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="60" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UyV-ac-xGZ">
+                                        <rect key="frame" x="0.0" y="112" width="63" height="139"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qJC-Ct-EDX">
+                                                <rect key="frame" x="-7" y="53" width="77" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Unlock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yoq-rB-DAa">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="60" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zD2-rX-JiK">
                                         <rect key="frame" x="0.0" y="84" width="318" height="20"/>
@@ -574,13 +592,26 @@
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="2" id="0Si-lL-Qmu">
+                <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="1" id="0Si-lL-Qmu">
                     <connections>
                         <action selector="focusAndExpose:" target="XfG-lQ-9wD" id="Kud-Co-XaO"/>
                     </connections>
                 </clickGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="74" y="764"/>
+        </scene>
+        <!--Device Info-->
+        <scene sceneID="Wga-UL-y5I">
+            <objects>
+                <viewController title="Device Info" storyboardIdentifier="swifttoboard" id="XSD-0T-W1e" customClass="swifttoboard" customModule="Floating_Camera" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="hZT-DI-HeP">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="by5-PF-vJp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-353" y="559"/>
         </scene>
     </scenes>
 </document>

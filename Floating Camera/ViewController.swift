@@ -80,6 +80,10 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func unlockConfiguration(_ sender: NSMenuItem) {
+        let device = AVCaptureDevice.default(for: .video) 
+        device?.unlockForConfiguration()
+}
 
 
 

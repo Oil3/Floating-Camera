@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7204F95F2B7E856900596881 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7204F95E2B7E856800596881 /* README.md */; };
 		725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */; };
+		725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA152B8F3741009E330D /* DeviceInfoView.swift */; };
+		725DEA182B8F3B8A009E330D /* swifttoboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA172B8F3B8A009E330D /* swifttoboard.swift */; };
 		728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */; };
 		728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FC12B7DAD8D00E10802 /* ViewController.swift */; };
 		728A8FC42B7DAD8F00E10802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 728A8FC32B7DAD8F00E10802 /* Assets.xcassets */; };
@@ -20,6 +22,8 @@
 /* Begin PBXFileReference section */
 		7204F95E2B7E856800596881 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoViewModel.swift; sourceTree = "<group>"; };
+		725DEA152B8F3741009E330D /* DeviceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoView.swift; sourceTree = "<group>"; };
+		725DEA172B8F3B8A009E330D /* swifttoboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swifttoboard.swift; sourceTree = "<group>"; };
 		728A8FBC2B7DAD8D00E10802 /* Floating Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Floating Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		728A8FC12B7DAD8D00E10802 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,9 +64,11 @@
 		728A8FBE2B7DAD8D00E10802 /* Floating Camera */ = {
 			isa = PBXGroup;
 			children = (
+				725DEA152B8F3741009E330D /* DeviceInfoView.swift */,
 				728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */,
 				728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */,
 				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
+				725DEA172B8F3B8A009E330D /* swifttoboard.swift */,
 				725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */,
 				728A8FC12B7DAD8D00E10802 /* ViewController.swift */,
 				728A8FC32B7DAD8F00E10802 /* Assets.xcassets */,
@@ -146,6 +152,8 @@
 			files = (
 				728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */,
 				728A8FD12B7DC0C200E10802 /* WindowController.swift in Sources */,
+				725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */,
+				725DEA182B8F3B8A009E330D /* swifttoboard.swift in Sources */,
 				728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */,
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,
 				725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */,

@@ -22,14 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.post(name: .setupCamera, object: nil)
     }
 
-    @IBAction func unlockConfiguration(_ sender: NSMenuItem) {
-    }
-    func unlockConfiguration() {
-        guard let device = AVCaptureDevice.default(for: .video) else {
-        return
-    }
-    device.unlockForConfiguration()
-}
 
     func applicationWillTerminate(_ aNotification: Notification) {
     // Saving any settings or application state as needed
