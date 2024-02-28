@@ -98,6 +98,7 @@ class ViewController: NSViewController {
                 if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.locked) {
                     device.focusPointOfInterest = devicePoint
                     device.focusMode = .locked  // Or .autoFocus based on needs
+            device.unlockForConfiguration()
 
                     //  to include exposure settings:
                     // if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(.autoExpose) {
@@ -112,7 +113,7 @@ class ViewController: NSViewController {
     
         
     override func mouseDown(with event: NSEvent) {
-        guard let window = view.window, let previewLayer = self.previewLayer else { return }
+        guard let window = view.window, let _ = self.previewLayer else { return }
         let startingPoint = event.locationInWindow
 //        // Convert the starting point to the view's coordinate system
 //        let pointInView = view.convert(startingPoint, from: nil)
