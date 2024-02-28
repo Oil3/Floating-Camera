@@ -79,64 +79,41 @@ class ViewController: NSViewController {
             completion(false)
         }
     }
+    
 
-//    @objc func setupCameraAutoFocusAndExposure(notification: NSNotification) {
-//        guard let device = videoDeviceInput?.device else { return }
-//        let devicePoint = CGPoint(x: 0.5, y: 0.5)
-//        focus(with: .continuousAutoFocus, exposureMode: .continuousAutoExposure, at: devicePoint)
-//        do {
-//            try device.lockForConfiguration()
-//            if device.isFocusModeSupported(.continuousAutoFocus) {
-//                device.focusMode = .continuousAutoFocus
-//            }
-//            if device.isExposureModeSupported(.continuousAutoExposure) {
-//                device.exposureMode = .continuousAutoExposure
-//            }
-//            device.unlockForConfiguration()
-//        } catch {
-//            print("Could not lock device for configuration: \(error)")
-//        }
-//    }
 
-    @IBAction private func focusAndExpose(_ gestureRecognizer: NSClickGestureRecognizer)
-        {
-        guard let view = gestureRecognizer.view else { return }
+
+    @IBAction private func focusAndExpose(_ gestureRecognizer: NSClickGestureRecognizer) {
+        guard let view = gestureRecognizer.view, let previewLayer = self.previewLayer, let device = AVCaptureDevice.default(for: .video) else { return } //self.videoDeviceInput?.device else { return }
         let clickLocation = gestureRecognizer.location(in: view)
-        let devicePoint = previewLayer?.captureDevicePointConverted(fromLayerPoint: clickLocation)
-        if let devicePoint = devicePoint {
-            focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint)
-        }
-    }
-    private func focus(with focusMode: AVCaptureDevice.FocusMode,
-                       exposureMode: AVCaptureDevice.ExposureMode,
-                       at devicePoint: CGPoint) {
-                       
-        let device = self.videoDeviceInput.device
-        do {
+        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: clickLocation)
+        print("Calculated device point: \(devicePoint)")
+
+        do {    
             try device.lockForConfiguration()
-//            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
-                device.focusPointOfInterest = devicePoint
-                device.focusMode = focusMode
-                
-//            if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
-            device.exposurePointOfInterest = devicePoint
-            device.exposureMode = exposureMode
-            
-            device.unlockForConfiguration()
+                if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(.locked) {
+                    device.focusPointOfInterest = devicePoint
+                    device.focusMode = .locked  // Or .autoFocus based on needs
+
+                    //  to include exposure settings:
+                    // if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(.autoExpose) {
+                    //     device.exposurePointOfInterest = devicePoint
+                    //     device.exposureMode = .autoExpose
+                    // }
+            }
         } catch {
             print("Could not lock device for configuration: \(error)")
         }
     }
+    
+        
     override func mouseDown(with event: NSEvent) {
         guard let window = view.window, let previewLayer = self.previewLayer else { return }
-
         let startingPoint = event.locationInWindow
-        // Convert the starting point to the view's coordinate system
-        let pointInView = view.convert(startingPoint, from: nil)
-        // Convert the point from the view's coordinate system to the AVCaptureDevice's coordinate system
-        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: pointInView)
+//        // Convert the starting point to the view's coordinate system
+//        let pointInView = view.convert(startingPoint, from: nil)
+//        // Convert the point from the view's coordinate system to the AVCaptureDevice's coordinate system
 
-        print("Device point: \(devicePoint)")
 
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: .infinity, mode: .default) { event, stop in
             guard let event = event else { return }
