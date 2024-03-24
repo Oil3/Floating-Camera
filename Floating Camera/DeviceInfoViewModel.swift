@@ -15,14 +15,16 @@
         
     }
 
-    class DeviceInfoViewModel: ObservableObject {
+class DeviceInfoViewModel: ObservableObject {
         @Published var deviceFeatures: [DeviceFeature] = []
-        
+        @Published var cameraFormats: [String] = []
+
         init() {
-            fetchDeviceInfo()
+            fetchDeviceFeatures()
+            fetchCameraFormats()
         }
-            
-        func fetchDeviceInfo() {
+
+        private func fetchDeviceFeatures() {
             guard let device = AVCaptureDevice.default(for: .video) else { return }
             
             
@@ -75,4 +77,18 @@
         }    
             self.deviceFeatures = features
         }
+                
+
+    private func fetchCameraFormats() {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+            return
+        }
+
+        for format in device.formats {
+            let formatDescription = format.formatDescription
+            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+            let resolution = "\(dimensions.width)x\(dimensions.height)"
+            cameraFormats.append(resolution)
+        }
     }
+}

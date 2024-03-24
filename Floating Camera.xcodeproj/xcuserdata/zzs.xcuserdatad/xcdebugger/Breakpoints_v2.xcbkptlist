@@ -14,40 +14,38 @@
             filePath = "Floating Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "requestPermission(completion:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - ae0e829f073984ba"
+                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 4751f3dc0e51e0bc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "Floating_Camera.ViewController.requestPermission(completion: (Swift.Bool) -&gt; ()) -&gt; ()"
                   moduleName = "Floating Camera"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
+                  urlString = "file:///Users/zzs/Documents/Floating-Camera/Floating%20Camera/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "204">
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
                </Location>
                <Location
-                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - fcc90445590dd9ac"
+                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 159675065065bdaa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (Swift.Bool) -&gt; () in Floating_Camera.ViewController.requestPermission(completion: (Swift.Bool) -&gt; ()) -&gt; ()"
                   moduleName = "Floating Camera"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
+                  urlString = "file:///Users/zzs/Documents/Floating-Camera/Floating%20Camera/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "240">
+                  startingLineNumber = "110"
+                  endingLineNumber = "110">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -63,102 +61,10 @@
             filePath = "Floating Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "focusAndExpose(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db2575"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db2575"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db254a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db26ab"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db2575"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  uuid = "7F62927C-5B9C-4987-B3F4-39E7616FF297 - 9aca3da519db25f1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Floating_Camera.ViewController.focusAndExpose(__C.NSClickGestureRecognizer) -&gt; ()"
-                  moduleName = "Floating Camera"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zzs/ASEPS/Floating%20Camera/Floating%20Camera/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "112">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

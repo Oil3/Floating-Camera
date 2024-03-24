@@ -12,14 +12,22 @@ struct DeviceInfoView: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.deviceFeatures, id: \.name) { feature in
-                HStack {
-                    Text(feature.name)
-                    Spacer()
-                    Text(feature.isSupported ? "Supported" : "Not Supported")
-                        .foregroundColor(feature.isSupported ? .green : .red)
-                    Spacer()
-                    Text(feature.rawValue ?? "N/A")
+            Section(header: Text("Device Features")) {
+                ForEach(viewModel.deviceFeatures, id: \.name) { feature in
+                    HStack {
+                        Text(feature.name)
+                        Spacer()
+                        Text(feature.isSupported ? "Supported" : "Not Supported")
+                            .foregroundColor(feature.isSupported ? .green : .red)
+                        Spacer()
+                        Text(feature.rawValue ?? "N/A")
+                    }
+                }
+            }
+
+            Section(header: Text("Camera Formats")) {
+                ForEach(viewModel.cameraFormats, id: \.self) { format in
+                    Text(format)
                 }
             }
         }
@@ -27,3 +35,4 @@ struct DeviceInfoView: View {
         .navigationTitle("Device Capabilities")
     }
 }
+

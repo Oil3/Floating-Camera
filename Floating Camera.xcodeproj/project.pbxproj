@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -64,13 +64,13 @@
 		728A8FBE2B7DAD8D00E10802 /* Floating Camera */ = {
 			isa = PBXGroup;
 			children = (
-				725DEA152B8F3741009E330D /* DeviceInfoView.swift */,
 				728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */,
 				728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */,
 				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
 				725DEA172B8F3B8A009E330D /* swifttoboard.swift */,
-				725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */,
 				728A8FC12B7DAD8D00E10802 /* ViewController.swift */,
+				725DEA152B8F3741009E330D /* DeviceInfoView.swift */,
+				725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */,
 				728A8FC32B7DAD8F00E10802 /* Assets.xcassets */,
 				728A8FC52B7DAD8F00E10802 /* Main.storyboard */,
 				728A8FC82B7DAD8F00E10802 /* Floating_Camera.entitlements */,
@@ -115,7 +115,7 @@
 				};
 			};
 			buildConfigurationList = 728A8FB72B7DAD8D00E10802 /* Build configuration list for PBXProject "Floating Camera" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -314,9 +314,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.feb17;
+				MARKETING_VERSION = 1.mar17;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -345,9 +347,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.feb17;
+				MARKETING_VERSION = 1.mar17;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
