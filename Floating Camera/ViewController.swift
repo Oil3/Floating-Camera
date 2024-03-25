@@ -67,6 +67,7 @@ class ViewController: NSViewController {
         previewLayer?.frame = view.bounds
     }
     func setVideoRangeFormat() {
+    cameraSession.beginConfiguration()
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
             print("Front camera not available")
             return
@@ -81,8 +82,10 @@ class ViewController: NSViewController {
                 do {
                     try device.lockForConfiguration()
                     device.activeFormat = format
-                  //  device.unlockForConfiguration()
+    
                     print("Video range format set: \(format)")
+//                    device.activeVideoMinFrameDuration = 24
+//                    device.activeVideoMaxFrameDuration = 30
                     
                         // Print the active format after setting the new format
                     let activeFormat = device.activeFormat
@@ -90,12 +93,14 @@ class ViewController: NSViewController {
                     let activeDimensions = CMVideoFormatDescriptionGetDimensions(activeFormatDescription)
                     let activeMediaType = CMFormatDescriptionGetMediaType(activeFormatDescription)
                     print("Active format: Resolution: \(activeDimensions.width)x\(activeDimensions.height), Media Type: \(activeMediaType)")
-                    
+                    device.unlockForConfiguration()
+
                     return
                 } catch {
                     print("Error setting video range format: \(error)")
                 }
-            }
+                                cameraSession.commitConfiguration()
+        }
         }
     print("Video range format not found")
     }

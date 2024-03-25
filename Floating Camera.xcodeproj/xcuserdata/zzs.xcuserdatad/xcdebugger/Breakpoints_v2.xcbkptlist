@@ -14,13 +14,13 @@
             filePath = "Floating Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "requestPermission(completion:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 4751f3dc0e51e0bc"
+                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 4751f3dc0e51e1d1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -30,11 +30,11 @@
                   urlString = "file:///Users/zzs/Documents/Floating-Camera/Floating%20Camera/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "109"
-                  endingLineNumber = "109">
+                  startingLineNumber = "114"
+                  endingLineNumber = "114">
                </Location>
                <Location
-                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 159675065065bdaa"
+                  uuid = "82D00AE9-28AD-4CE2-B2BE-004D9CC2A842 - 159675065065bc05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -44,8 +44,8 @@
                   urlString = "file:///Users/zzs/Documents/Floating-Camera/Floating%20Camera/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110">
+                  startingLineNumber = "115"
+                  endingLineNumber = "115">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -61,8 +61,8 @@
             filePath = "Floating Camera/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "focusAndExpose(_:)"
             landmarkType = "7">
          </BreakpointContent>

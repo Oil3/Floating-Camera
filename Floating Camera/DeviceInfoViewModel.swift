@@ -8,16 +8,27 @@
     import Combine
 
 
-    struct DeviceFeature {
+struct DeviceFeature {
         let name: String
         var isSupported: Bool
         var rawValue: String? // Optional String to handle cases where there is no raw value
         
     }
+struct CameraFormat {
+    let description: String
+    let format: AVCaptureDevice.Format
+}
 
 class DeviceInfoViewModel: ObservableObject {
         @Published var deviceFeatures: [DeviceFeature] = []
         @Published var cameraFormats: [String] = []
+        @Published var selectedFormatIndex: Int? = nil {
+        didSet {
+            if let index = selectedFormatIndex {
+                setVideoFormat(format: cameraFormats[index].format)
+            }
+        }
+    }
 
         init() {
             fetchDeviceFeatures()
@@ -88,7 +99,24 @@ class DeviceInfoViewModel: ObservableObject {
             let formatDescription = format.formatDescription
             let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
             let resolution = "\(dimensions.width)x\(dimensions.height)"
-            cameraFormats.append(resolution)
+            let frameRateRange = format.videoSupportedFrameRateRanges.first
+            let frameRates = "\(frameRateRange?.minFrameRate ?? 0)-\(frameRateRange?.maxFrameRate ?? 0)"
+            let description = "\(resolution), \(frameRates) fps"
+            cameraFormats.append(CameraFormat(description: description, format: format))
+        }
+    }
+private func setVideoFormat(format: AVCaptureDevice.Format) {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+            return
+        }
+
+        do {
+            try device.lockForConfiguration()
+            device.activeFormat = format
+            device.unlockForConfiguration()
+            print("Active format set: \(format)")
+        } catch {
+            print("Error setting active format: \(error)")
         }
     }
 }
