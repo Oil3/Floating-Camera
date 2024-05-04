@@ -25,7 +25,7 @@ class WindowController: NSWindowController, NSWindowDelegate {
     
     func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
         let newWidth = frameSize.width
-        let newHeight = newWidth * 9 / 16  // this to maintain the 16/9 ratio of builtin macbook cam, later need to make it user selectable
+        let newHeight = frameSize.height //newWidth * 9 / 16  // this to maintain the 16/9 ratio of builtin macbook cam, later need to make it user selectable
         runtimeData.windowSize = CGSize(width: newWidth, height: newHeight)
         
         return NSSize(width: newWidth, height: newHeight)
