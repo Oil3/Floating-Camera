@@ -16,6 +16,9 @@
 		344812C12BDA69A800552CAD /* ResNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 344812C02BDA69A800552CAD /* ResNet.mlmodel */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
+		34CECC5A2BE66B4B00DEA626 /* SqueezeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */; };
+		34CECC5D2BE877CA00DEA626 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */; };
+		34CECC5F2BE87A9B00DEA626 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5E2BE87A9B00DEA626 /* VideoView.swift */; };
 		34E1A58F2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */; };
 		34E1A5912BDAE0E8002C60F9 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */; };
 		34E1A5932BDAE697002C60F9 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */; };
@@ -47,6 +50,9 @@
 		344812C02BDA69A800552CAD /* ResNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ResNet.mlmodel; sourceTree = "<group>"; };
 		34C437EE2BDA59F800DCC725 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = SqueezeNet.mlmodel; path = "../../../../Downloads/MLModelCamera-master/models/SqueezeNet.mlmodel"; sourceTree = "<group>"; };
+		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		34CECC5E2BE87A9B00DEA626 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
 		34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 		34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
@@ -97,9 +103,11 @@
 			isa = PBXGroup;
 			children = (
 				34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */,
-				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
+				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
+				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
 				34C437EE2BDA59F800DCC725 /* CameraView.swift */,
+				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
 				34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */,
@@ -107,6 +115,7 @@
 				34E1A5942BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel */,
 				344812C02BDA69A800552CAD /* ResNet.mlmodel */,
 				340B3B7C2BDB2922001D25FB /* yolov8s.mlmodel */,
+				34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */,
 				34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */,
 				34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */,
 				340B3B9D2BDB3F46001D25FB /* FacenetHD.mlpackage */,
@@ -286,10 +295,13 @@
 				34E1A5912BDAE0E8002C60F9 /* Resnet50.mlmodel in Sources */,
 				34E1A5952BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel in Sources */,
 				34E631792BDA537E00BFA742 /* ContentView.swift in Sources */,
+				34CECC5A2BE66B4B00DEA626 /* SqueezeNet.mlmodel in Sources */,
 				34E1A5932BDAE697002C60F9 /* MobileNetV2.mlmodel in Sources */,
 				340B3B7F2BDB3B0E001D25FB /* model_coreml_float32.mlmodel in Sources */,
+				34CECC5F2BE87A9B00DEA626 /* VideoView.swift in Sources */,
 				344812C12BDA69A800552CAD /* ResNet.mlmodel in Sources */,
 				34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */,
+				34CECC5D2BE877CA00DEA626 /* VideoViewController.swift in Sources */,
 				34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */,
 				34E1A58F2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel in Sources */,
 				34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */,
@@ -342,6 +354,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Machine Security System/Preview Content\"";
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -352,6 +365,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "One of the app's main functions is using the live feed from integrated Isight or connected camera, and thus requires camera usage authorization";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Needed for selecting directly from the photo gallery";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -390,11 +404,13 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Machine Security System/Preview Content\"";
 				DEVELOPMENT_TEAM = 46WUYUUA8V;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "One of the app's main functions is using the live feed from integrated Isight or connected camera, and thus requires camera usage authorization";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Needed for selecting directly from the photo gallery";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
