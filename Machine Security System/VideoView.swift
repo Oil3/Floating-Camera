@@ -16,10 +16,10 @@ struct VideoView: View {
     var body: some View {
         VStack {
             VideoPlayer(player: player)
-                .frame(height: 400)
+                //.frame(height: 400)
                 .overlay(
                     VisionOverlayView(player: player, isEnabled: $isVisionEnabled),
-                    alignment: .topLeading
+                    alignment: .center
                 )
             
             HStack {
@@ -108,45 +108,71 @@ class VisionProcessor {
         self.overlayView = view
         
         // Setup periodic time observer to update vision processing
-        player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.02, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), queue: .main) { [weak self] _ in
+        player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.03, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), queue: .main) { [weak self] _ in
             self?.processCurrentFrame()
         }
     }
     
-    private func processCurrentFrame() {
-        guard isEnabled, let currentItem = player?.currentItem else { return }
-        
-        // Get current frame from the video
-        let asset = currentItem.asset
-        guard let track = asset.tracks(withMediaType: .video).first else { return }
-        let imgGenerator = AVAssetImageGenerator(asset: asset)
+private func processCurrentFrame() {
+    guard isEnabled, let currentItem = player?.currentItem else { return }
+
+    DispatchQueue.main.async { [weak self] in
+        guard let self = self,
+              let overlayView = self.overlayView,
+              let track = currentItem.asset.tracks(withMediaType: .video).first else { return }
+
+        let overlayAspectRatio = overlayView.bounds.width / overlayView.bounds.height
+        let videoSize = track.naturalSize
+        let videoTransform = track.preferredTransform
+        let transformedVideoSize = videoSize.applying(videoTransform)
+        let videoWidth = abs(transformedVideoSize.width)
+        let videoHeight = abs(transformedVideoSize.height)
+        let aspectRatio = videoWidth / videoHeight
+        var scale: CGFloat
+        if aspectRatio > overlayAspectRatio { // video is wider
+            scale = overlayView.bounds.height / videoHeight
+        } else {
+            scale = overlayView.bounds.width / videoWidth
+        }
+        let xOffset = (overlayView.bounds.width - videoWidth * scale) / 2
+        let yOffset = (overlayView.bounds.height - videoHeight * scale) / 2
+
+        // Continue processing with these calculations
+        let imgGenerator = AVAssetImageGenerator(asset: currentItem.asset)
         imgGenerator.appliesPreferredTrackTransform = true
-        let timestamp = player?.currentTime() ?? CMTime.zero
-    imgGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { [weak self] _, image, _, _, _ in
-        if let cgImage = image {
-            self?.runVisionOnImage(CGImage: cgImage)
+        let timestamp = self.player?.currentTime() ?? CMTime.zero
+        imgGenerator.generateCGImagesAsynchronously(forTimes: [NSValue(time: timestamp)]) { _, image, _, _, _ in
+            if let cgImage = image {
+                self.runBodyAndHandPoseDetection(CGImage: cgImage, scale: scale, xOffset: xOffset, yOffset: yOffset)
+            }
         }
     }
 }
 
-private func runVisionOnImage(CGImage: CGImage) {
-    let request = VNDetectHumanBodyPoseRequest { [weak self] request, error in
-        guard error == nil else {
-            print("Vision request failed with error: \(error!.localizedDescription)")
-            return
-        }
-        self?.drawVisionResults(request)
-    }
-    
+
+private func runBodyAndHandPoseDetection(CGImage: CGImage, scale: CGFloat, xOffset: CGFloat, yOffset: CGFloat) {
+    let bodyPoseRequest = VNDetectHumanBodyPoseRequest()
+    let handPoseRequest = VNDetectHumanHandPoseRequest()
+    handPoseRequest.maximumHandCount = 4
+
+    let requests = [bodyPoseRequest, handPoseRequest]
     let handler = VNImageRequestHandler(cgImage: CGImage, options: [:])
     DispatchQueue.global(qos: .userInteractive).async {
         do {
-            try handler.perform([request])
+            try handler.perform(requests)
+            if let bodyObservations = bodyPoseRequest.results as? [VNHumanBodyPoseObservation] {
+                self.drawBodyPoses(bodyObservations)//, scale: scale, xOffset: xOffset, yOffset: yOffset)
+            }
+            if let handObservations = handPoseRequest.results as? [VNHumanHandPoseObservation] {
+                self.drawHandPoses(handObservations)//, scale: scale, xOffset: xOffset, yOffset: yOffset)
+            }
         } catch {
             print("Failed to perform Vision request: \(error)")
         }
     }
 }
+
+
 
 private func drawVisionResults(_ request: VNRequest) {
     guard let results = request.results as? [VNHumanBodyPoseObservation] else { return }
@@ -159,18 +185,133 @@ private func drawVisionResults(_ request: VNRequest) {
 }
 
 private func drawPose(_ observation: VNHumanBodyPoseObservation) {
-    guard let overlayView = overlayView else { return }
+    guard let overlayView = overlayView, let player = player, let videoTrack = player.currentItem?.asset.tracks(withMediaType: .video).first else { return }
+
+    // Calculate the transform to scale points to the video layer's frame
+    let videoSize = videoTrack.naturalSize
+    let videoTransform = videoTrack.preferredTransform
+    let transformedVideoSize = videoSize.applying(videoTransform)
+    let videoWidth = abs(transformedVideoSize.width)
+    let videoHeight = abs(transformedVideoSize.height)
+
+    // Adjust for aspect fill or aspect fit
+    let aspectRatio = videoWidth / videoHeight
+    let overlayAspectRatio = overlayView.bounds.width / overlayView.bounds.height
+    var scale: CGFloat
+    if aspectRatio > overlayAspectRatio { // video is wider
+        scale = overlayView.bounds.height / videoHeight
+    } else {
+        scale = overlayView.bounds.width / videoWidth
+    }
+
+    let xOffset = (overlayView.bounds.width - videoWidth * scale) / 2
+    let yOffset = (overlayView.bounds.height - videoHeight * scale) / 2
+
     let points = try? observation.recognizedPoints(.all)
-    
-    points?.values.filter({ $0.confidence > 0.6 }).forEach { point in
-        let x = point.location.x * overlayView.frame.size.width
-        let y = (1 - point.location.y) * overlayView.frame.size.height  // Convert y coordinate
-        let circleView = UIView(frame: CGRect(x: x - 10, y: y - 10, width: 5, height: 5))
-        circleView.backgroundColor = .systemBlue
-        circleView.layer.cornerRadius = 1
-        overlayView.addSubview(circleView)
+    points?.values.filter({ $0.confidence > 0.5 }).forEach { point in
+        let x = (point.location.x * videoWidth * scale) + xOffset
+        let y = ((1 - point.location.y) * videoHeight * scale) + yOffset
+        DispatchQueue.main.async {
+          self.drawCircle(at: CGPoint(x: x, y: y), in: overlayView, color: .blue)
+        }
     }
 }
+private func drawHandBoxes(_ observations: [VNHumanHandPoseObservation]) {
+    guard let overlayView = overlayView else { return }
+
+    DispatchQueue.main.async { [weak self] in
+        self?.clearOverlays()  // Clear previous overlays
+        
+        for observation in observations {
+            guard let points = try? observation.recognizedPoints(.all) else { continue }
+            
+            for (_, point) in points where point.confidence > 0.6 {
+                let x = point.location.x * overlayView.frame.size.width
+                let y = (1 - point.location.y) * overlayView.frame.size.height
+                self?.drawRectangle(at: CGPoint(x: x, y: y), in: overlayView, color: .green)  // Draw rectangles for hand points
+            }
+        }
+    }
+}
+
+private func drawRectangle(at point: CGPoint, in view: UIView, color: UIColor) {
+    let rectangleWidth: CGFloat = 8  // Width of the rectangle
+    let rectangleHeight: CGFloat = 20  // Height of the rectangle
+    let rectangleView = UIView(frame: CGRect(x: point.x - rectangleWidth / 2, y: point.y - rectangleHeight / 2, width: rectangleWidth, height: rectangleHeight))
+    rectangleView.backgroundColor = color
+    view.addSubview(rectangleView)
+}
+    private func drawHandPoses(_ observations: [VNHumanHandPoseObservation]) {
+        guard let overlayView = overlayView else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.clearOverlays()  // Optionally clear previous overlays
+            
+            for observation in observations {
+                guard let points = try? observation.recognizedPoints(.all) else { continue }
+                
+                for (_, point) in points where point.confidence > 0.4 {
+                    let x = point.location.x * overlayView.frame.size.width
+                    let y = (1 - point.location.y) * overlayView.frame.size.height
+                    self?.drawCircle(at: CGPoint(x: x, y: y), in: overlayView, color: .green)  // Use green for hands
+                }
+            }
+        }
+    }
+private func drawBodyPoses(_ observations: [VNHumanBodyPoseObservation]) {
+    guard let overlayView = overlayView, let player = player, let videoTrack = player.currentItem?.asset.tracks(withMediaType: .video).first else { return }
+
+    // Calculate the transform to scale points to the video layer's frame
+    let videoSize = videoTrack.naturalSize
+    let videoTransform = videoTrack.preferredTransform
+    let transformedVideoSize = videoSize.applying(videoTransform)
+    let videoWidth = abs(transformedVideoSize.width)
+    let videoHeight = abs(transformedVideoSize.height)
+
+    // Adjust for aspect fill or aspect fit
+    let aspectRatio = videoWidth / videoHeight
+                 DispatchQueue.main.async {
+    let overlayAspectRatio = overlayView.bounds.width / overlayView.bounds.height
+    var scale: CGFloat
+    if aspectRatio > overlayAspectRatio { // video is wider
+        scale = overlayView.bounds.height / videoHeight
+    } else {
+        scale = overlayView.bounds.width / videoWidth
+    }
+
+    let xOffset = (overlayView.bounds.width - videoWidth * scale) / 2
+    let yOffset = (overlayView.bounds.height - videoHeight * scale) / 2
+
+    DispatchQueue.main.async { [weak self] in
+        self?.clearOverlays()  // Clear existing overlays before drawing new ones
+
+        for observation in observations {
+            do {
+                let recognizedPoints = try observation.recognizedPoints(.all)  // Get all recognized points
+                
+                for (_, point) in recognizedPoints {
+                    if point.confidence > 0.5 {  // Only draw points with high confidence
+                        let x = point.location.x * videoWidth * scale + xOffset
+                        let y = (1 - point.location.y) * videoHeight * scale + yOffset
+                        self?.drawCircle(at: CGPoint(x: x, y: y), in: overlayView, color: .blue)  // Draw blue circles for body points
+                    }
+                }
+            } catch {
+                print("Error processing body pose points: \(error)")
+            }
+        }
+    }
+}
+    }
+
+private func drawCircle(at point: CGPoint, in view: UIView, color: UIColor) {
+    let circleSize: CGFloat = 4  // Size of the circle
+    let circleView = UIView(frame: CGRect(x: point.x - circleSize / 2, y: point.y - circleSize / 2, width: circleSize, height: circleSize))
+    circleView.backgroundColor = color
+    circleView.layer.cornerRadius = circleSize / 2
+    view.addSubview(circleView)
+}
+
 
 private func clearOverlays() {
     overlayView?.subviews.forEach { $0.removeFromSuperview() }
