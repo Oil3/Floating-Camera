@@ -8,44 +8,49 @@ import UIKit
 import AVFoundation
 import Vision
 import CoreML
-import MobileCoreServices  // This import is necessary for file types
+import MobileCoreServices
 
 class VideoViewController: UIViewController, UIDocumentPickerDelegate {
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var videoOutput: AVPlayerItemVideoOutput?
-
-override func viewDidLoad() {
-    super.viewDidLoad()
-        print("ViewDidLoad called, showing file picker.")
-
-    addPlaybackControls()
-}
-
+    private var boundingBoxView: BoundingBoxView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        boundingBoxView = BoundingBoxView(frame: view.bounds)
+        boundingBoxView.backgroundColor = .clear
+        view.addSubview(boundingBoxView)
+        
+        addPlaybackControls()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showFilePicker()
+    }
+    
     func showFilePicker() {
         let documentPicker = UIDocumentPickerViewController(documentTypes: [UTType.movie.identifier], in: .open)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         present(documentPicker, animated: true, completion: nil)
     }
-override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    print("ViewDidAppear called, showing file picker.")
-    showFilePicker()  // Call the file picker here
-}
-    // Implement the document picker delegate method
+    
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else {
             print("No file selected.")
             return
         }
+        setupVideoPlayer(from: url)
     }
-
+    
     func setupVideoPlayer(from url: URL) {
         let asset = AVAsset(url: url)
         let item = AVPlayerItem(asset: asset)
         
-        let outputSettings = [String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)]
+        let outputSettings: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
         videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: outputSettings)
         item.add(videoOutput!)
         
@@ -53,15 +58,17 @@ override func viewDidAppear(_ animated: Bool) {
         playerLayer = AVPlayerLayer(player: player)
         playerLayer?.frame = view.bounds
         playerLayer?.videoGravity = .resizeAspect
-        view.layer.addSublayer(playerLayer!)
-
+        view.layer.insertSublayer(playerLayer!, below: boundingBoxView.layer)
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(playerItemDidReachEnd(notification:)),
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: item)
+        
         player?.play()
+        setupDisplayLink()
     }
-
+    
     @objc func processVideoFrame(displayLink: CADisplayLink) {
         guard let videoOutput = videoOutput else { return }
         
@@ -71,38 +78,45 @@ override func viewDidAppear(_ animated: Bool) {
         if videoOutput.hasNewPixelBuffer(forItemTime: itemTime),
            let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: itemTime, itemTimeForDisplay: nil) {
             // Process the pixel buffer with Vision and CoreML
+            performVisionRequest(on: pixelBuffer)
         }
     }
-
+    
+    func performVisionRequest(on pixelBuffer: CVPixelBuffer) {
+        let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+        let request = VNCoreMLRequest(model: try! VNCoreMLModel(for: yolov8x2AAA().model)) { request, error in
+            if let results = request.results as? [VNRecognizedObjectObservation] {
+                DispatchQueue.main.async {
+                    self.boundingBoxView.observations = results
+                }
+            }
+        }
+        try? requestHandler.perform([request])
+    }
+    
     @objc func playerItemDidReachEnd(notification: Notification) {
         player?.seek(to: .zero)
         player?.play()
     }
-func addPlaybackControls() {
-    let playButton = UIButton(frame: CGRect(x: 20, y: 50, width: 100, height: 50))
-    playButton.backgroundColor = .blue
-    playButton.setTitle("Toggle Play", for: .normal)
-    playButton.addTarget(self, action: #selector(togglePlayPause), for: .touchUpInside)
-    view.addSubview(playButton)
-}
-
-@objc func togglePlayPause() {
-    if player?.timeControlStatus == .playing {
-        player?.pause()
-    } else {
-        player?.play()
+    
+    func addPlaybackControls() {
+        let playButton = UIButton(frame: CGRect(x: 20, y: 50, width: 100, height: 50))
+        playButton.backgroundColor = .blue
+        playButton.setTitle("Toggle Play", for: .normal)
+        playButton.addTarget(self, action: #selector(togglePlayPause), for: .touchUpInside)
+        view.addSubview(playButton)
     }
-}
-func setupDisplayLink() {
-    let displayLink = CADisplayLink(target: self, selector: #selector(processVideoFrame))
-    displayLink.add(to: .current, forMode: .common)
-}
-
-
-
-
-
-
-
-
+    
+    @objc func togglePlayPause() {
+        if player?.timeControlStatus == .playing {
+            player?.pause()
+        } else {
+            player?.play()
+        }
+    }
+    
+    func setupDisplayLink() {
+        let displayLink = CADisplayLink(target: self, selector: #selector(processVideoFrame))
+        displayLink.add(to: .current, forMode: .common)
+    }
 }

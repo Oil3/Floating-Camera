@@ -7,22 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		340B3B7B2BDB28FA001D25FB /* yolov5s.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B7A2BDB28FA001D25FB /* yolov5s.mlmodel */; };
-		340B3B7D2BDB2922001D25FB /* yolov8s.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B7C2BDB2922001D25FB /* yolov8s.mlmodel */; };
-		340B3B7F2BDB3B0E001D25FB /* model_coreml_float32.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B7E2BDB3B0E001D25FB /* model_coreml_float32.mlmodel */; };
-		340B3B812BDB3C82001D25FB /* face_mesh 4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B802BDB3C82001D25FB /* face_mesh 4.mlmodel */; };
-		340B3B852BDB3CA1001D25FB /* Facenet6.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B842BDB3CA1001D25FB /* Facenet6.mlmodel */; };
-		340B3B9E2BDB3F46001D25FB /* FacenetHD.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 340B3B9D2BDB3F46001D25FB /* FacenetHD.mlpackage */; };
-		344812C12BDA69A800552CAD /* ResNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 344812C02BDA69A800552CAD /* ResNet.mlmodel */; };
+		3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD52BF3CF050091B1F9 /* Assets.xcassets */; };
+		3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD72BF3CF050091B1F9 /* Info.plist */; };
+		3446FDE82BF3CF050091B1F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD92BF3CF050091B1F9 /* LaunchScreen.storyboard */; };
+		3446FDE92BF3CF050091B1F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDDB2BF3CF050091B1F9 /* Main.storyboard */; };
+		3446FDEA2BF3CF050091B1F9 /* ModelDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446FDDD2BF3CF050091B1F9 /* ModelDescriptionViewController.swift */; };
+		3446FDEB2BF3CF050091B1F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446FDDE2BF3CF050091B1F9 /* ViewController.swift */; };
+		3446FDEC2BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446FDE02BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift */; };
+		3446FDED2BF3CF050091B1F9 /* VideoCameraType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */; };
+		3446FDEE2BF3CF050091B1F9 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */; };
+		34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */; };
+		34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */; };
+		34A99DA62BFB3A2D004685AC /* BoundingBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
-		34CECC5A2BE66B4B00DEA626 /* SqueezeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */; };
 		34CECC5D2BE877CA00DEA626 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */; };
 		34CECC5F2BE87A9B00DEA626 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5E2BE87A9B00DEA626 /* VideoView.swift */; };
-		34E1A58F2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */; };
-		34E1A5912BDAE0E8002C60F9 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */; };
-		34E1A5932BDAE697002C60F9 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */; };
-		34E1A5952BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34E1A5942BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel */; };
 		34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */; };
 		34E631792BDA537E00BFA742 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631782BDA537E00BFA742 /* ContentView.swift */; };
 		34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317A2BDA537F00BFA742 /* Assets.xcassets */; };
@@ -41,22 +41,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		340B3B7A2BDB28FA001D25FB /* yolov5s.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = yolov5s.mlmodel; sourceTree = "<group>"; };
-		340B3B7C2BDB2922001D25FB /* yolov8s.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = yolov8s.mlmodel; sourceTree = "<group>"; };
-		340B3B7E2BDB3B0E001D25FB /* model_coreml_float32.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model_coreml_float32.mlmodel; sourceTree = "<group>"; };
-		340B3B802BDB3C82001D25FB /* face_mesh 4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "face_mesh 4.mlmodel"; sourceTree = "<group>"; };
-		340B3B842BDB3CA1001D25FB /* Facenet6.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Facenet6.mlmodel; sourceTree = "<group>"; };
-		340B3B9D2BDB3F46001D25FB /* FacenetHD.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FacenetHD.mlpackage; sourceTree = "<group>"; };
-		344812C02BDA69A800552CAD /* ResNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ResNet.mlmodel; sourceTree = "<group>"; };
+		3446FDD52BF3CF050091B1F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3446FDD72BF3CF050091B1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3446FDD82BF3CF050091B1F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3446FDDA2BF3CF050091B1F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3446FDDC2BF3CF050091B1F9 /* MLModelCamera.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MLModelCamera.entitlements; sourceTree = "<group>"; };
+		3446FDDD2BF3CF050091B1F9 /* ModelDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelDescriptionViewController.swift; sourceTree = "<group>"; };
+		3446FDDE2BF3CF050091B1F9 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3446FDE02BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVCaptureDevice+Extension.swift"; sourceTree = "<group>"; };
+		3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraType.swift; sourceTree = "<group>"; };
+		3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
+		34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x2AAA.mlpackage; sourceTree = "<group>"; };
+		34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
 		34C437EE2BDA59F800DCC725 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = SqueezeNet.mlmodel; path = "../../../../Downloads/MLModelCamera-master/models/SqueezeNet.mlmodel"; sourceTree = "<group>"; };
 		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		34CECC5E2BE87A9B00DEA626 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
-		34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
-		34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
-		34E1A5942BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoseNetMobileNet100S16FP16.mlmodel; sourceTree = "<group>"; };
 		34E631742BDA537E00BFA742 /* Machine Security System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Machine Security System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Machine_Security_SystemApp.swift; sourceTree = "<group>"; };
 		34E631782BDA537E00BFA742 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,29 +100,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3446FDDF2BF3CF050091B1F9 /* MLModelCamera */ = {
+			isa = PBXGroup;
+			children = (
+				3446FDD52BF3CF050091B1F9 /* Assets.xcassets */,
+				3446FDD72BF3CF050091B1F9 /* Info.plist */,
+				3446FDD92BF3CF050091B1F9 /* LaunchScreen.storyboard */,
+				3446FDDB2BF3CF050091B1F9 /* Main.storyboard */,
+				3446FDDC2BF3CF050091B1F9 /* MLModelCamera.entitlements */,
+				34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */,
+				3446FDDD2BF3CF050091B1F9 /* ModelDescriptionViewController.swift */,
+				3446FDDE2BF3CF050091B1F9 /* ViewController.swift */,
+			);
+			path = MLModelCamera;
+			sourceTree = "<group>";
+		};
+		3446FDE32BF3CF050091B1F9 /* VideoCapture */ = {
+			isa = PBXGroup;
+			children = (
+				3446FDE02BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift */,
+				3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */,
+				3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */,
+			);
+			path = VideoCapture;
+			sourceTree = "<group>";
+		};
+		34A99D9B2BFB2488004685AC /* models */ = {
+			isa = PBXGroup;
+			children = (
+				34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */,
+				34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		34E631752BDA537E00BFA742 /* Machine Security System */ = {
 			isa = PBXGroup;
 			children = (
+				34A99D9B2BFB2488004685AC /* models */,
+				3446FDDF2BF3CF050091B1F9 /* MLModelCamera */,
+				3446FDE32BF3CF050091B1F9 /* VideoCapture */,
 				34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */,
-				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
 				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
 				34C437EE2BDA59F800DCC725 /* CameraView.swift */,
 				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
+				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
-				34E1A58E2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel */,
-				340B3B7A2BDB28FA001D25FB /* yolov5s.mlmodel */,
-				34E1A5942BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel */,
-				344812C02BDA69A800552CAD /* ResNet.mlmodel */,
-				340B3B7C2BDB2922001D25FB /* yolov8s.mlmodel */,
-				34CECC592BE66B4B00DEA626 /* SqueezeNet.mlmodel */,
-				34E1A5922BDAE697002C60F9 /* MobileNetV2.mlmodel */,
-				34E1A5902BDAE0E8002C60F9 /* Resnet50.mlmodel */,
-				340B3B9D2BDB3F46001D25FB /* FacenetHD.mlpackage */,
-				340B3B7E2BDB3B0E001D25FB /* model_coreml_float32.mlmodel */,
-				340B3B802BDB3C82001D25FB /* face_mesh 4.mlmodel */,
-				340B3B842BDB3CA1001D25FB /* Facenet6.mlmodel */,
 				34E6317D2BDA537F00BFA742 /* Preview Content */,
 			);
 			path = "Machine Security System";
@@ -270,7 +296,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */,
 				34E6317F2BDA537F00BFA742 /* Preview Assets.xcassets in Resources */,
+				3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */,
+				3446FDE92BF3CF050091B1F9 /* Main.storyboard in Resources */,
+				3446FDE82BF3CF050091B1F9 /* LaunchScreen.storyboard in Resources */,
 				34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,24 +322,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34E1A5912BDAE0E8002C60F9 /* Resnet50.mlmodel in Sources */,
-				34E1A5952BDAE78B002C60F9 /* PoseNetMobileNet100S16FP16.mlmodel in Sources */,
+				3446FDEA2BF3CF050091B1F9 /* ModelDescriptionViewController.swift in Sources */,
+				3446FDEE2BF3CF050091B1F9 /* VideoCapture.swift in Sources */,
 				34E631792BDA537E00BFA742 /* ContentView.swift in Sources */,
-				34CECC5A2BE66B4B00DEA626 /* SqueezeNet.mlmodel in Sources */,
-				34E1A5932BDAE697002C60F9 /* MobileNetV2.mlmodel in Sources */,
-				340B3B7F2BDB3B0E001D25FB /* model_coreml_float32.mlmodel in Sources */,
+				34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */,
 				34CECC5F2BE87A9B00DEA626 /* VideoView.swift in Sources */,
-				344812C12BDA69A800552CAD /* ResNet.mlmodel in Sources */,
+				3446FDED2BF3CF050091B1F9 /* VideoCameraType.swift in Sources */,
+				3446FDEB2BF3CF050091B1F9 /* ViewController.swift in Sources */,
 				34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */,
+				34A99DA62BFB3A2D004685AC /* BoundingBoxView.swift in Sources */,
+				34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
 				34CECC5D2BE877CA00DEA626 /* VideoViewController.swift in Sources */,
 				34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */,
-				34E1A58F2BDAD842002C60F9 /* YOLOv3Tiny.mlmodel in Sources */,
 				34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */,
-				340B3B7D2BDB2922001D25FB /* yolov8s.mlmodel in Sources */,
-				340B3B7B2BDB28FA001D25FB /* yolov5s.mlmodel in Sources */,
-				340B3B852BDB3CA1001D25FB /* Facenet6.mlmodel in Sources */,
-				340B3B9E2BDB3F46001D25FB /* FacenetHD.mlpackage in Sources */,
-				340B3B812BDB3C82001D25FB /* face_mesh 4.mlmodel in Sources */,
+				3446FDEC2BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +357,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3446FDD92BF3CF050091B1F9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3446FDD82BF3CF050091B1F9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		3446FDDB2BF3CF050091B1F9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3446FDDA2BF3CF050091B1F9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		728A8FC52B7DAD8F00E10802 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -376,7 +418,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
@@ -421,7 +463,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
@@ -486,6 +528,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -546,6 +589,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
