@@ -16,7 +16,7 @@ struct CameraSettings: View {
             Form {
                 Section(header: Text("Camera Settings")) {
                     Picker("Resolution", selection: $cameraController.resolution) {
-                        ForEach([AVCaptureSession.Preset.high, .medium, .low], id: \.self) { preset in
+                        ForEach(AVCaptureSession.Preset.allCases, id: \.self) { preset in
                             Text(preset.displayName).tag(preset)
                         }
                     }
@@ -24,11 +24,14 @@ struct CameraSettings: View {
                         cameraController.updateResolution(to: newValue)
                     }
                     
-                    Slider(value: $cameraController.exposure, in: -10...10, step: 0.1) {
+                    HStack {
                         Text("Exposure")
+                        Slider(value: $cameraController.exposure, in: -100...100, step: 1)
                     }
-                    Slider(value: $cameraController.contrast, in: -10...10, step: 0.1) {
+                    
+                    HStack {
                         Text("Contrast")
+                        Slider(value: $cameraController.contrast, in: -10...10, step: 0.1)
                     }
                 }
                 
@@ -76,6 +79,7 @@ struct CameraSettings: View {
                 }
             }
         }
+        .frame(minWidth: 400, minHeight: 300) // Make the settings window a normal movable window
     }
 }
 
@@ -88,8 +92,45 @@ extension AVCaptureSession.Preset {
             return "Medium"
         case .low:
             return "Low"
+        case .photo:
+            return "Photo"
+        case .inputPriority:
+            return "Input Priority"
+          case .hd1280x720:
+            return "HD 1280x720"
+        case .hd1920x1080:
+            return "HD 1920x1080"
+//        case .hd4K3840x2160:
+//            return "4K 3840x2160"
+        case .vga640x480:
+            return "VGA 640x480"
+        case .iFrame960x540:
+            return "iFrame 960x540"
+        case .iFrame1280x720:
+            return "iFrame 1280x720"
+        case .cif352x288:
+            return "CIF 352x288"
         default:
             return "Unknown"
         }
+    }
+}
+
+extension AVCaptureSession.Preset: CaseIterable {
+    public static var allCases: [AVCaptureSession.Preset] {
+        return [
+            .high,
+            .medium,
+            .low,
+            .photo,
+            .inputPriority,
+            .hd1280x720,
+            .hd1920x1080,
+//            .hd4K3840x2160,
+            .vga640x480,
+            .iFrame960x540,
+            .iFrame1280x720,
+            .cif352x288
+        ]
     }
 }

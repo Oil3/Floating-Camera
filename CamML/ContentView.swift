@@ -24,21 +24,26 @@ struct ContentView: View {
                     Button("Start Recording", action: cameraController.startRecording)
                 }
             
-            Button("Settings") {
-                isSettingsPresented.toggle()
-            }
-            .sheet(isPresented: $isSettingsPresented) {
-                CameraSettings(cameraController: cameraController)
-            }
-            
-            Toggle("Stay on Top", isOn: $isCameraViewOnTop)
-                .onChange(of: isCameraViewOnTop) { newValue in
-                    if newValue {
-                        UIApplication.shared.windows.first?.windowLevel = UIWindow.Level.statusBar + 1
-                    } else {
-                        UIApplication.shared.windows.first?.windowLevel = UIWindow.Level.normal
-                    }
+            HStack {
+                Button("Settings") {
+                    isSettingsPresented.toggle()
                 }
+                .sheet(isPresented: $isSettingsPresented) {
+                    CameraSettings(cameraController: cameraController)
+                }
+                
+                Toggle("Stay on Top", isOn: $isCameraViewOnTop)
+                    .onChange(of: isCameraViewOnTop) { newValue in
+                        toggleFloating()
+                    }
+            }
+            .padding()
+        }
+    }
+    
+    private func toggleFloating() {
+        if let window = UIApplication.shared.windows.first {
+            window.windowLevel = (window.windowLevel == .normal) ? .statusBar + 1 : .normal
         }
     }
 }

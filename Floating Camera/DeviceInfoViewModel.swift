@@ -58,18 +58,18 @@ class DeviceInfoViewModel: ObservableObject {
                 DeviceFeature(name: "Auto Focus System Contrast Detection", isSupported: device.activeFormat.autoFocusSystem == .contrastDetection, rawValue: nil),
                 DeviceFeature(name: "Auto Focus System Phase Detection", isSupported: device.activeFormat.autoFocusSystem == .phaseDetection, rawValue: nil),
     ////ios
-    //            DeviceFeature(name: "Subject Area Change Monitoring Enabled", isSupported: device.isSubjectAreaChangeMonitoringEnabled, rawValue: nil),
-    //            DeviceFeature(name: "Low Light Boost", isSupported: device.isLowLightBoostSupported, rawValue: nil),
-    //            DeviceFeature(name: "Automatically Enables Low Light Boost", isSupported: device.automaticallyEnablesLowLightBoostWhenAvailable, rawValue: nil),
-    //            DeviceFeature(name: "Ramping Video Zoom", isSupported: device.isRampingVideoZoom, rawValue: nil),
-    //            DeviceFeature(name: "Video Stabilization Auto", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.auto), rawValue: nil),
-    //            DeviceFeature(name: "Video Stabilization Cinematic", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.cinematic), rawValue: nil),
-    //            DeviceFeature(name: "Video Stabilization Standard", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.standard), rawValue: nil),
-    //            DeviceFeature(name: "HDR Video Supported", isSupported: device.activeFormat.videoHDRSupported, rawValue: nil),
-    //            DeviceFeature(name: "Smooth Auto Focus Supported", isSupported: device.isSmoothAutoFocusSupported, rawValue: nil),           
+                DeviceFeature(name: "Subject Area Change Monitoring Enabled", isSupported: device.isSubjectAreaChangeMonitoringEnabled, rawValue: nil),
+                DeviceFeature(name: "Low Light Boost", isSupported: device.isLowLightBoostSupported, rawValue: nil),
+                DeviceFeature(name: "Automatically Enables Low Light Boost", isSupported: device.automaticallyEnablesLowLightBoostWhenAvailable, rawValue: nil),
+                DeviceFeature(name: "Ramping Video Zoom", isSupported: device.isRampingVideoZoom, rawValue: nil),
+                DeviceFeature(name: "Video Stabilization Auto", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.auto), rawValue: nil),
+                DeviceFeature(name: "Video Stabilization Cinematic", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.cinematic), rawValue: nil),
+                DeviceFeature(name: "Video Stabilization Standard", isSupported: device.activeFormat.isVideoStabilizationModeSupported(.standard), rawValue: nil),
+                DeviceFeature(name: "HDR Video Supported", isSupported: device.activeFormat.isVideoHDRSupported, rawValue: nil),
+                DeviceFeature(name: "Smooth Auto Focus Supported", isSupported: device.isSmoothAutoFocusSupported, rawValue: nil),           
             ]
             // List available devices
-            let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .externalUnknown], mediaType: .video, position: .unspecified)
+            let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamerazzz], mediaType: .video, position: .unspecified)
         
             for device in session.devices {
             // Device listing and type
