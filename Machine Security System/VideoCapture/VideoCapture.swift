@@ -141,10 +141,10 @@ class VideoCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCa
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // FIXME: temp
-        if connection.videoOrientation != .portrait {
-            connection.videoOrientation = .portrait
-            return
-        }
+//        if connection.videoOrientation != .portrait {
+//            connection.videoOrientation = .portrait
+//            return
+//        }
         
         if let imageBufferHandler = imageBufferHandler, let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) , connection == videoConnection
         {

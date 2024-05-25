@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34089B372C02881B006130E1 /* CamMLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B362C02881B006130E1 /* CamMLApp.swift */; };
+		34089B392C02881B006130E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B382C02881B006130E1 /* ContentView.swift */; };
+		34089B3B2C02881C006130E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34089B3A2C02881C006130E1 /* Assets.xcassets */; };
+		34089B3F2C02881C006130E1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34089B3E2C02881C006130E1 /* Preview Assets.xcassets */; };
+		34089B442C028891006130E1 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B432C028891006130E1 /* CameraView.swift */; };
+		34089B462C02889A006130E1 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B452C02889A006130E1 /* CameraViewController.swift */; };
+		34089B482C0288A0006130E1 /* CameraSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B472C0288A0006130E1 /* CameraSettings.swift */; };
+		34089B4A2C0288A8006130E1 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B492C0288A8006130E1 /* CameraController.swift */; };
 		3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD52BF3CF050091B1F9 /* Assets.xcassets */; };
 		3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD72BF3CF050091B1F9 /* Info.plist */; };
 		3446FDE82BF3CF050091B1F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD92BF3CF050091B1F9 /* LaunchScreen.storyboard */; };
@@ -19,6 +27,7 @@
 		34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */; };
 		34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */; };
 		34A99DA62BFB3A2D004685AC /* BoundingBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */; };
+		34A99DA82BFB4558004685AC /* detFX.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 34A99DA72BFB4557004685AC /* detFX.m4a */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
 		34CECC5D2BE877CA00DEA626 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */; };
@@ -41,6 +50,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34089B342C02881B006130E1 /* CamML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamML.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		34089B362C02881B006130E1 /* CamMLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamMLApp.swift; sourceTree = "<group>"; };
+		34089B382C02881B006130E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		34089B3A2C02881C006130E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		34089B3C2C02881C006130E1 /* CamML.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamML.entitlements; sourceTree = "<group>"; };
+		34089B3E2C02881C006130E1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		34089B432C028891006130E1 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		34089B452C02889A006130E1 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		34089B472C0288A0006130E1 /* CameraSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettings.swift; sourceTree = "<group>"; };
+		34089B492C0288A8006130E1 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		3446FDD52BF3CF050091B1F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3446FDD72BF3CF050091B1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3446FDD82BF3CF050091B1F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +73,7 @@
 		34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
 		34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x2AAA.mlpackage; sourceTree = "<group>"; };
 		34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
+		34A99DA72BFB4557004685AC /* detFX.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = detFX.m4a; sourceTree = "<group>"; };
 		34C437EE2BDA59F800DCC725 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +103,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		34089B312C02881B006130E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34E631712BDA537E00BFA742 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,6 +127,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34089B352C02881B006130E1 /* CamML */ = {
+			isa = PBXGroup;
+			children = (
+				34089B362C02881B006130E1 /* CamMLApp.swift */,
+				34089B432C028891006130E1 /* CameraView.swift */,
+				34089B452C02889A006130E1 /* CameraViewController.swift */,
+				34089B472C0288A0006130E1 /* CameraSettings.swift */,
+				34089B492C0288A8006130E1 /* CameraController.swift */,
+				34089B382C02881B006130E1 /* ContentView.swift */,
+				34089B3A2C02881C006130E1 /* Assets.xcassets */,
+				34089B3C2C02881C006130E1 /* CamML.entitlements */,
+				34089B3D2C02881C006130E1 /* Preview Content */,
+			);
+			path = CamML;
+			sourceTree = "<group>";
+		};
+		34089B3D2C02881C006130E1 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				34089B3E2C02881C006130E1 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		3446FDDF2BF3CF050091B1F9 /* MLModelCamera */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +199,7 @@
 				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
+				34A99DA72BFB4557004685AC /* detFX.m4a */,
 				34E6317D2BDA537F00BFA742 /* Preview Content */,
 			);
 			path = "Machine Security System";
@@ -181,8 +233,9 @@
 		728A8FB32B7DAD8D00E10802 = {
 			isa = PBXGroup;
 			children = (
-				728A8FBE2B7DAD8D00E10802 /* Floating Camera */,
+				34089B352C02881B006130E1 /* CamML */,
 				34E631752BDA537E00BFA742 /* Machine Security System */,
+				728A8FBE2B7DAD8D00E10802 /* Floating Camera */,
 				34E631872BDA538000BFA742 /* Machine Security SystemTests */,
 				34E631912BDA538000BFA742 /* Machine Security SystemUITests */,
 				728A8FBD2B7DAD8D00E10802 /* Products */,
@@ -194,6 +247,7 @@
 			children = (
 				728A8FBC2B7DAD8D00E10802 /* Floating Camera.app */,
 				34E631742BDA537E00BFA742 /* Machine Security System.app */,
+				34089B342C02881B006130E1 /* CamML.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,6 +274,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		34089B332C02881B006130E1 /* CamML */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34089B402C02881C006130E1 /* Build configuration list for PBXNativeTarget "CamML" */;
+			buildPhases = (
+				34089B302C02881B006130E1 /* Sources */,
+				34089B312C02881B006130E1 /* Frameworks */,
+				34089B322C02881B006130E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CamML;
+			productName = CamML;
+			productReference = 34089B342C02881B006130E1 /* CamML.app */;
+			productType = "com.apple.product-type.application";
+		};
 		34E631732BDA537E00BFA742 /* Machine Security System */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34E6319C2BDA538000BFA742 /* Build configuration list for PBXNativeTarget "Machine Security System" */;
@@ -264,6 +335,9 @@
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					34089B332C02881B006130E1 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					34E631732BDA537E00BFA742 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -285,13 +359,23 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				728A8FBB2B7DAD8D00E10802 /* Floating Camera */,
+				34089B332C02881B006130E1 /* CamML */,
 				34E631732BDA537E00BFA742 /* Machine Security System */,
+				728A8FBB2B7DAD8D00E10802 /* Floating Camera */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		34089B322C02881B006130E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34089B3F2C02881C006130E1 /* Preview Assets.xcassets in Resources */,
+				34089B3B2C02881C006130E1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34E631722BDA537E00BFA742 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,6 +386,7 @@
 				3446FDE92BF3CF050091B1F9 /* Main.storyboard in Resources */,
 				3446FDE82BF3CF050091B1F9 /* LaunchScreen.storyboard in Resources */,
 				34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */,
+				34A99DA82BFB4558004685AC /* detFX.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +403,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		34089B302C02881B006130E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34089B4A2C0288A8006130E1 /* CameraController.swift in Sources */,
+				34089B442C028891006130E1 /* CameraView.swift in Sources */,
+				34089B462C02889A006130E1 /* CameraViewController.swift in Sources */,
+				34089B392C02881B006130E1 /* ContentView.swift in Sources */,
+				34089B372C02881B006130E1 /* CamMLApp.swift in Sources */,
+				34089B482C0288A0006130E1 /* CameraSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34E631702BDA537E00BFA742 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,6 +482,97 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		34089B412C02881C006130E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CamML/CamML.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CamML/Preview Content\"";
+				DEVELOPMENT_TEAM = 46WUYUUA8V;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "access to the camera for capturing photos and videos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "access to the microphone for recording audio.";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oil3.CamML;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		34089B422C02881C006130E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CamML/CamML.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CamML/Preview Content\"";
+				DEVELOPMENT_TEAM = 46WUYUUA8V;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "access to the camera for capturing photos and videos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "access to the microphone for recording audio.";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oil3.CamML;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		34E631962BDA538000BFA742 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -417,13 +606,14 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "oil3.Machine-Security-System";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Machine-Security-System";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -462,13 +652,14 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "oil3.Machine-Security-System";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Machine-Security-System";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -627,10 +818,11 @@
 				MARKETING_VERSION = 1.mar17;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -661,16 +853,26 @@
 				MARKETING_VERSION = 1.mar17;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		34089B402C02881C006130E1 /* Build configuration list for PBXNativeTarget "CamML" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34089B412C02881C006130E1 /* Debug */,
+				34089B422C02881C006130E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		34E6319C2BDA538000BFA742 /* Build configuration list for PBXNativeTarget "Machine Security System" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

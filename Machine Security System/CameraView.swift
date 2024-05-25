@@ -1,24 +1,21 @@
+
+
+
 import SwiftUI
-import UIKit
-import AVKit
-import Vision
-import CoreML
-import CoreVideo
-import VideoToolbox
-    import CoreImage
-import CoreVideo
 
 struct CameraView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CameraViewController {
-        CameraViewController()
+        return CameraViewController()
     }
 
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
-        // Perform any updates to the UI based on changes in SwiftUI environment if necessary
+        // Perform any updates to the UI based on changes in SwiftUI environment if necessary.
     }
 
     typealias UIViewControllerType = CameraViewController
 }
+
+
 import CoreVideo
 import VideoToolbox
 
