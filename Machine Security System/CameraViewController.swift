@@ -10,13 +10,12 @@ import CoreML
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var lastInferenceTime: Date = Date(timeIntervalSince1970: 0)
-    private let inferenceInterval: TimeInterval = 0.3 // Run inference every 0.3 seconds
-    private var detectionOverlay: CALayer! = nil
+    private let inferenceInterval: TimeInterval = 0.3
+    private var detectionOverlay: BoundingBoxView! = nil
     
     private let cameraQueue = DispatchQueue(label: "cameraQueue", qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem)
     private let captureSession = AVCaptureSession()
     private let videoDataOutput = AVCaptureVideoDataOutput()
-    private var bufferSize: CGSize = .zero
     
     private var selectedVNModel: VNCoreMLModel?
     private var audioPlayer: AVAudioPlayer?
@@ -61,10 +60,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func setupDetectionOverlay() {
-        detectionOverlay = CALayer()
-        detectionOverlay.frame = view.bounds
-        detectionOverlay.masksToBounds = true
-        view.layer.addSublayer(detectionOverlay)
+        detectionOverlay = BoundingBoxView(frame: view.bounds)
+        detectionOverlay.backgroundColor = .clear
+        view.addSubview(detectionOverlay)
     }
 
     override func viewDidLayoutSubviews() {
@@ -73,7 +71,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewLayer.frame = view.bounds
         }
         detectionOverlay.frame = view.bounds
-        detectionOverlay.layoutIfNeeded()
     }
 
     func loadModel() {
@@ -90,7 +87,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     func loadSound() {
-        guard let soundURL = Bundle.main.url(forResource: "detFX", withExtension: "mp3") else {
+        guard let soundURL = Bundle.main.url(forResource: "detFX", withExtension: "m4a") else {
             print("Failed to find sound file.")
             return
         }
@@ -127,15 +124,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         request.imageCropAndScaleOption = .scaleFill
 
-        let faceRequest = VNDetectFaceRectanglesRequest { (request, error) in
-            if let results = request.results as? [VNFaceObservation] {
-                self.processFaceObservations(results)
-            }
-        }
-
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
         do {
-            try handler.perform([request, faceRequest])
+            try handler.perform([request])
         } catch {
             print("Failed to perform request: \(error)")
         }
@@ -143,48 +134,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func processObjectObservations(_ observations: [VNRecognizedObjectObservation]) {
         DispatchQueue.main.async {
-            self.detectionOverlay.sublayers?.removeAll(where: { $0.name == "objectBox" })
-
-            for observation in observations {
-                let boundingBox = observation.boundingBox
-                let convertedRect = self.convertBoundingBox(boundingBox)
-                let boundingBoxLayer = self.createBoundingBoxLayer(frame: convertedRect, color: UIColor.yellow)
-                self.detectionOverlay.addSublayer(boundingBoxLayer)
-            }
-
-            if !observations.isEmpty {
-                self.playSound()
-            }
+            self.detectionOverlay.observations = observations
         }
-    }
-
-    func processFaceObservations(_ observations: [VNFaceObservation]) {
-        DispatchQueue.main.async {
-            self.detectionOverlay.sublayers?.removeAll(where: { $0.name == "faceBox" })
-            
-            for observation in observations {
-                let boundingBox = observation.boundingBox
-                let convertedRect = self.convertBoundingBox(boundingBox)
-                let boundingBoxLayer = self.createBoundingBoxLayer(frame: convertedRect, color: UIColor.systemBlue)
-                self.detectionOverlay.addSublayer(boundingBoxLayer)
-            }
-        }
-    }
-
-    func convertBoundingBox(_ boundingBox: CGRect) -> CGRect {
-        let width = boundingBox.width * view.bounds.width
-        let height = boundingBox.height * view.bounds.height
-        let x = boundingBox.origin.x * view.bounds.width
-        let y = view.bounds.height - (boundingBox.origin.y * view.bounds.height + height)
-        return CGRect(x: x, y: y, width: width, height: height)
-    }
-
-    func createBoundingBoxLayer(frame: CGRect, color: UIColor) -> CALayer {
-        let layer = CALayer()
-        layer.frame = frame
-        layer.borderColor = color.cgColor
-        layer.borderWidth = 2.0
-        layer.name = color == UIColor.yellow ? "objectBox" : "faceBox"
-        return layer
     }
 }
