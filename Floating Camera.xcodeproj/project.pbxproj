@@ -16,6 +16,10 @@
 		34089B482C0288A0006130E1 /* CameraSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B472C0288A0006130E1 /* CameraSettings.swift */; };
 		34089B4A2C0288A8006130E1 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B492C0288A8006130E1 /* CameraController.swift */; };
 		34336FBE2C09749700BE57C4 /* BoundingBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */; };
+		34336FC22C099AB200BE57C4 /* ViewLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC12C099AB200BE57C4 /* ViewLogs.swift */; };
+		34336FC42C099AEC00BE57C4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC32C099AEC00BE57C4 /* SettingsView.swift */; };
+		34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC52C099AF900BE57C4 /* CoreMLView.swift */; };
+		34336FC82C099B5300BE57C4 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC72C099B5300BE57C4 /* SideBar.swift */; };
 		3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD52BF3CF050091B1F9 /* Assets.xcassets */; };
 		3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD72BF3CF050091B1F9 /* Info.plist */; };
 		34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */; };
@@ -51,6 +55,10 @@
 		34089B452C02889A006130E1 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		34089B472C0288A0006130E1 /* CameraSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettings.swift; sourceTree = "<group>"; };
 		34089B492C0288A8006130E1 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		34336FC12C099AB200BE57C4 /* ViewLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLogs.swift; sourceTree = "<group>"; };
+		34336FC32C099AEC00BE57C4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		34336FC52C099AF900BE57C4 /* CoreMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLView.swift; sourceTree = "<group>"; };
+		34336FC72C099B5300BE57C4 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
 		3446FDD52BF3CF050091B1F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3446FDD72BF3CF050091B1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3446FDD82BF3CF050091B1F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -185,6 +193,10 @@
 				34C437EE2BDA59F800DCC725 /* CameraView.swift */,
 				34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */,
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
+				34336FC12C099AB200BE57C4 /* ViewLogs.swift */,
+				34336FC72C099B5300BE57C4 /* SideBar.swift */,
+				34336FC32C099AEC00BE57C4 /* SettingsView.swift */,
+				34336FC52C099AF900BE57C4 /* CoreMLView.swift */,
 				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
@@ -410,8 +422,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				34E631792BDA537E00BFA742 /* ContentView.swift in Sources */,
+				34336FC22C099AB200BE57C4 /* ViewLogs.swift in Sources */,
+				34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */,
 				34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */,
+				34336FC42C099AEC00BE57C4 /* SettingsView.swift in Sources */,
 				34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */,
+				34336FC82C099B5300BE57C4 /* SideBar.swift in Sources */,
 				34336FBE2C09749700BE57C4 /* BoundingBoxView.swift in Sources */,
 				34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
 				34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */,

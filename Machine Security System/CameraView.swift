@@ -1,3 +1,9 @@
+//
+//  CameraView.swift
+//  Machine Security System
+//
+//  Created by Almahdi Morris on 31/5/24.
+//
 import SwiftUI
 
 struct CameraView: UIViewControllerRepresentable {
@@ -10,42 +16,4 @@ struct CameraView: UIViewControllerRepresentable {
     }
 
     typealias UIViewControllerType = CameraViewController
-}
-
-
-
-import CoreVideo
-import VideoToolbox
-
-import UIKit
-import CoreImage
-import CoreVideo
-import AVFoundation
-
-extension CMSampleBuffer {
-    func toCGImage() -> CGImage? {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(self) else {
-            print("Failed to get pixel buffer from sample buffer")
-            return nil
-        }
-        
-        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
-        defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
-
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: CVPixelBufferGetBaseAddress(pixelBuffer),
-                                      width: CVPixelBufferGetWidth(pixelBuffer),
-                                      height: CVPixelBufferGetHeight(pixelBuffer),
-                                      bitsPerComponent: 8,
-                                      bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer),
-                                      space: colorSpace,
-                                      bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue),
-              let cgImage = context.makeImage() else {
-            print("Failed to create CGImage")
-            return nil
-        }
-        
-        return cgImage
-    
-}
 }
