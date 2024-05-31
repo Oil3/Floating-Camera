@@ -20,6 +20,10 @@
 		34336FC42C099AEC00BE57C4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC32C099AEC00BE57C4 /* SettingsView.swift */; };
 		34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC52C099AF900BE57C4 /* CoreMLView.swift */; };
 		34336FC82C099B5300BE57C4 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC72C099B5300BE57C4 /* SideBar.swift */; };
+		34336FCA2C09A30E00BE57C4 /* MetalVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34336FC92C09A30E00BE57C4 /* MetalVideoProcessor.swift */; };
+		34336FCB2C09A37600BE57C4 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */; };
+		34336FCC2C09A37900BE57C4 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CECC5E2BE87A9B00DEA626 /* VideoView.swift */; };
+		34336FCE2C09A54000BE57C4 /* sampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 34336FCD2C09A54000BE57C4 /* sampleVideo.mp4 */; };
 		3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD52BF3CF050091B1F9 /* Assets.xcassets */; };
 		3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD72BF3CF050091B1F9 /* Info.plist */; };
 		34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */; };
@@ -59,6 +63,8 @@
 		34336FC32C099AEC00BE57C4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		34336FC52C099AF900BE57C4 /* CoreMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLView.swift; sourceTree = "<group>"; };
 		34336FC72C099B5300BE57C4 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
+		34336FC92C09A30E00BE57C4 /* MetalVideoProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MetalVideoProcessor.swift; path = "Machine Security System/MetalVideoProcessor.swift"; sourceTree = SOURCE_ROOT; };
+		34336FCD2C09A54000BE57C4 /* sampleVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sampleVideo.mp4; sourceTree = "<group>"; };
 		3446FDD52BF3CF050091B1F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3446FDD72BF3CF050091B1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3446FDD82BF3CF050091B1F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -167,8 +173,6 @@
 		3446FDE32BF3CF050091B1F9 /* VideoCapture */ = {
 			isa = PBXGroup;
 			children = (
-				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
-				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				3446FDE02BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift */,
 				3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */,
 				3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */,
@@ -179,8 +183,8 @@
 		34A99D9B2BFB2488004685AC /* models */ = {
 			isa = PBXGroup;
 			children = (
+				34336FCD2C09A54000BE57C4 /* sampleVideo.mp4 */,
 				34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */,
-				34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -193,10 +197,13 @@
 				34C437EE2BDA59F800DCC725 /* CameraView.swift */,
 				34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */,
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
+				34336FC92C09A30E00BE57C4 /* MetalVideoProcessor.swift */,
 				34336FC12C099AB200BE57C4 /* ViewLogs.swift */,
 				34336FC72C099B5300BE57C4 /* SideBar.swift */,
 				34336FC32C099AEC00BE57C4 /* SettingsView.swift */,
 				34336FC52C099AF900BE57C4 /* CoreMLView.swift */,
+				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
+				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
@@ -211,6 +218,7 @@
 		34E6317D2BDA537F00BFA742 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */,
 				34E6317E2BDA537F00BFA742 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -386,6 +394,7 @@
 				3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */,
 				34E6317F2BDA537F00BFA742 /* Preview Assets.xcassets in Resources */,
 				3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */,
+				34336FCE2C09A54000BE57C4 /* sampleVideo.mp4 in Resources */,
 				34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */,
 				34A99DA82BFB4558004685AC /* detFX.m4a in Resources */,
 			);
@@ -423,10 +432,13 @@
 			files = (
 				34E631792BDA537E00BFA742 /* ContentView.swift in Sources */,
 				34336FC22C099AB200BE57C4 /* ViewLogs.swift in Sources */,
+				34336FCA2C09A30E00BE57C4 /* MetalVideoProcessor.swift in Sources */,
 				34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */,
 				34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */,
+				34336FCB2C09A37600BE57C4 /* VideoViewController.swift in Sources */,
 				34336FC42C099AEC00BE57C4 /* SettingsView.swift in Sources */,
 				34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */,
+				34336FCC2C09A37900BE57C4 /* VideoView.swift in Sources */,
 				34336FC82C099B5300BE57C4 /* SideBar.swift in Sources */,
 				34336FBE2C09749700BE57C4 /* BoundingBoxView.swift in Sources */,
 				34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */,

@@ -204,17 +204,20 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   private func clearLogFile() {
     try? FileManager.default.removeItem(at: logFileURL)
   }
-  
+  private func roundedString(_ value: CGFloat) -> String {
+        return String(format: "%.4f", value)
+    }
+
   private func logDetection(_ observation: VNRecognizedObjectObservation) {
     let label = observation.labels.first?.identifier ?? "Unknown"
     let boundingBox = observation.boundingBox
-    let logMessage = "\(currentDTG()) Object detected: \(label) at \(boundingBox)\n"
+  let logMessage = "\(currentDTG()) Object detected: \(label) at (x: \(roundedString(boundingBox.origin.x)), y: \(roundedString(boundingBox.origin.y)), width: \(roundedString(boundingBox.width)), height: \(roundedString(boundingBox.height)))\n"
     appendToLogFile(logMessage)
   }
   
   private func logFaceDetection(_ observation: VNFaceObservation) {
     let boundingBox = observation.boundingBox
-    let logMessage = "\(currentDTG()) Face detected at \(boundingBox)\n"
+    let logMessage = "\(currentDTG()) Face detected at (x: \(roundedString(boundingBox.origin.x)), y: \(roundedString(boundingBox.origin.y)), width: \(roundedString(boundingBox.width)), height: \(roundedString(boundingBox.height)))\n"
     appendToLogFile(logMessage)
   }
   
