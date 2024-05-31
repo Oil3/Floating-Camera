@@ -1,6 +1,3 @@
-
-
-
 import SwiftUI
 
 struct CameraView: UIViewControllerRepresentable {
@@ -14,6 +11,7 @@ struct CameraView: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = CameraViewController
 }
+
 
 
 import CoreVideo
