@@ -26,9 +26,15 @@
 		34336FCE2C09A54000BE57C4 /* sampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 34336FCD2C09A54000BE57C4 /* sampleVideo.mp4 */; };
 		3446FDE52BF3CF050091B1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD52BF3CF050091B1F9 /* Assets.xcassets */; };
 		3446FDE72BF3CF050091B1F9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3446FDD72BF3CF050091B1F9 /* Info.plist */; };
+		346863902C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */; };
 		34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */; };
 		34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */; };
 		34A99DA82BFB4558004685AC /* detFX.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 34A99DA72BFB4557004685AC /* detFX.m4a */; };
+		34B4498C2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B4498B2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift */; };
+		34B4498E2C0A5079006AE3F2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B4498D2C0A5079006AE3F2 /* LogView.swift */; };
+		34B449942C0AB8C8006AE3F2 /* MediaFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449932C0AB8C8006AE3F2 /* MediaFile.swift */; };
+		34B449962C0AB8F5006AE3F2 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */; };
+		34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449972C0AB903006AE3F2 /* GalleryView.swift */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
 		34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */; };
@@ -75,10 +81,16 @@
 		3446FDE02BF3CF050091B1F9 /* AVCaptureDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVCaptureDevice+Extension.swift"; sourceTree = "<group>"; };
 		3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraType.swift; sourceTree = "<group>"; };
 		3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VideoViewControllerWrapper.swift; path = "Machine Security System/VideoViewControllerWrapper.swift"; sourceTree = "<group>"; };
 		34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
 		34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x2AAA.mlpackage; sourceTree = "<group>"; };
 		34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
 		34A99DA72BFB4557004685AC /* detFX.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = detFX.m4a; sourceTree = "<group>"; };
+		34B4498B2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHighlightingTextView.swift; sourceTree = "<group>"; };
+		34B4498D2C0A5079006AE3F2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		34B449932C0AB8C8006AE3F2 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
+		34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
+		34B449972C0AB903006AE3F2 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		34C437EE2BDA59F800DCC725 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -192,8 +204,9 @@
 		34E631752BDA537E00BFA742 /* Machine Security System */ = {
 			isa = PBXGroup;
 			children = (
-				34A99D9B2BFB2488004685AC /* models */,
 				34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */,
+				34B4498B2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift */,
+				34B4498D2C0A5079006AE3F2 /* LogView.swift */,
 				34C437EE2BDA59F800DCC725 /* CameraView.swift */,
 				34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */,
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
@@ -202,11 +215,15 @@
 				34336FC72C099B5300BE57C4 /* SideBar.swift */,
 				34336FC32C099AEC00BE57C4 /* SettingsView.swift */,
 				34336FC52C099AF900BE57C4 /* CoreMLView.swift */,
+				34B449932C0AB8C8006AE3F2 /* MediaFile.swift */,
+				34B449972C0AB903006AE3F2 /* GalleryView.swift */,
+				34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */,
 				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
 				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
 				34E6317A2BDA537F00BFA742 /* Assets.xcassets */,
 				34E6317C2BDA537F00BFA742 /* Machine_Security_System.entitlements */,
+				34A99D9B2BFB2488004685AC /* models */,
 				34A99DA72BFB4557004685AC /* detFX.m4a */,
 				3446FDDF2BF3CF050091B1F9 /* MLModelCamera */,
 				3446FDE32BF3CF050091B1F9 /* VideoCapture */,
@@ -244,6 +261,7 @@
 		728A8FB32B7DAD8D00E10802 = {
 			isa = PBXGroup;
 			children = (
+				3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */,
 				34E631752BDA537E00BFA742 /* Machine Security System */,
 				34089B352C02881B006130E1 /* CamML */,
 				728A8FBE2B7DAD8D00E10802 /* Floating Camera */,
@@ -435,13 +453,19 @@
 				34336FCA2C09A30E00BE57C4 /* MetalVideoProcessor.swift in Sources */,
 				34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */,
 				34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */,
+				34B4498E2C0A5079006AE3F2 /* LogView.swift in Sources */,
 				34336FCB2C09A37600BE57C4 /* VideoViewController.swift in Sources */,
+				34B449962C0AB8F5006AE3F2 /* GalleryViewModel.swift in Sources */,
+				34B4498C2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift in Sources */,
 				34336FC42C099AEC00BE57C4 /* SettingsView.swift in Sources */,
 				34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */,
 				34336FCC2C09A37900BE57C4 /* VideoView.swift in Sources */,
+				346863902C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift in Sources */,
+				34B449942C0AB8C8006AE3F2 /* MediaFile.swift in Sources */,
 				34336FC82C099B5300BE57C4 /* SideBar.swift in Sources */,
 				34336FBE2C09749700BE57C4 /* BoundingBoxView.swift in Sources */,
 				34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
+				34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */,
 				34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */,
 				34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */,
 			);
@@ -618,7 +642,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
@@ -664,7 +688,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
@@ -729,7 +753,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -790,7 +814,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;

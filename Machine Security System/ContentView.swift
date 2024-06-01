@@ -7,11 +7,12 @@
 import SwiftUI
 
 struct ContentView: View {
+  //  @Binding var videoURL: URL
+
     var body: some View {
         NavigationView {
             Sidebar()
-            CameraView() // Default view
-        }
+          VideoView()        }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }

@@ -10,51 +10,51 @@ import Vision
 import CoreML
 
 class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
-    private var player: AVPlayer!
-    private var playerItem: AVPlayerItem!
-    private var playerItemOutput: AVPlayerItemVideoOutput!
-    private var displayLink: CADisplayLink!
+    private var player: AVPlayer?
+    private var playerItem: AVPlayerItem?
+    private var playerItemOutput: AVPlayerItemVideoOutput?
+    private var displayLink: CADisplayLink?
     private var selectedVNModel: VNCoreMLModel?
     private var detectionOverlay: CALayer! = nil
     private var metalProcessor: MetalVideoProcessor!
-    private var videoFilename: String = "sampleVideo" // Change this dynamically based on actual video filename
+    private var videoURL: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupPlayer()
         setupDetectionOverlay()
         loadModel()
         metalProcessor = MetalVideoProcessor()
     }
 
-    func setupPlayer() {
-        guard let videoURL = Bundle.main.url(forResource: "sampleVideo", withExtension: "mp4") else {
-            fatalError("Video file not found")
-        }
+    func loadVideo(url: URL) {
+        videoURL = url
+        setupPlayer(with: url)
+    }
 
-        videoFilename = videoURL.deletingPathExtension().lastPathComponent
-
-        player = AVPlayer(url: videoURL)
-        playerItem = player.currentItem
+    private func setupPlayer(with url: URL) {
+        player = AVPlayer(url: url)
+        playerItem = player?.currentItem
         
         playerItemOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: [
             kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
         ])
         
-        playerItem.add(playerItemOutput)
+        if let playerItem = playerItem, let playerItemOutput = playerItemOutput {
+            playerItem.add(playerItemOutput)
+        }
         
         displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidRefresh))
-        displayLink.add(to: .main, forMode: .default)
+        displayLink?.add(to: .main, forMode: .default)
         
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = view.bounds
         view.layer.addSublayer(playerLayer)
         
-        player.play()
+        player?.play()
     }
 
-    func setupDetectionOverlay() {
+    private func setupDetectionOverlay() {
         detectionOverlay = CALayer()
         detectionOverlay.frame = view.bounds
         detectionOverlay.masksToBounds = true
@@ -69,7 +69,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         detectionOverlay.frame = view.bounds
     }
 
-    func loadModel() {
+    private func loadModel() {
         guard let modelUrl = Bundle.main.url(forResource: "yolov8x2AAA", withExtension: "mlmodelc") else {
             fatalError("Model file not found")
         }
@@ -82,19 +82,18 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         }
     }
 
-    @objc func displayLinkDidRefresh(displayLink: CADisplayLink) {
-        guard let currentItem = player.currentItem else { return }
+    @objc private func displayLinkDidRefresh(displayLink: CADisplayLink) {
+        guard let currentItem = player?.currentItem else { return }
         let currentTime = currentItem.currentTime()
         
-        if playerItemOutput.hasNewPixelBuffer(forItemTime: currentTime) {
-            guard let pixelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else { return }
-            guard let metalTexture = metalProcessor.process(pixelBuffer: pixelBuffer) else { return }
-            // Process metalTexture with CoreML
-            processFrame(pixelBuffer: pixelBuffer) // For simplicity, using original pixelBuffer
-        }
+        guard let playerItemOutput = playerItemOutput, playerItemOutput.hasNewPixelBuffer(forItemTime: currentTime) else { return }
+        
+        guard let pixelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else { return }
+        guard let metalTexture = metalProcessor.process(pixelBuffer: pixelBuffer) else { return }
+        processFrame(pixelBuffer: pixelBuffer) // For simplicity, using original pixelBuffer
     }
 
-    func processFrame(pixelBuffer: CVPixelBuffer) {
+    private func processFrame(pixelBuffer: CVPixelBuffer) {
         guard let model = selectedVNModel else { return }
 
         let request = VNCoreMLRequest(model: model) { (request, error) in
@@ -119,7 +118,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         }
     }
 
-    func processObjectObservations(_ observations: [VNRecognizedObjectObservation]) {
+    private func processObjectObservations(_ observations: [VNRecognizedObjectObservation]) {
         DispatchQueue.main.async {
             self.detectionOverlay.sublayers?.removeAll(where: { $0.name == "objectBox" })
             
@@ -134,7 +133,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         }
     }
 
-    func processFaceObservations(_ observations: [VNFaceObservation]) {
+    private func processFaceObservations(_ observations: [VNFaceObservation]) {
         DispatchQueue.main.async {
             self.detectionOverlay.sublayers?.removeAll(where: { $0.name == "faceBox" })
             
@@ -149,7 +148,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         }
     }
 
-    func convertBoundingBox(_ boundingBox: CGRect) -> CGRect {
+    private func convertBoundingBox(_ boundingBox: CGRect) -> CGRect {
         let width = boundingBox.width * view.bounds.width
         let height = boundingBox.height * view.bounds.height
         let x = boundingBox.origin.x * view.bounds.width
@@ -157,7 +156,7 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         return CGRect(x: x, y: y, width: width, height: height)
     }
 
-    func createBoundingBoxLayer(frame: CGRect, color: UIColor) -> CALayer {
+    private func createBoundingBoxLayer(frame: CGRect, color: UIColor) -> CALayer {
         let layer = CALayer()
         layer.frame = frame
         layer.borderColor = color.cgColor
@@ -206,12 +205,16 @@ class VideoViewController: UIViewController, AVPlayerItemOutputPullDelegate {
         let label = observation.labels.first?.identifier ?? "Unknown"
         let boundingBox = observation.boundingBox
         let logMessage = "\(currentDTG()) Object detected: \(label) at (x: \(roundedString(boundingBox.origin.x)), y: \(roundedString(boundingBox.origin.y)), width: \(roundedString(boundingBox.width)), height: \(roundedString(boundingBox.height)))\n"
-        appendToLogFile(logMessage, filename: videoFilename)
+        if let videoURL = videoURL {
+            appendToLogFile(logMessage, filename: videoURL.deletingPathExtension().lastPathComponent)
+        }
     }
 
     private func logFaceDetection(_ observation: VNFaceObservation) {
         let boundingBox = observation.boundingBox
         let logMessage = "\(currentDTG()) Face detected at (x: \(roundedString(boundingBox.origin.x)), y: \(roundedString(boundingBox.origin.y)), width: \(roundedString(boundingBox.width)), height: \(roundedString(boundingBox.height)))\n"
-        appendToLogFile(logMessage, filename: videoFilename)
+        if let videoURL = videoURL {
+            appendToLogFile(logMessage, filename: videoURL.deletingPathExtension().lastPathComponent)
+        }
     }
 }

@@ -16,9 +16,11 @@ struct Sidebar: View {
             NavigationLink(destination: VideoView()) {
                 Label("Video", systemImage: "video")
             }
-
-            NavigationLink(destination: ViewLogsView()) {
+            NavigationLink(destination: LogView()) {
                 Label("View Logs", systemImage: "doc.text.magnifyingglass")
+            }
+            NavigationLink(destination: GalleryView()) {
+                Label("Gallery", systemImage: "photo.on.rectangle.angled")
             }
             NavigationLink(destination: SettingsView()) {
                 Label("Settings", systemImage: "gear")
