@@ -5,69 +5,78 @@
 //  Created by Almahdi Morris on 31/5/24.
 //
 import SwiftUI
-import QuickLook
+import AVKit
+import UIKit
 
 struct GalleryView: View {
     @ObservedObject var viewModel = GalleryViewModel()
-    @State private var isPreviewing = false
-    @State private var isShowingVideo = false
-    
+    @State private var selectedMediaIndex: Int? = nil
+
     var body: some View {
-        VStack {
-            HStack {
-                Button(action: {
-                    viewModel.selectFiles()
-                }) {
-                    Label("Add Files", systemImage: "plus")
-                }
-                .padding()
-                
-                Spacer()
-                
-                Picker("Sort by", selection: $viewModel.sortOption) {
-                    ForEach(SortOption.allCases, id: \.self) { option in
-                        Text(option.rawValue.capitalized).tag(option)
+        ZStack {
+            VStack {
+                HStack {
+                    Button(action: {
+                        viewModel.selectFiles()
+                    }) {
+                        Label("Add Files", systemImage: "plus")
                     }
+                    .padding()
+
+                    Spacer()
+
+                    Picker("Sort by", selection: $viewModel.sortOption) {
+                        ForEach(SortOption.allCases, id: \.self) { option in
+                            Text(option.rawValue.capitalized).tag(option)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-            }
-            
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-                    .progressViewStyle(CircularProgressViewStyle())
-            } else {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
-                        ForEach(viewModel.sortedFiles.indices, id: \.self) { index in
-                            VStack {
-                                if let image = viewModel.sortedFiles[index].previewImage {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 100)
-                                } else {
-                                    Rectangle()
-                                        .fill(Color.gray)
-                                        .frame(height: 100)
+
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
+                            ForEach(viewModel.sortedFiles.indices, id: \.self) { index in
+                                VStack {
+                                    if let image = viewModel.sortedFiles[index].previewImage {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 100)
+                                    } else {
+                                        Rectangle()
+                                            .fill(Color.gray)
+                                            .frame(height: 100)
+                                    }
+                                    Text(viewModel.sortedFiles[index].name)
+                                        .font(.caption)
                                 }
-                                Text(viewModel.sortedFiles[index].name)
-                                    .font(.caption)
-                            }
-                            .background(viewModel.sortedFiles[index].type == .video ? Color.blue.opacity(0.3) : Color.green.opacity(0.3))
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                if viewModel.sortedFiles[index].type == .video {
-                                    viewModel.selectedVideoURL = viewModel.sortedFiles[index].url
-                                    isShowingVideo = true
-                                } else {
-                                    viewModel.previewFile(at: index)
-                                    isPreviewing = true
+                                .background(viewModel.sortedFiles[index].type == .video ? Color.blue.opacity(0.3) : Color.green.opacity(0.3))
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    selectedMediaIndex = index
                                 }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
+                }
+            }
+
+            if let index = selectedMediaIndex {
+                let mediaFile = viewModel.sortedFiles[index]
+                if mediaFile.type == .video {
+                    VideoPreviewView(videoURL: mediaFile.url, onDismiss: {
+                        selectedMediaIndex = nil
+                    })
+                } else if let image = mediaFile.previewImage {
+                    ImagePreviewView(image: image, onDismiss: {
+                        selectedMediaIndex = nil
+                    })
                 }
             }
         }
@@ -75,51 +84,69 @@ struct GalleryView: View {
         .onAppear {
             viewModel.loadFiles()
         }
-        .fullScreenCover(isPresented: $isPreviewing) {
-            if let index = viewModel.previewFileIndex {
-                QLPreviewControllerWrapper(files: viewModel.files, currentIndex: index)
-            }
-        }
-        .fullScreenCover(isPresented: $isShowingVideo) {
-            if let videoURL = viewModel.selectedVideoURL {
-                VideoViewControllerWrapper(videoURL: $viewModel.selectedVideoURL)
-            }
-        }
     }
 }
 
-struct QLPreviewControllerWrapper: UIViewControllerRepresentable {
-    var files: [MediaFile]
-    var currentIndex: Int
+struct ImagePreviewView: View {
+    var image: UIImage
+    var onDismiss: () -> Void
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: onDismiss) {
+                    Text("Go Back")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Spacer()
+            }
+            .padding()
 
-    func makeUIViewController(context: Context) -> QLPreviewController {
-        let previewController = QLPreviewController()
-        previewController.dataSource = context.coordinator
-        previewController.currentPreviewItemIndex = currentIndex
-        return previewController
-    }
+            Spacer()
 
-    func updateUIViewController(_ uiViewController: QLPreviewController, context: Context) {
-        // No updates needed
-    }
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+                .padding()
 
-    class Coordinator: NSObject, QLPreviewControllerDataSource {
-        var parent: QLPreviewControllerWrapper
-
-        init(_ parent: QLPreviewControllerWrapper) {
-            self.parent = parent
+            Spacer()
         }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+        .transition(.move(edge: .bottom))
+        .animation(.easeInOut)
+    }
+}
 
-        func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
-            return parent.files.count
-        }
+struct VideoPreviewView: View {
+    var videoURL: URL
+    var onDismiss: () -> Void
 
-        func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-            return parent.files[index].url as QLPreviewItem
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: onDismiss) {
+                    Text("Go Back")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Spacer()
+            }
+            .padding()
+
+            Spacer()
+
+            VideoPlayer(player: AVPlayer(url: videoURL))
+                .frame(height: 300)
+
+            Spacer()
         }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+        .transition(.move(edge: .bottom))
+        .animation(.easeInOut)
     }
 }

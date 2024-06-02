@@ -12,7 +12,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Sidebar()
-          VideoView()        }
+          VideoView()
+
+                  }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }

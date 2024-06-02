@@ -37,6 +37,8 @@
 		34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449972C0AB903006AE3F2 /* GalleryView.swift */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
+		34E4C0622C0BE757007D3A05 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E4C0612C0BE757007D3A05 /* ImageViewer.swift */; };
+		34E4C0642C0BE78E007D3A05 /* AnnotatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E4C0632C0BE78E007D3A05 /* AnnotatedImage.swift */; };
 		34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */; };
 		34E631792BDA537E00BFA742 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631782BDA537E00BFA742 /* ContentView.swift */; };
 		34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317A2BDA537F00BFA742 /* Assets.xcassets */; };
@@ -95,6 +97,8 @@
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		34CECC5E2BE87A9B00DEA626 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		34E4C0612C0BE757007D3A05 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		34E4C0632C0BE78E007D3A05 /* AnnotatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedImage.swift; sourceTree = "<group>"; };
 		34E631742BDA537E00BFA742 /* Machine Security System.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Machine Security System.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Machine_Security_SystemApp.swift; sourceTree = "<group>"; };
 		34E631782BDA537E00BFA742 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -212,12 +216,14 @@
 				34E631782BDA537E00BFA742 /* ContentView.swift */,
 				34336FC92C09A30E00BE57C4 /* MetalVideoProcessor.swift */,
 				34336FC12C099AB200BE57C4 /* ViewLogs.swift */,
-				34336FC72C099B5300BE57C4 /* SideBar.swift */,
 				34336FC32C099AEC00BE57C4 /* SettingsView.swift */,
 				34336FC52C099AF900BE57C4 /* CoreMLView.swift */,
 				34B449932C0AB8C8006AE3F2 /* MediaFile.swift */,
 				34B449972C0AB903006AE3F2 /* GalleryView.swift */,
 				34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */,
+				34E4C0612C0BE757007D3A05 /* ImageViewer.swift */,
+				34E4C0632C0BE78E007D3A05 /* AnnotatedImage.swift */,
+				34336FC72C099B5300BE57C4 /* SideBar.swift */,
 				34CECC5E2BE87A9B00DEA626 /* VideoView.swift */,
 				34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */,
 				34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */,
@@ -452,6 +458,7 @@
 				34336FC22C099AB200BE57C4 /* ViewLogs.swift in Sources */,
 				34336FCA2C09A30E00BE57C4 /* MetalVideoProcessor.swift in Sources */,
 				34336FC62C099AF900BE57C4 /* CoreMLView.swift in Sources */,
+				34E4C0642C0BE78E007D3A05 /* AnnotatedImage.swift in Sources */,
 				34A99DA42BFB3931004685AC /* yolov8x2AAA.mlpackage in Sources */,
 				34B4498E2C0A5079006AE3F2 /* LogView.swift in Sources */,
 				34336FCB2C09A37600BE57C4 /* VideoViewController.swift in Sources */,
@@ -467,6 +474,7 @@
 				34A99DA22BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
 				34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */,
 				34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */,
+				34E4C0622C0BE757007D3A05 /* ImageViewer.swift in Sources */,
 				34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

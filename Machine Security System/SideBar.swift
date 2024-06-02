@@ -29,6 +29,8 @@ struct Sidebar: View {
                 Label("CoreML", systemImage: "brain.head.profile")
             }
         }
+                    .frame(minWidth: 70)
+
         .listStyle(SidebarListStyle())
         .navigationTitle("Menu")
     }
