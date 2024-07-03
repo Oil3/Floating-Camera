@@ -99,8 +99,9 @@ class ViewController: NSViewController {
                 } catch {
                     print("Error setting video range format: \(error)")
                 }
-                                cameraSession.commitConfiguration()
         }
+          cameraSession.commitConfiguration()
+
         }
     print("Video range format not found")
     }

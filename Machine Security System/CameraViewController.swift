@@ -40,7 +40,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   
   func setupCamera() {
     captureSession.beginConfiguration()
-    captureSession.sessionPreset = .hd1920x1080
+    captureSession.sessionPreset = .high
     
     guard let captureDevice = AVCaptureDevice.default(for: .video),
           let input = try? AVCaptureDeviceInput(device: captureDevice) else {
@@ -134,7 +134,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
       }
     }
     
-    request.imageCropAndScaleOption = .scaleFill
+    request.imageCropAndScaleOption = .scaleFitRotate90CCW
     
     let faceRequest = VNDetectFaceRectanglesRequest { (request, error) in
       if let results = request.results as? [VNFaceObservation] {

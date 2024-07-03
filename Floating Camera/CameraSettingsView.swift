@@ -15,7 +15,6 @@ struct CameraSettingsView: View {
                     Text(viewModel.cameraFormats[index].description).tag(index)
                 }
             }
-            .pickerStyle(WheelPickerStyle())
 
             // Display other device features
             List(viewModel.deviceFeatures, id: \.name) { feature in
