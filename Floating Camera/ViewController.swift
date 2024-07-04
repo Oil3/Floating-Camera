@@ -43,6 +43,8 @@ class ViewController: NSViewController {
     
     videoOutput = AVCaptureMovieFileOutput()
     if cameraSession.canAddOutput(videoOutput) {
+      videoOutput.movieFragmentInterval = CMTime(value: 10, timescale: 1)
+      
       cameraSession.addOutput(videoOutput)
     }
     

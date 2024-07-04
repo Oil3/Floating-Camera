@@ -33,9 +33,3 @@ struct CameraSettingsView: View {
         .padding()
     }
 }
-
-struct CameraSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraSettingsView()
-    }
-}

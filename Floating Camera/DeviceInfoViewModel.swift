@@ -27,6 +27,7 @@ struct CameraFormat {
 class DeviceInfoViewModel: ObservableObject {
   @Published var deviceFeatures: [DeviceFeature] = []
   @Published var cameraFormats: [CameraFormat] = [] // Changed to an array of CameraFormat
+  @Published var videoCodecs: [AVVideoCodecType] = []
   @Published var selectedFormatIndex: Int? = nil {
     didSet {
       if let index = selectedFormatIndex, index < cameraFormats.count {
@@ -38,8 +39,23 @@ class DeviceInfoViewModel: ObservableObject {
   init() {
     fetchDeviceFeatures()
     fetchCameraFormats()
+    fetchAvailableCodecs()
+
   }
   
+  func fetchAvailableCodecs() {
+    guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+    
+    var codecs: Set<String> = []
+    for format in captureDevice.formats {
+        codecs.insert(videoCodecs.description.description)
+      }
+    
+    
+    codecs = Set(codecs)
+  }
+
+
   private func fetchDeviceFeatures() {
     guard let device = AVCaptureDevice.default(for: .video) else { return }
     
@@ -109,6 +125,25 @@ class DeviceInfoViewModel: ObservableObject {
       print("Active format set: \(format)")
     } catch {
       print("Error setting active format: \(error)")
+    }
+  }
+}
+
+extension FourCharCode {
+  var avVideoCodecType: AVVideoCodecType? {
+    switch self {
+    case kCMVideoCodecType_H264:
+      return .h264
+    case kCMVideoCodecType_HEVC:
+      return .hevc
+    case kCMVideoCodecType_JPEG:
+      return .jpeg
+    case kCMVideoCodecType_AppleProRes422:
+      return .proRes422
+    case kCMVideoCodecType_AppleProRes4444:
+      return .proRes4444
+    default:
+      return nil
     }
   }
 }
