@@ -1,10 +1,3 @@
-//
-//  DeviceInfoView.swift
-//  Floating Camera
-//
-//  Created by ZZS on 28/02/2024.
-//
-
 import SwiftUI
 
 struct DeviceInfoView: View {
@@ -12,19 +5,6 @@ struct DeviceInfoView: View {
   
   var body: some View {
     List {
-      Section(header: Text("Device Features")) {
-        ForEach(viewModel.deviceFeatures, id: \.name) { feature in
-          HStack {
-            Text(feature.name)
-            Spacer()
-            Text(feature.isSupported ? "Supported" : "Not Supported")
-              .foregroundColor(feature.isSupported ? .green : .red)
-            Spacer()
-            Text(feature.rawValue ?? "N/A")
-          }
-        }
-      }
-      
       Section(header: Text("Camera Formats")) {
         ForEach(viewModel.cameraFormats.indices, id: \.self) { index in
           HStack {
@@ -41,14 +21,43 @@ struct DeviceInfoView: View {
           }
         }
       }
+      
+      Section(header: Text("Video Codecs")) {
+        ForEach(viewModel.videoCodecs.indices, id: \.self) { index in
+          HStack {
+            Text(viewModel.videoCodecs[index])
+            Spacer()
+            if viewModel.selectedCodecIndex == index {
+              Image(systemName: "checkmark")
+                .foregroundColor(.blue)
+            }
+          }
+          .contentShape(Rectangle())
+          .onTapGesture {
+            viewModel.selectedCodecIndex = index
+          }
+        }
+      }
+      
+      Section(header: Text("Presets")) {
+        ForEach(viewModel.presets.indices, id: \.self) { index in
+          HStack {
+            Text(viewModel.presets[index])
+            Spacer()
+            if viewModel.selectedPresetIndex == index {
+              Image(systemName: "checkmark")
+                .foregroundColor(.blue)
+            }
+          }
+          .contentShape(Rectangle())
+          .onTapGesture {
+            viewModel.selectedPresetIndex = index
+          }
+        }
+      }
     }
     .frame(width: 600, height: 400)
-    .navigationTitle("Device Capabilities")
-  }
-}
-
-struct DeviceInfoView_Previews: PreviewProvider {
-  static var previews: some View {
-    DeviceInfoView()
+    .navigationTitle("Device Settings")
+    .textSelection(.enabled)
   }
 }
