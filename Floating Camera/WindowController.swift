@@ -16,8 +16,10 @@ class WindowController: NSWindowController, NSWindowDelegate {
         
         window?.delegate = self
         window?.level = .floating
+      window?.aspectRatio.width = 1280
+      window?.aspectRatio.height = 720
 //        window?.isOpaque = false
-        window?.backgroundColor = NSColor.black
+        window?.backgroundColor = NSColor.clear
 //        window?.backgroundColor = NSColor.white.withAlphaComponent(0.00)
 
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateWindowSize), name: .windowSizeChanged, object: nil)
