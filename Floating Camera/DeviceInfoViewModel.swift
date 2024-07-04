@@ -27,7 +27,13 @@ struct CameraFormat {
 class DeviceInfoViewModel: ObservableObject {
   @Published var deviceFeatures: [DeviceFeature] = []
   @Published var cameraFormats: [CameraFormat] = [] // Changed to an array of CameraFormat
-  @Published var selectedFormatIndex: Int?
+  @Published var selectedFormatIndex: Int? = nil {
+    didSet {
+      if let index = selectedFormatIndex, index < cameraFormats.count {
+        setVideoFormat(format: cameraFormats[index].format)
+      }
+    }
+  }
   @Published var videoCodecs: [String] = ["H.264"]
   @Published var selectedCodecIndex: Int?
   @Published var presets: [String] = ["High", "Medium", "Low"]
