@@ -65,9 +65,6 @@
                                     <items>
                                         <menuItem title="Device Info" id="agn-N2-EId" userLabel="Device Info">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <segue destination="XSD-0T-W1e" kind="show" id="bkd-f4-71w"/>
-                                            </connections>
                                         </menuItem>
                                         <menuItem title="Automatic Focus / exposé" id="vC3-K0-eD1">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -602,7 +599,7 @@
         <!--Device Info-->
         <scene sceneID="Wga-UL-y5I">
             <objects>
-                <viewController title="Device Info" storyboardIdentifier="swifttoboard" id="XSD-0T-W1e" customClass="swifttoboard" customModule="Floating_Camera" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Device Info" storyboardIdentifier="swifttoboard" id="XSD-0T-W1e" customClass="DeviiceInfoView" sceneMemberID="viewController">
                     <view key="view" id="hZT-DI-HeP">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -9,7 +9,8 @@ import AVFoundation
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     var runtimeData = RuntimeData()
-    
+  var viewController: ViewController?
+
     
     @IBAction func openPreferences  (_ sender: AnyObject) {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
@@ -27,6 +28,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // Saving any settings or application state as needed
         let currentWindowSize = NSApplication.shared.mainWindow?.frame.size
         UserDefaults.standard.set(currentWindowSize, forKey: "lastWindowSize")
+      viewController?.stopContinuousRecording()
+
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -36,4 +39,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
 }
-
+extension CIContext {
+  func createPixelBuffer(from ciImage: CIImage) -> CVPixelBuffer? {
+    let attributes: [String: Any] = [
+      kCVPixelBufferCGImageCompatibilityKey as String: kCFBooleanTrue,
+      kCVPixelBufferCGBitmapContextCompatibilityKey as String: kCFBooleanTrue
+    ]
+    
+    let width = Int(ciImage.extent.width)
+    let height = Int(ciImage.extent.height)
+    var pixelBuffer: CVPixelBuffer?
+    
+    CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, attributes as CFDictionary, &pixelBuffer)
+    
+    guard let pxBuffer = pixelBuffer else {
+      return nil
+    }
+    
+    CVPixelBufferLockBaseAddress(pxBuffer, .readOnly)
+    self.render(ciImage, to: pxBuffer)
+    CVPixelBufferUnlockBaseAddress(pxBuffer, .readOnly)
+    
+    return pxBuffer
+  }
+}

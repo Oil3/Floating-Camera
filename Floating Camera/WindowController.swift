@@ -16,8 +16,11 @@ class WindowController: NSWindowController, NSWindowDelegate {
         
         window?.delegate = self
         window?.level = .floating
-      window?.aspectRatio.width = 1280
-      window?.aspectRatio.height = 720
+      window?.allowsConcurrentViewDrawing = true
+      window?.animationBehavior = .alertPanel
+      
+   //   window?.aspectRatio.width = 1280
+   //   window?.aspectRatio.height = 720
 //        window?.isOpaque = false
         window?.backgroundColor = NSColor.clear
 //        window?.backgroundColor = NSColor.white.withAlphaComponent(0.00)
