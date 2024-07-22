@@ -6,13 +6,13 @@
 import AppKit
 
 class WindowController: NSWindowController, NSWindowDelegate {
-    var runtimeData: RuntimeData!
+    var runtimeData = RuntimeData()
     weak var keyWindow: NSWindow? = nil
     
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        runtimeData = (NSApplication.shared.delegate as? AppDelegate)?.runtimeData
+//        runtimeData = (NSApplication.shared.delegate.runtimeData
         
         window?.delegate = self
         window?.level = .floating

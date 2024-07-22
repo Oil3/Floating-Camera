@@ -11,7 +11,7 @@ class ViewController: NSViewController {
   var videoOutput: AVCaptureMovieFileOutput!
   var videoDataOutput: AVCaptureVideoDataOutput!
   var currentFrame: NSImage?
-  var isContinuousRecording = true //starts operational, should be user selectable
+  var isContinuousRecording = false
   var isPersistingRecordings = false
   let maxRecordingDuration: CMTime = CMTimeMake(value: 120, timescale: 1) // 2 minutes segments, +-300MB in 1080p, should be user selectable, for now saved ~/Library/Containers/com.oil3.Floating-Camera/Data/tmp
   var currentRecordingFileURL: URL?
@@ -397,7 +397,7 @@ class ViewController: NSViewController {
     
     // Get the duration of the current recording
     let asset = AVAsset(url: url)
-    let endTime = CMTimeGetSeconds(asset.duration)
+    let endTime = 120.0 //segments are of 2min , else can use usingCMTimeGetSeconds(asset.duration)
     let startTime = max(endTime - 60, 0) // Last 60 seconds
     
     let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
