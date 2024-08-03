@@ -6,28 +6,20 @@ class FloatingController: NSWindowController, NSWindowDelegate {
   func showFloatingWindow() {
     if floatingWindow == nil {
       var contentRect = NSRect()// (x: 1250, y: 400, width: 800, height: 480)
-      floatingWindow = NSWindow(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
+      floatingWindow = NSWindow(contentRect: contentRect, styleMask: [.fullSizeContentView, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
       floatingWindow?.backgroundColor = NSColor.black
       floatingWindow?.hasShadow = false
       floatingWindow?.titlebarSeparatorStyle = .none
       floatingWindow?.delegate = self
-      floatingWindow?.level = .floating
+      floatingWindow?.level = . floating
       floatingWindow?.titleVisibility = .hidden
       floatingWindow?.title = "Floating"
-      floatingWindow?.makeKeyAndOrderFront(nil)
-//      floatingWindow?.acceptsMouseMovedEvents = true
-//      floatingWindow?.isMovableByWindowBackground = true
-//      floatingWindow?.styleMask = .borderless
-      floatingWindow?.styleMask = .fullSizeContentView
-      floatingWindow?.styleMask = .resizable
-      floatingWindow?.showsResizeIndicator = true
-      floatingWindow?.hasShadow = false
-      floatingWindow?.titleVisibility = .hidden
+      floatingWindow?.orderFront(nil)
         
       let viewController = ViewController()
       floatingWindow?.contentViewController = viewController
     } else {
-      floatingWindow?.makeKeyAndOrderFront(nil)
+      floatingWindow?.orderFront(nil)
     }
   }
   

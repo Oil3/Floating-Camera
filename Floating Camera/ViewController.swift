@@ -13,7 +13,7 @@ class ViewController: NSViewController {
   var currentFrame: NSImage?
   var isContinuousRecording = false
   var isPersistingRecordings = false
-  let maxRecordingDuration: CMTime = CMTimeMake(value: 120, timescale: 1) // 2 minutes segments, +-300MB in 1080p, should be user selectable, for now saved ~/Library/Containers/com.oil3.Floating-Camera/Data/tmp
+  let maxRecordingDuration: CMTime = CMTimeMake(value: 1200, timescale: 1) // 20minutes segments, can grow to 3GB each, movdata is saved at start for failsafe saving,r for now saved ~/Library/Containers/Floating-Camera/Data/tmp
   var currentRecordingFileURL: URL?
   var previousRecordingFileURL: URL?
   var recordingStartTime: Date?
@@ -138,7 +138,7 @@ class ViewController: NSViewController {
     
     videoOutput = AVCaptureMovieFileOutput()
     if cameraSession.canAddOutput(videoOutput) {
-      videoOutput.movieFragmentInterval = CMTime(value: 10, timescale: 1)
+      videoOutput.movieFragmentInterval = CMTime(value: 20, timescale: 1) //20 seeconds seems a lot , might make sense to have this editable, might make sense to lower or the opposit, technically highest security would want 1 or 2 seconds. I thought we could put these data at the beggining though -like if streaming, need to investigate this as photobooth-style unviewable gray video would be unnacceptable.
       cameraSession.addOutput(videoOutput)
     }
     
@@ -170,7 +170,7 @@ class ViewController: NSViewController {
     defer { cameraSession.commitConfiguration() }
     
     guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-      print("Front camera not available")
+      print("default builtinwideanglecamera needs to be changed to disccovery thing")
       return
     }
     
@@ -257,8 +257,8 @@ class ViewController: NSViewController {
     
     menu.addItem(NSMenuItem(title: "Take Photo", action: #selector(takePhoto), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Copy Frame", action: #selector(copyFrame), keyEquivalent: ""))
-    menu.addItem(NSMenuItem(title: isContinuousRecording ? "Stop" : "Record", action: #selector(toggleRecording), keyEquivalent: ""))
-    menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop Persistence" : "Persist Recording", action: #selector(togglePersistence), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: isContinuousRecording ? "Stop continuous recording" : "Continuous recroding", action: #selector(toggleRecording), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop keeping every recordings " : "Keep every recordings", action: #selector(togglePersistence), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Recording", action: #selector(savePreviousRecording), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
@@ -269,14 +269,12 @@ class ViewController: NSViewController {
   @objc private func stopRecord() {
     if videoOutput.isRecording {
       videoOutput.stopRecording()
-      print("Stop Record selected")
     }
   }
   
   @objc private func takePhoto() {
     let settings = AVCapturePhotoSettings()
     photoOutput.capturePhoto(with: settings, delegate: self)
-    print("Take Photo selected")
   }
   
   @objc private func copyFrame() {
@@ -284,7 +282,6 @@ class ViewController: NSViewController {
     let pasteboard = NSPasteboard.general
     pasteboard.clearContents()
     pasteboard.writeObjects([currentFrame])
-    print("Copy Frame selected")
   }
   
   @objc private func record() {
@@ -298,13 +295,11 @@ class ViewController: NSViewController {
   private func startContinuousRecording() {
     isContinuousRecording = true
     startNewRecording()
-    print("Continuous Record selected")
   }
   
   func stopContinuousRecording() {
     isContinuousRecording = false
     videoOutput.stopRecording()
-    print("Stop Continuous Record selected")
   }
   
   private func startNewRecording() {
@@ -312,7 +307,7 @@ class ViewController: NSViewController {
     dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
     let timestamp = dateFormatter.string(from: Date())
     
-    let fileName = "recording_\(fileCounter)_\(timestamp).mov"
+    let fileName = "FLC_\(fileCounter)_\(timestamp).mov"
     let newFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
     
     if fileURLs.count < 3 {
@@ -358,7 +353,7 @@ class ViewController: NSViewController {
     guard let url = previousRecordingFileURL else { return }
     
     let savePanel = NSSavePanel()
-    savePanel.allowedFileTypes = ["mov"]
+    savePanel.allowedContentTypes = [.quickTimeMovie]
     savePanel.begin { (result) in
       if result == .OK {
         guard let destinationURL = savePanel.url else { return }
@@ -410,7 +405,7 @@ class ViewController: NSViewController {
       if exportSession?.status == .completed {
         DispatchQueue.main.async {
           let savePanel = NSSavePanel()
-          savePanel.allowedFileTypes = ["mov"]
+          savePanel.allowedContentTypes = [.quickTimeMovie]
           savePanel.directoryURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
           savePanel.begin { result in
             if result == .OK, let destinationURL = savePanel.url {
@@ -435,7 +430,7 @@ extension ViewController: AVCapturePhotoCaptureDelegate {
           let image = NSImage(data: imageData) else { return }
     
     let savePanel = NSSavePanel()
-    savePanel.allowedFileTypes = ["jpg"]
+    savePanel.allowedContentTypes = [.image]
     savePanel.begin { (result) in
       if result == .OK {
         guard let url = savePanel.url else { return }
