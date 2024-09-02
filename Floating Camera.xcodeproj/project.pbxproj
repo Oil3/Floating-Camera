@@ -38,23 +38,20 @@
 		34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449972C0AB903006AE3F2 /* GalleryView.swift */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
-		34DAC9962C436BE700DAEFE3 /* swifttoboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA172B8F3B8A009E330D /* swifttoboard.swift */; };
-		34DAC9982C4380A900DAEFE3 /* FloatingControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */; };
 		34E4C0622C0BE757007D3A05 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E4C0612C0BE757007D3A05 /* ImageViewer.swift */; };
 		34E4C0642C0BE78E007D3A05 /* AnnotatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E4C0632C0BE78E007D3A05 /* AnnotatedImage.swift */; };
 		34E631772BDA537E00BFA742 /* Machine_Security_SystemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631762BDA537E00BFA742 /* Machine_Security_SystemApp.swift */; };
 		34E631792BDA537E00BFA742 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631782BDA537E00BFA742 /* ContentView.swift */; };
 		34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317A2BDA537F00BFA742 /* Assets.xcassets */; };
 		34E6317F2BDA537F00BFA742 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317E2BDA537F00BFA742 /* Preview Assets.xcassets */; };
+		34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */; };
 		7204F95F2B7E856900596881 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7204F95E2B7E856800596881 /* README.md */; };
 		725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */; };
 		725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA152B8F3741009E330D /* DeviceInfoView.swift */; };
-		726F34CA2BB141900038B68B /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F34C92BB141900038B68B /* CameraSettingsView.swift */; };
 		728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */; };
 		728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FC12B7DAD8D00E10802 /* ViewController.swift */; };
 		728A8FC42B7DAD8F00E10802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 728A8FC32B7DAD8F00E10802 /* Assets.xcassets */; };
 		728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */; };
-		728A8FD12B7DC0C200E10802 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FD02B7DC0C200E10802 /* WindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,7 +82,7 @@
 		3446FDE12BF3CF050091B1F9 /* VideoCameraType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraType.swift; sourceTree = "<group>"; };
 		3446FDE22BF3CF050091B1F9 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		3454B9132C0C18EE00EB941F /* VideoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewView.swift; sourceTree = "<group>"; };
-		3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VideoViewControllerWrapper.swift; path = "Machine Security System/VideoViewControllerWrapper.swift"; sourceTree = "<group>"; };
+		3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewControllerWrapper.swift; sourceTree = "<group>"; };
 		34A99DA12BFB379A004685AC /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
 		34A99DA32BFB3931004685AC /* yolov8x2AAA.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x2AAA.mlpackage; sourceTree = "<group>"; };
 		34A99DA52BFB3A2D004685AC /* BoundingBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
@@ -211,6 +208,7 @@
 		34E631752BDA537E00BFA742 /* Machine Security System */ = {
 			isa = PBXGroup;
 			children = (
+				3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */,
 				34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */,
 				34B4498B2C0A5060006AE3F2 /* SyntaxHighlightingTextView.swift */,
 				34B4498D2C0A5079006AE3F2 /* LogView.swift */,
@@ -272,7 +270,8 @@
 			isa = PBXGroup;
 			children = (
 				728A8FBE2B7DAD8D00E10802 /* Floating Camera */,
-				3468638F2C0AC5B7005BC7D0 /* VideoViewControllerWrapper.swift */,
+				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
+				725DEA172B8F3B8A009E330D /* swifttoboard.swift */,
 				34E631752BDA537E00BFA742 /* Machine Security System */,
 				34089B352C02881B006130E1 /* CamML */,
 				34E631872BDA538000BFA742 /* Machine Security SystemTests */,
@@ -298,9 +297,7 @@
 				34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */,
 				728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */,
 				728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */,
-				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
 				728A8FC12B7DAD8D00E10802 /* ViewController.swift */,
-				725DEA172B8F3B8A009E330D /* swifttoboard.swift */,
 				725DEA152B8F3741009E330D /* DeviceInfoView.swift */,
 				726F34C92BB141900038B68B /* CameraSettingsView.swift */,
 				725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */,
@@ -488,11 +485,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34DAC9962C436BE700DAEFE3 /* swifttoboard.swift in Sources */,
-				726F34CA2BB141900038B68B /* CameraSettingsView.swift in Sources */,
-				34DAC9982C4380A900DAEFE3 /* FloatingControler.swift in Sources */,
+				34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */,
 				728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */,
-				728A8FD12B7DC0C200E10802 /* WindowController.swift in Sources */,
 				725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */,
 				728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */,
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,

@@ -2,6 +2,7 @@ import AVFoundation
 import Cocoa
 import CoreImage
 import CoreML
+import Vision
 
 class ViewController: NSViewController {
   private let cameraSession = AVCaptureSession()
@@ -13,18 +14,19 @@ class ViewController: NSViewController {
   var currentFrame: NSImage?
   var isContinuousRecording = false
   var isPersistingRecordings = false
-  let maxRecordingDuration: CMTime = CMTimeMake(value: 1200, timescale: 1) // 20minutes segments, can grow to 3GB each, movdata is saved at start for failsafe saving,r for now saved ~/Library/Containers/Floating-Camera/Data/tmp
+  let maxRecordingDuration: CMTime = CMTimeMake(value: 1200, timescale: 1) // 20 minutes segments
   var currentRecordingFileURL: URL?
   var previousRecordingFileURL: URL?
   var recordingStartTime: Date?
   var fileCounter = 0
   var fileURLs: [URL] = []
   private var recordingMonitorTimer: Timer?
-
+  private var currentRotationAngle: CGFloat=0.0
+  
   // Properties for Core Image and Core ML
-  var ciContext = CIContext()
+  //var ciContext = CIContext()
   var selectedFilter: CIFilter?
-  var mlModel: MLModel?
+  var mlModel: VNCoreMLModel?
   var applyFilter = false
   var applyMLModel = false
   var brightness: CGFloat = 0.0
@@ -46,15 +48,10 @@ class ViewController: NSViewController {
   var gaborGradients = false
   
   // Additional properties for camera controls
-//  var iso: Float = AVCaptureDevice.currentISO
-//  var exposureDuration: CMTime = AVCaptureDevice.currentExposureDuration
   var zoomFactor: CGFloat = 1.0 {
     didSet {
-//      guard let device = videoDeviceInput.device else { return }
       do {
-//        try device.lockForConfiguration()
-//        device.zoom = zoomFactor
-//        device.unlockForConfiguration()
+        // Apply zoom logic if necessary
       } catch {
         print("Failed to set zoom factor: \(error)")
       }
@@ -77,92 +74,26 @@ class ViewController: NSViewController {
     setupContextMenu()
     setupGestureRecognizers()
   }
+  
   override func viewDidAppear() {
     super.viewDidAppear()
     cameraSession.startRunning()
     startRecordingMonitoring()
+    
   }
-//  override func viewWillDisappear() {
-//    super.viewWillDisappear()
-//    cameraSession.stopRunning()
-//    stopRecordingMonitoring()
-//  }
-
-  private func startRecordingMonitoring() {
-    recordingMonitorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
-      self?.checkRecordingDuration()
-    }
+  override func viewDidDisappear() {
+    super.viewDidDisappear()
+    previewLayer?.removeFromSuperlayer()
+    previewLayer = nil
   }
-  
-  private func stopRecordingMonitoring() {
-    recordingMonitorTimer?.invalidate()
-    recordingMonitorTimer = nil
-  }
-  
-  private func checkRecordingDuration() {
-    guard isContinuousRecording, let startTime = recordingStartTime else { return }
-    let elapsedTime = Date().timeIntervalSince(startTime)
-    if elapsedTime >= maxRecordingDuration.seconds {
-      videoOutput.stopRecording()
-    }
-  }
-
-
-  
-  @objc private func switchRecordingFile() {
-    if isContinuousRecording {
-      videoOutput.stopRecording()
-      startNewRecording()
-      print("Switched to new recording file")
-    }
-
-
-//  override func viewWillDisappear() {
-//    super.viewWillDisappear()
-//    cameraSession.stopRunning()
-//    stopRecordingMonitoring()
-//  }
-  }
-  private func setupCameraPreview() {
-    guard let device = AVCaptureDevice.default(for: .video),
-          let input = try? AVCaptureDeviceInput(device: device) else { return }
-    
-    if !cameraSession.inputs.contains(where: { $0 == input }) {
-      cameraSession.addInput(input)
-    }
-    
-    photoOutput = AVCapturePhotoOutput()
-    if cameraSession.canAddOutput(photoOutput) {
-      cameraSession.addOutput(photoOutput)
-    }
-    
-    videoOutput = AVCaptureMovieFileOutput()
-    if cameraSession.canAddOutput(videoOutput) {
-      videoOutput.movieFragmentInterval = CMTime(value: 20, timescale: 1) //20 seeconds seems a lot , might make sense to have this editable, might make sense to lower or the opposit, technically highest security would want 1 or 2 seconds. I thought we could put these data at the beggining though -like if streaming, need to investigate this as photobooth-style unviewable gray video would be unnacceptable.
-      cameraSession.addOutput(videoOutput)
-    }
-    
-    videoDataOutput = AVCaptureVideoDataOutput()
-    videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-    if cameraSession.canAddOutput(videoDataOutput) {
-      cameraSession.addOutput(videoDataOutput)
-    }
-    
-    previewLayer = AVCaptureVideoPreviewLayer(session: cameraSession)
-    videoDeviceInput = input
-    
-    if let preview = previewLayer {
-      view.layer?.addSublayer(preview)
-      preview.videoGravity = .resizeAspect
-      preview.frame = view.bounds
-    }
-  
- }
-
-  
   override func viewDidLayout() {
     super.viewDidLayout()
     previewLayer?.frame = view.bounds
+    // Apply a 90-degree rotation counterclockwise (or adjust the angle as needed)
+    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
+    previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
+
+    
   }
   
   func setVideoRangeFormat() {
@@ -170,7 +101,7 @@ class ViewController: NSViewController {
     defer { cameraSession.commitConfiguration() }
     
     guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-      print("default builtinwideanglecamera needs to be changed to disccovery thing")
+      print("Front camera not available")
       return
     }
     
@@ -252,19 +183,28 @@ class ViewController: NSViewController {
       }
     }
   }
+  
   private func setupContextMenu() {
     let menu = NSMenu()
-    
+    menu.addItem(NSMenuItem(title: "Rotate Right", action: #selector(rotateRight), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Take Photo", action: #selector(takePhoto), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Copy Frame", action: #selector(copyFrame), keyEquivalent: ""))
-    menu.addItem(NSMenuItem(title: isContinuousRecording ? "Stop continuous recording" : "Continuous recroding", action: #selector(toggleRecording), keyEquivalent: ""))
-    menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop keeping every recordings " : "Keep every recordings", action: #selector(togglePersistence), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: isContinuousRecording ? "Stop Continuous Recording" : "Start Continuous Recording", action: #selector(toggleRecording), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop Persisting Recordings" : "Persist Recordings", action: #selector(togglePersistence), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Recording", action: #selector(savePreviousRecording), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
+    
+    menu.addItem(NSMenuItem(title: "Show Folder", action: #selector(showFolder), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Settings", action: #selector(showSettings), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
     menu.addItem(NSMenuItem(title: "Hide", action: #selector(hide), keyEquivalent: "h"))
     
     view.menu = menu
+  }
+  @objc private func rotateRight() {
+    currentRotationAngle += CGFloat(Double.pi / 2)
+    
+    previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: currentRotationAngle))
   }
   @objc private func stopRecord() {
     if videoOutput.isRecording {
@@ -329,8 +269,7 @@ class ViewController: NSViewController {
     fileCounter = (fileCounter + 1) % 3
     print("Started recording to \(newFileURL)")
   }
-
-
+  
   @objc private func quit() {
     NSApplication.shared.terminate(self)
   }
@@ -349,6 +288,7 @@ class ViewController: NSViewController {
     zoomFactor = min(max(zoomFactor, 1.0), 5.0)
     recognizer.magnification = 0
   }
+  
   @objc private func savePreviousRecording() {
     guard let url = previousRecordingFileURL else { return }
     
@@ -363,16 +303,19 @@ class ViewController: NSViewController {
     }
   }
   
-  func updateCameraSettings() {
-//    guard let device = videoDeviceInput.device else { return }
-    do {
-//      try device.lockForConfiguration()
-//      device.wh (duration: exposureDuration, iso: iso, completionHandler: nil)
-//      device.unlockForConfiguration()
-    } catch {
-      print("Failed to update camera settings: \(error)")
-    }
+  @objc private func showFolder() {
+    guard let folderURL = currentRecordingFileURL?.deletingLastPathComponent() else { return }
+    NSWorkspace.shared.open(folderURL)
   }
+  
+  @objc private func showSettings() {
+    // Implement the logic to show the settings view
+  }
+  
+  func updateCameraSettings() {
+    // Update camera settings if necessary
+  }
+  
   @objc private func toggleRecording() {
     if isContinuousRecording {
       stopContinuousRecording()
@@ -419,9 +362,61 @@ class ViewController: NSViewController {
       }
     }
   }
-
   
+  private func startRecordingMonitoring() {
+    recordingMonitorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+      self?.checkRecordingDuration()
+    }
+  }
   
+  private func stopRecordingMonitoring() {
+    recordingMonitorTimer?.invalidate()
+    recordingMonitorTimer = nil
+  }
+  
+  private func checkRecordingDuration() {
+    guard isContinuousRecording, let startTime = recordingStartTime else { return }
+    let elapsedTime = Date().timeIntervalSince(startTime)
+    if elapsedTime >= maxRecordingDuration.seconds {
+      videoOutput.stopRecording()
+    }
+  }
+  
+  private func setupCameraPreview() {
+    guard let device = AVCaptureDevice.default(for: .video),
+          let input = try? AVCaptureDeviceInput(device: device) else { return }
+    
+    if !cameraSession.inputs.contains(where: { $0 == input }) {
+      cameraSession.addInput(input)
+    }
+    
+    photoOutput = AVCapturePhotoOutput()
+    if cameraSession.canAddOutput(photoOutput) {
+      cameraSession.addOutput(photoOutput)
+    }
+    
+    videoOutput = AVCaptureMovieFileOutput()
+    if cameraSession.canAddOutput(videoOutput) {
+      videoOutput.movieFragmentInterval = CMTime(value: 20, timescale: 1)
+      cameraSession.addOutput(videoOutput)
+    }
+    
+    videoDataOutput = AVCaptureVideoDataOutput()
+    videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+    if cameraSession.canAddOutput(videoDataOutput) {
+      cameraSession.addOutput(videoDataOutput)
+    }
+    
+    previewLayer = AVCaptureVideoPreviewLayer(session: cameraSession)
+    videoDeviceInput = input
+    
+    if let preview = previewLayer {
+      view.layer?.addSublayer(preview)
+      preview.videoGravity = .resizeAspect
+      preview.frame = view.bounds
+      
+    }
+  }
 }
 
 extension ViewController: AVCapturePhotoCaptureDelegate {
@@ -439,6 +434,7 @@ extension ViewController: AVCapturePhotoCaptureDelegate {
     }
   }
 }
+
 extension ViewController: AVCaptureFileOutputRecordingDelegate {
   func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
     if let error = error {
@@ -451,9 +447,6 @@ extension ViewController: AVCaptureFileOutputRecordingDelegate {
   }
 }
 
-
-
-
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
     guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
@@ -464,11 +457,32 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
       ciImage = applyCurrentFilters(to: ciImage)
     }
     
-    let bitmapRep = NSBitmapImageRep(ciImage: ciImage)
-    let image = NSImage()
-    image.addRepresentation(bitmapRep)
-    self.currentFrame = image
+    if applyMLModel, let mlModel = mlModel {
+      let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+      let request = VNCoreMLRequest(model: mlModel) { [weak self] request, error in
+        guard let results = request.results as? [VNPixelBufferObservation],
+              let resultBuffer = results.first?.pixelBuffer else { return }
+        ciImage = CIImage(cvPixelBuffer: resultBuffer)
+//        self?.updateCurrentFrame(with: ciImage)
+      }
+      try? handler.perform([request])
+    } else {
+//      updateCurrentFrame(with: ciImage)
+    }
   }
+  
+//  private func updateCurrentFrame(with ciImage: CIImage) {
+//    let bitmapRep = NSBitmapImageRep(ciImage: ciImage)
+//    let image = NSImage()
+//    image.addRepresentation(bitmapRep)
+//    self.currentFrame = image
+//    
+//    DispatchQueue.main.async {
+//      if let previewLayer = self.previewLayer {
+//        previewLayer.contents = self.ciContext.createCGImage(ciImage, from: ciImage.extent)
+//      }
+//    }
+//  }
   
   func applyCurrentFilters(to ciImage: CIImage) -> CIImage {
     var ciImage = ciImage
@@ -526,17 +540,7 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     gammaFilter?.setValue(gamma, forKey: "inputPower")
     ciImage = gammaFilter?.outputImage ?? ciImage
     
-    let hueFilter = CIFilter(name: "CIHueAdjust")
-    hueFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    hueFilter?.setValue(hue, forKey: kCIInputAngleKey)
-    ciImage = hueFilter?.outputImage ?? ciImage
-    
-    let highlightShadowFilter = CIFilter(name: "CIHighlightShadowAdjust")
-    highlightShadowFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    highlightShadowFilter?.setValue(highlightAmount, forKey: "inputHighlightAmount")
-    highlightShadowFilter?.setValue(shadowAmount, forKey: "inputShadowAmount")
-    ciImage = highlightShadowFilter?.outputImage ?? ciImage
-    
+   
     let temperatureAndTintFilter = CIFilter(name: "CITemperatureAndTint")
     temperatureAndTintFilter?.setValue(ciImage, forKey: kCIInputImageKey)
     temperatureAndTintFilter?.setValue(CIVector(x: temperature, y: tint), forKey: "inputNeutral")
@@ -546,13 +550,6 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     whitePointAdjustFilter?.setValue(ciImage, forKey: kCIInputImageKey)
     whitePointAdjustFilter?.setValue(CIColor(red: CGFloat(Float(whitePoint)), green: CGFloat(Float(whitePoint)), blue: CGFloat(Float(whitePoint))), forKey: kCIInputColorKey)
     ciImage = whitePointAdjustFilter?.outputImage ?? ciImage
-    
-    if let mlModel = mlModel, applyMLModel {
-      let mlFilter = CIFilter(name: "CICoreMLModelFilter")!
-      mlFilter.setValue(mlModel, forKey: "inputModel")
-      mlFilter.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = mlFilter.outputImage ?? ciImage
-    }
     
     return ciImage
   }

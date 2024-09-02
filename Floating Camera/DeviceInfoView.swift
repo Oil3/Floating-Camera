@@ -11,8 +11,7 @@ struct DeviceInfoView: View {
     }, detail: {
       DeviceInfoView4()
     })
-    .frame(minWidth: 420, minHeight: 260)
-    .navigationTitle("Device Settings")
+    .navigationTitle("Settings")
     .textSelection(.enabled)
   }
   
