@@ -38,6 +38,8 @@ class DeviceInfoViewModel: ObservableObject {
   @Published var selectedCodecIndex: Int?
   @Published var presets: [String] = ["High", "Medium", "Low"]
   @Published var selectedPresetIndex: Int?
+  var selectedDevice: AVCaptureDevice?
+
   
   init() {
     fetchDeviceFeatures()

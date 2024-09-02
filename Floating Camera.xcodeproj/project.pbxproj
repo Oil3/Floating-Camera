@@ -45,13 +45,15 @@
 		34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317A2BDA537F00BFA742 /* Assets.xcassets */; };
 		34E6317F2BDA537F00BFA742 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317E2BDA537F00BFA742 /* Preview Assets.xcassets */; };
 		34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */; };
+		34FEE0BF2C857F0000567786 /* DeviceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F34C92BB141900038B68B /* DeviceSettingsView.swift */; };
+		34FEE0C12C857FF400567786 /* FiltersViewAdjustmntsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FEE0C02C857FF400567786 /* FiltersViewAdjustmntsView.swift */; };
+		34FEE0C22C85886500567786 /* RuntimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */; };
+		34FEE0C32C8589FD00567786 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FC12B7DAD8D00E10802 /* ViewController.swift */; };
 		7204F95F2B7E856900596881 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7204F95E2B7E856800596881 /* README.md */; };
 		725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */; };
 		725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725DEA152B8F3741009E330D /* DeviceInfoView.swift */; };
 		728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */; };
-		728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FC12B7DAD8D00E10802 /* ViewController.swift */; };
 		728A8FC42B7DAD8F00E10802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 728A8FC32B7DAD8F00E10802 /* Assets.xcassets */; };
-		728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,11 +111,12 @@
 		34E631922BDA538000BFA742 /* Machine_Security_SystemUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Machine_Security_SystemUITests.swift; sourceTree = "<group>"; };
 		34E631942BDA538000BFA742 /* Machine_Security_SystemUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Machine_Security_SystemUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		34ECAC122C36B4C2006F24E2 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
+		34FEE0C02C857FF400567786 /* FiltersViewAdjustmntsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewAdjustmntsView.swift; sourceTree = "<group>"; };
 		7204F95E2B7E856800596881 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoViewModel.swift; sourceTree = "<group>"; };
 		725DEA152B8F3741009E330D /* DeviceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoView.swift; sourceTree = "<group>"; };
 		725DEA172B8F3B8A009E330D /* swifttoboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swifttoboard.swift; sourceTree = "<group>"; };
-		726F34C92BB141900038B68B /* CameraSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
+		726F34C92BB141900038B68B /* DeviceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsView.swift; sourceTree = "<group>"; };
 		728A8FBC2B7DAD8D00E10802 /* Floating Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Floating Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		728A8FC12B7DAD8D00E10802 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -297,9 +300,10 @@
 				34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */,
 				728A8FBF2B7DAD8D00E10802 /* AppDelegate.swift */,
 				728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */,
+				34FEE0C02C857FF400567786 /* FiltersViewAdjustmntsView.swift */,
 				728A8FC12B7DAD8D00E10802 /* ViewController.swift */,
 				725DEA152B8F3741009E330D /* DeviceInfoView.swift */,
-				726F34C92BB141900038B68B /* CameraSettingsView.swift */,
+				726F34C92BB141900038B68B /* DeviceSettingsView.swift */,
 				725DEA132B8F286D009E330D /* DeviceInfoViewModel.swift */,
 				728A8FC32B7DAD8F00E10802 /* Assets.xcassets */,
 				728A8FC82B7DAD8F00E10802 /* Floating_Camera.entitlements */,
@@ -486,11 +490,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */,
-				728A8FCF2B7DC08B00E10802 /* RuntimeData.swift in Sources */,
 				725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */,
-				728A8FC22B7DAD8D00E10802 /* ViewController.swift in Sources */,
+				34FEE0C22C85886500567786 /* RuntimeData.swift in Sources */,
+				34FEE0C12C857FF400567786 /* FiltersViewAdjustmntsView.swift in Sources */,
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,
 				725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */,
+				34FEE0C32C8589FD00567786 /* ViewController.swift in Sources */,
+				34FEE0BF2C857F0000567786 /* DeviceSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
