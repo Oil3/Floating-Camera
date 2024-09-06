@@ -14,7 +14,7 @@ class ViewController: NSViewController {
   var currentFrame: NSImage?
   var isContinuousRecording = false
   var isPersistingRecordings = false
-  let maxRecordingDuration: CMTime = CMTimeMake(value: 1200, timescale: 1) // 20 minutes segments
+  let maxRecordingDuration: CMTime = CMTimeMake(value: 600, timescale: 1) // 10 minutes segments
   var currentRecordingFileURL: URL?
   var previousRecordingFileURL: URL?
   var recordingStartTime: Date?
@@ -48,6 +48,7 @@ class ViewController: NSViewController {
   var gaborGradients = false
   
   // Additional properties for camera controls
+  var activeAspectRatio: CGFloat = 16.0 / 9.0
   var zoomFactor: CGFloat = 1.0 {
     didSet {
       do {
@@ -124,6 +125,10 @@ class ViewController: NSViewController {
     print("Video range format not found")
   }
   
+  func getActiveAspectRatio() -> CGFloat {
+    return activeAspectRatio
+  }
+
   private func requestPermission(completion: @escaping (Bool) -> Void) {
     switch AVCaptureDevice.authorizationStatus(for: .video) {
     case .authorized:
@@ -195,6 +200,8 @@ class ViewController: NSViewController {
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
     
     menu.addItem(NSMenuItem(title: "Show Folder", action: #selector(showFolder), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Toggle Floating", action: #selector(toggleWindowLevel), keyEquivalent: "t"))
+
     menu.addItem(NSMenuItem(title: "Settings", action: #selector(showSettings), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
     menu.addItem(NSMenuItem(title: "Hide", action: #selector(hide), keyEquivalent: "h"))
@@ -202,9 +209,13 @@ class ViewController: NSViewController {
     view.menu = menu
   }
   @objc private func rotateRight() {
-    currentRotationAngle += CGFloat(Double.pi / 2)
+    currentRotationAngle += CGFloat(Double.pi / -2)
     
     previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: currentRotationAngle))
+  }
+  
+  @objc private func toggleWindowLevel() {
+    FloatingController.shared.toggleFloating()
   }
   @objc private func stopRecord() {
     if videoOutput.isRecording {
