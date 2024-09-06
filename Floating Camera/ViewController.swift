@@ -14,7 +14,7 @@ class ViewController: NSViewController {
   var currentFrame: NSImage?
   var isContinuousRecording = false
   var isPersistingRecordings = false
-  let maxRecordingDuration: CMTime = CMTimeMake(value: 1200, timescale: 1) // 20 minutes segments
+  let maxRecordingDuration: CMTime = CMTimeMake(value: 600, timescale: 1) // 10 minutes segments
   var currentRecordingFileURL: URL?
   var previousRecordingFileURL: URL?
   var recordingStartTime: Date?
@@ -48,6 +48,7 @@ class ViewController: NSViewController {
   var gaborGradients = false
   
   // Additional properties for camera controls
+  var activeAspectRatio: CGFloat = 16.0 / 9.0
   var zoomFactor: CGFloat = 1.0 {
     didSet {
       do {
@@ -124,6 +125,10 @@ class ViewController: NSViewController {
     print("Video range format not found")
   }
   
+  func getActiveAspectRatio() -> CGFloat {
+    return activeAspectRatio
+  }
+
   private func requestPermission(completion: @escaping (Bool) -> Void) {
     switch AVCaptureDevice.authorizationStatus(for: .video) {
     case .authorized:
@@ -195,6 +200,8 @@ class ViewController: NSViewController {
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
     
     menu.addItem(NSMenuItem(title: "Show Folder", action: #selector(showFolder), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Toggle Floating", action: #selector(toggleWindowLevel), keyEquivalent: "t"))
+
     menu.addItem(NSMenuItem(title: "Settings", action: #selector(showSettings), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
     menu.addItem(NSMenuItem(title: "Hide", action: #selector(hide), keyEquivalent: "h"))
@@ -202,9 +209,13 @@ class ViewController: NSViewController {
     view.menu = menu
   }
   @objc private func rotateRight() {
-    currentRotationAngle += CGFloat(Double.pi / 2)
+    currentRotationAngle += CGFloat(Double.pi / -2)
     
     previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: currentRotationAngle))
+  }
+  
+  @objc private func toggleWindowLevel() {
+    FloatingController.shared.toggleFloating()
   }
   @objc private func stopRecord() {
     if videoOutput.isRecording {
@@ -216,14 +227,30 @@ class ViewController: NSViewController {
     let settings = AVCapturePhotoSettings()
     photoOutput.capturePhoto(with: settings, delegate: self)
   }
-  
-  @objc private func copyFrame() {
-    guard let currentFrame = currentFrame else { return }
-    let pasteboard = NSPasteboard.general
-    pasteboard.clearContents()
-    pasteboard.writeObjects([currentFrame])
+  private func convertPixelBufferToNSImage(_ pixelBuffer: CVPixelBuffer) -> NSImage? {
+    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+    let rep = NSCIImageRep(ciImage: ciImage)
+    let nsImage = NSImage(size: rep.size)
+    nsImage.addRepresentation(rep)
+    return nsImage
   }
-  
+  @objc private func copyFrame() {
+    guard let pixelBuffer = lastCapturedPixelBuffer else {
+      print("No pixel buffer available")
+      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
+      return
+    }
+    
+    // Convert pixel buffer to NSImage
+    if let nsImage = convertPixelBufferToNSImage(pixelBuffer) {
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+      pasteboard.writeObjects([nsImage])
+      showFadingTooltip(message: "Frame copied to clipboard", at: CGPoint(x: 100, y: 100), duration: 2.0)
+    } else {
+      showFadingTooltip(message: "Error: Failed to copy frame", at: CGPoint(x: 100, y: 100), duration: 2.0)
+    }
+  }
   @objc private func record() {
     if isContinuousRecording {
       stopContinuousRecording()
@@ -315,20 +342,36 @@ class ViewController: NSViewController {
   func updateCameraSettings() {
     // Update camera settings if necessary
   }
-  
   @objc private func toggleRecording() {
     if isContinuousRecording {
       stopContinuousRecording()
+      showFadingTooltip(message: "Recording stopped", at: CGPoint(x: 100, y: 100))
     } else {
       startContinuousRecording()
+      showFadingTooltip(message: "Recording started", at: CGPoint(x: 100, y: 100))
     }
-    setupContextMenu()
   }
   
   @objc private func togglePersistence() {
     isPersistingRecordings.toggle()
-    setupContextMenu()
+    let message = isPersistingRecordings ? "Persistence enabled" : "Persistence disabled"
+    showFadingTooltip(message: message, at: CGPoint(x: 100, y: 100))
   }
+
+//
+//  @objc private func toggleRecording() {
+//    if isContinuousRecording {
+//      stopContinuousRecording()
+//    } else {
+//      startContinuousRecording()
+//    }
+//    setupContextMenu()
+//  }
+//  
+//  @objc private func togglePersistence() {
+//    isPersistingRecordings.toggle()
+//    setupContextMenu()
+//  }
   
   @objc private func saveLastMinute() {
     guard let url = currentRecordingFileURL else { return }
@@ -446,30 +489,39 @@ extension ViewController: AVCaptureFileOutputRecordingDelegate {
     }
   }
 }
+var lastCapturedPixelBuffer: CVPixelBuffer?
 
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-    var ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    
-    // Apply filters and models to the ciImage
-    if applyFilter {
-      ciImage = applyCurrentFilters(to: ciImage)
-    }
-    
-    if applyMLModel, let mlModel = mlModel {
-      let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
-      let request = VNCoreMLRequest(model: mlModel) { [weak self] request, error in
-        guard let results = request.results as? [VNPixelBufferObservation],
-              let resultBuffer = results.first?.pixelBuffer else { return }
-        ciImage = CIImage(cvPixelBuffer: resultBuffer)
-//        self?.updateCurrentFrame(with: ciImage)
-      }
-      try? handler.perform([request])
-    } else {
-//      updateCurrentFrame(with: ciImage)
+    // Capture the pixel buffer from the video output
+    if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+      lastCapturedPixelBuffer = pixelBuffer
     }
   }
+}
+//extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+//  func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+//    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+//    var ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+//    
+//    // Apply filters and models to the ciImage
+//    if applyFilter {
+//      ciImage = applyCurrentFilters(to: ciImage)
+//    }
+//    
+//    if applyMLModel, let mlModel = mlModel {
+//      let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+//      let request = VNCoreMLRequest(model: mlModel) { [weak self] request, error in
+//        guard let results = request.results as? [VNPixelBufferObservation],
+//              let resultBuffer = results.first?.pixelBuffer else { return }
+//        ciImage = CIImage(cvPixelBuffer: resultBuffer)
+////        self?.updateCurrentFrame(with: ciImage)
+//      }
+//      try? handler.perform([request])
+//    } else {
+////      updateCurrentFrame(with: ciImage)
+//    }
+//  }
   
 //  private func updateCurrentFrame(with ciImage: CIImage) {
 //    let bitmapRep = NSBitmapImageRep(ciImage: ciImage)
@@ -483,74 +535,74 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 //      }
 //    }
 //  }
-  
-  func applyCurrentFilters(to ciImage: CIImage) -> CIImage {
-    var ciImage = ciImage
-    
-    if let selectedFilter = selectedFilter {
-      selectedFilter.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = selectedFilter.outputImage ?? ciImage
-    }
-    
-    if invert {
-      let filter = CIFilter(name: "CIColorInvert")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    if posterize {
-      let filter = CIFilter(name: "CIColorPosterize")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    if sharpenLuminance {
-      let filter = CIFilter(name: "CISharpenLuminance")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    if unsharpMask {
-      let filter = CIFilter(name: "CIUnsharpMask")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    if edges {
-      let filter = CIFilter(name: "CIEdges")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    if gaborGradients {
-      let filter = CIFilter(name: "CIGaborGradients")
-      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-      ciImage = filter?.outputImage ?? ciImage
-    }
-    
-    let colorControlsFilter = CIFilter(name: "CIColorControls")
-    colorControlsFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    colorControlsFilter?.setValue(brightness, forKey: kCIInputBrightnessKey)
-    colorControlsFilter?.setValue(contrast, forKey: kCIInputContrastKey)
-    colorControlsFilter?.setValue(saturation, forKey: kCIInputSaturationKey)
-    ciImage = colorControlsFilter?.outputImage ?? ciImage
-    
-    let gammaFilter = CIFilter(name: "CIGammaAdjust")
-    gammaFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    gammaFilter?.setValue(gamma, forKey: "inputPower")
-    ciImage = gammaFilter?.outputImage ?? ciImage
-    
-   
-    let temperatureAndTintFilter = CIFilter(name: "CITemperatureAndTint")
-    temperatureAndTintFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    temperatureAndTintFilter?.setValue(CIVector(x: temperature, y: tint), forKey: "inputNeutral")
-    ciImage = temperatureAndTintFilter?.outputImage ?? ciImage
-    
-    let whitePointAdjustFilter = CIFilter(name: "CIWhitePointAdjust")
-    whitePointAdjustFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-    whitePointAdjustFilter?.setValue(CIColor(red: CGFloat(Float(whitePoint)), green: CGFloat(Float(whitePoint)), blue: CGFloat(Float(whitePoint))), forKey: kCIInputColorKey)
-    ciImage = whitePointAdjustFilter?.outputImage ?? ciImage
-    
-    return ciImage
-  }
-}
+//  
+//  func applyCurrentFilters(to ciImage: CIImage) -> CIImage {
+//    var ciImage = ciImage
+//    
+//    if let selectedFilter = selectedFilter {
+//      selectedFilter.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = selectedFilter.outputImage ?? ciImage
+//    }
+//    
+//    if invert {
+//      let filter = CIFilter(name: "CIColorInvert")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    if posterize {
+//      let filter = CIFilter(name: "CIColorPosterize")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    if sharpenLuminance {
+//      let filter = CIFilter(name: "CISharpenLuminance")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    if unsharpMask {
+//      let filter = CIFilter(name: "CIUnsharpMask")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    if edges {
+//      let filter = CIFilter(name: "CIEdges")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    if gaborGradients {
+//      let filter = CIFilter(name: "CIGaborGradients")
+//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
+//      ciImage = filter?.outputImage ?? ciImage
+//    }
+//    
+//    let colorControlsFilter = CIFilter(name: "CIColorControls")
+//    colorControlsFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//    colorControlsFilter?.setValue(brightness, forKey: kCIInputBrightnessKey)
+//    colorControlsFilter?.setValue(contrast, forKey: kCIInputContrastKey)
+//    colorControlsFilter?.setValue(saturation, forKey: kCIInputSaturationKey)
+//    ciImage = colorControlsFilter?.outputImage ?? ciImage
+//    
+//    let gammaFilter = CIFilter(name: "CIGammaAdjust")
+//    gammaFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//    gammaFilter?.setValue(gamma, forKey: "inputPower")
+//    ciImage = gammaFilter?.outputImage ?? ciImage
+//    
+//   
+//    let temperatureAndTintFilter = CIFilter(name: "CITemperatureAndTint")
+//    temperatureAndTintFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//    temperatureAndTintFilter?.setValue(CIVector(x: temperature, y: tint), forKey: "inputNeutral")
+//    ciImage = temperatureAndTintFilter?.outputImage ?? ciImage
+//    
+//    let whitePointAdjustFilter = CIFilter(name: "CIWhitePointAdjust")
+//    whitePointAdjustFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//    whitePointAdjustFilter?.setValue(CIColor(red: CGFloat(Float(whitePoint)), green: CGFloat(Float(whitePoint)), blue: CGFloat(Float(whitePoint))), forKey: kCIInputColorKey)
+//    ciImage = whitePointAdjustFilter?.outputImage ?? ciImage
+//    
+//    return ciImage
+//  }
+//}

@@ -2,7 +2,7 @@ import SwiftUI
 import AVFoundation
 struct DeviceSettingsView: View {
   @ObservedObject  var viewModel: DeviceInfoViewModel
-  @State private var selectedFramerate: Double = 30.0 // Default framerate
+  @State private var selectedFramerate: Double = 24.0 // Default framerate
   
   var body: some View {
     List {

@@ -33,6 +33,47 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 }
 }
+import Cocoa
+
+extension NSViewController {
+  func showFadingTooltip(message: String, at point: CGPoint, duration: TimeInterval = 2.0) {
+    // Create a lightweight NSTextField for the tooltip
+    let tooltip = NSTextField(labelWithString: message)
+    tooltip.alignment = .center
+    tooltip.textColor = .white
+    tooltip.backgroundColor = NSColor.black.withAlphaComponent(0.8)
+    tooltip.isBordered = false
+    tooltip.isBezeled = false
+    tooltip.drawsBackground = true
+    tooltip.wantsLayer = true
+    tooltip.layer?.cornerRadius = 8
+    
+    // Set the size and position of the tooltip
+    let width: CGFloat = 200
+    let height: CGFloat = 40
+    tooltip.frame = NSRect(x: point.x, y: point.y, width: width, height: height)
+    
+    // Add the tooltip to the view
+    view.addSubview(tooltip)
+    
+    // Animate the fade-in and fade-out effect
+    tooltip.alphaValue = 0
+    NSAnimationContext.runAnimationGroup({ context in
+      context.duration = 0.3
+      tooltip.animator().alphaValue = 1
+    }, completionHandler: {
+      DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+        NSAnimationContext.runAnimationGroup({ context in
+          context.duration = 0.3
+          tooltip.animator().alphaValue = 0
+        }, completionHandler: {
+          tooltip.removeFromSuperview()
+        })
+      }
+    })
+  }
+}
+
 //import Cocoa
 //import AVFoundation
 //
