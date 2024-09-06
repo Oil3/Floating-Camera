@@ -40,6 +40,7 @@ extension NSViewController {
     // Create a lightweight NSTextField for the tooltip
     let tooltip = NSTextField(labelWithString: message)
     tooltip.alignment = .center
+  
     tooltip.textColor = .white
     tooltip.backgroundColor = NSColor.black.withAlphaComponent(0.8)
     tooltip.isBordered = false
