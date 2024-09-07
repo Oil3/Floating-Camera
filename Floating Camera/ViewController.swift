@@ -26,7 +26,7 @@ class ViewController: NSViewController, ObservableObject {
   @Published var isDetectionEnabled: Bool = false
   var detectionModel: VNCoreMLModel?
   var lastCapturedPixelBuffer: CVPixelBuffer?
-
+  var currentBuffer: CVPixelBuffer?
   
   // Additional properties for camera controls
   var activeAspectRatio: CGFloat = 16.0 / 9.0
@@ -127,28 +127,34 @@ class ViewController: NSViewController, ObservableObject {
     for object in objects {
       let boundingBox = object.boundingBox
       let confidence = object.confidence
-      print("Detected object with confidence \(confidence), bounding box: \(boundingBox)")
+      let classLabels = object.labels.first
+      let labelName = object.labels.first?.identifier ?? "Unknown"
+      let confidenceString = String(format: "%.2f", confidence)
+
+      print("Detected object  \(labelName)n confident \(confidenceString), bbox: \(boundingBox)")
       
-      // Convert bounding box to the frame's coordinate system
-      showBoundingBox(for: boundingBox)
+        showBoundingBox(for: boundingBox, label: "\(labelName) (\(confidenceString))")
+
     }
   }
-  func showBoundingBox(for boundingBox: CGRect) {
+  func showBoundingBox(for boundingBox: CGRect, label: String) {
     // Calculate tooltip position and size based on bounding box
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
-    var width = view.bounds.width * boundingBox.width
-    var height = view.bounds.height * boundingBox.height
-    var xPosition = view.bounds.width * boundingBox.origin.x
-    var yPosition = view.bounds.height * (1 - boundingBox.origin.y) - height
+      let width = self.view.bounds.width * boundingBox.width
+      let height = self.view.bounds.height * boundingBox.height
+      let xPosition = self.view.frame.width * boundingBox.origin.x
+      let yPosition = self.view.frame.height * (boundingBox.origin.y
+) //- height
     
-    var tooltip = NSTextField(labelWithString: "xxxxx")
+      let tooltip = NSTextField(labelWithString: label)
       //tooltip.frame = NSRect(x: xPosition, y: yPosition, width: width, height: height)
     tooltip.frame.size = CGSize(width: width, height: height)
-      tooltip.frame.origin = boundingBox.origin
+      tooltip.frame.origin = CGPoint(x: xPosition, y: yPosition)
+    
     // Style tooltip for bounding box
-    tooltip.backgroundColor = .red
-    tooltip.layer?.borderColor = NSColor.systemGreen.cgColor
+    tooltip.backgroundColor = .red.withAlphaComponent(0.3)
+    tooltip.layer?.borderColor = NSColor.blue.cgColor
     tooltip.layer?.borderWidth = 3.0
     tooltip.layer?.cornerRadius = 4.0
     tooltip.isBordered = true
@@ -161,9 +167,9 @@ class ViewController: NSViewController, ObservableObject {
     
     NSAnimationContext.runAnimationGroup({ context in
       context.duration = 0.2
-      tooltip.animator().alphaValue = 1
+      tooltip.animator().alphaValue = 0.3
     }, completionHandler: {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
         NSAnimationContext.runAnimationGroup({ context in
           context.duration = 0.2
           tooltip.animator().alphaValue = 0
@@ -287,11 +293,11 @@ class ViewController: NSViewController, ObservableObject {
     view.menu = menu
   }
   @objc private func triggerVisionPrediction() {
-    guard let pixelBuffer = lastCapturedPixelBuffer else {
-      print("No pixel buffer available for object detection")
-      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
-      return
-    }
+//    guard let pixelBuffer = lastCapturedPixelBuffer else {
+//      print("No pixel buffer available for object detection")
+//      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
+//      return
+//    }
     
     // Enable object detection if it's not already enabled
     if !isDetectionEnabled {
@@ -370,7 +376,32 @@ class ViewController: NSViewController, ObservableObject {
     isContinuousRecording = false
     videoOutput.stopRecording()
   }
+  //debug func to see what the model sees
+  func displayPixelBuffer(_ pixelBuffer: CVPixelBuffer) {
+    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+    
+    // Directly render the pixel buffer onto the view
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+      
+      // Convert CIImage to NSImage
+      let nsImage = self.convertCIImageToNSImage(ciImage)
+      
+      // Add an overlay for the pixel buffer (similar to showing the bounding box)
+      let pixelBufferImageView = NSImageView(image: nsImage)
+      pixelBufferImageView.frame = self.view.bounds
+      pixelBufferImageView.autoresizingMask = [.width, .height]
+      self.view.addSubview(pixelBufferImageView, positioned: .below, relativeTo: nil)
+    }
+  }
   
+  func convertCIImageToNSImage(_ ciImage: CIImage) -> NSImage {
+    let rep = NSCIImageRep(ciImage: ciImage)
+    let nsImage = NSImage(size: rep.size)
+    nsImage.addRepresentation(rep)
+    return nsImage
+  }
+
   private func startNewRecording() {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
@@ -598,122 +629,18 @@ var lastCapturedPixelBuffer: CVPixelBuffer?
 
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    // Capture the pixel buffer from the video output
-    if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+    // failsafe: only gets a frame when ready to process
+    if isDetectionEnabled {
+    if lastCapturedPixelBuffer == nil,
+     let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
       lastCapturedPixelBuffer = pixelBuffer
-      if isDetectionEnabled {
+      DispatchQueue.global(qos: .userInitiated).async { [self] in
         print("Object detection triggered on frame")
 
         performObjectDetection(on: pixelBuffer)
+        self.lastCapturedPixelBuffer = nil
       }
     }
-    
+    }
   }
 }
-//extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-//  func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-//    var ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-//    
-//    // Apply filters and models to the ciImage
-//    if applyFilter {
-//      ciImage = applyCurrentFilters(to: ciImage)
-//    }
-//    
-//    if applyMLModel, let mlModel = mlModel {
-//      let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
-//      let request = VNCoreMLRequest(model: mlModel) { [weak self] request, error in
-//        guard let results = request.results as? [VNPixelBufferObservation],
-//              let resultBuffer = results.first?.pixelBuffer else { return }
-//        ciImage = CIImage(cvPixelBuffer: resultBuffer)
-////        self?.updateCurrentFrame(with: ciImage)
-//      }
-//      try? handler.perform([request])
-//    } else {
-////      updateCurrentFrame(with: ciImage)
-//    }
-//  }
-  
-//  private func updateCurrentFrame(with ciImage: CIImage) {
-//    let bitmapRep = NSBitmapImageRep(ciImage: ciImage)
-//    let image = NSImage()
-//    image.addRepresentation(bitmapRep)
-//    self.currentFrame = image
-//    
-//    DispatchQueue.main.async {
-//      if let previewLayer = self.previewLayer {
-//        previewLayer.contents = self.ciContext.createCGImage(ciImage, from: ciImage.extent)
-//      }
-//    }
-//  }
-//  
-//  func applyCurrentFilters(to ciImage: CIImage) -> CIImage {
-//    var ciImage = ciImage
-//    
-//    if let selectedFilter = selectedFilter {
-//      selectedFilter.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = selectedFilter.outputImage ?? ciImage
-//    }
-//    
-//    if invert {
-//      let filter = CIFilter(name: "CIColorInvert")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    if posterize {
-//      let filter = CIFilter(name: "CIColorPosterize")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    if sharpenLuminance {
-//      let filter = CIFilter(name: "CISharpenLuminance")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    if unsharpMask {
-//      let filter = CIFilter(name: "CIUnsharpMask")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    if edges {
-//      let filter = CIFilter(name: "CIEdges")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    if gaborGradients {
-//      let filter = CIFilter(name: "CIGaborGradients")
-//      filter?.setValue(ciImage, forKey: kCIInputImageKey)
-//      ciImage = filter?.outputImage ?? ciImage
-//    }
-//    
-//    let colorControlsFilter = CIFilter(name: "CIColorControls")
-//    colorControlsFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//    colorControlsFilter?.setValue(brightness, forKey: kCIInputBrightnessKey)
-//    colorControlsFilter?.setValue(contrast, forKey: kCIInputContrastKey)
-//    colorControlsFilter?.setValue(saturation, forKey: kCIInputSaturationKey)
-//    ciImage = colorControlsFilter?.outputImage ?? ciImage
-//    
-//    let gammaFilter = CIFilter(name: "CIGammaAdjust")
-//    gammaFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//    gammaFilter?.setValue(gamma, forKey: "inputPower")
-//    ciImage = gammaFilter?.outputImage ?? ciImage
-//    
-//   
-//    let temperatureAndTintFilter = CIFilter(name: "CITemperatureAndTint")
-//    temperatureAndTintFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//    temperatureAndTintFilter?.setValue(CIVector(x: temperature, y: tint), forKey: "inputNeutral")
-//    ciImage = temperatureAndTintFilter?.outputImage ?? ciImage
-//    
-//    let whitePointAdjustFilter = CIFilter(name: "CIWhitePointAdjust")
-//    whitePointAdjustFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//    whitePointAdjustFilter?.setValue(CIColor(red: CGFloat(Float(whitePoint)), green: CGFloat(Float(whitePoint)), blue: CGFloat(Float(whitePoint))), forKey: kCIInputColorKey)
-//    ciImage = whitePointAdjustFilter?.outputImage ?? ciImage
-//    
-//    return ciImage
-//  }
-//}
