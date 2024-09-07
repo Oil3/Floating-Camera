@@ -73,8 +73,8 @@ class ViewController: NSViewController, ObservableObject {
     super.viewDidLayout()
     previewLayer?.frame = view.bounds
     // Apply a 90-degree rotation counterclockwise (or adjust the angle as needed)
-    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
-    previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
+//    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
+//    previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
 
     
   }
@@ -137,27 +137,27 @@ class ViewController: NSViewController, ObservableObject {
     // Calculate tooltip position and size based on bounding box
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
-    let width = view.bounds.width * boundingBox.width
-    let height = view.bounds.height * boundingBox.height
-    let xPosition = view.bounds.width * boundingBox.origin.x
-    let yPosition = view.bounds.height * (1 - boundingBox.origin.y) - height
+    var width = view.bounds.width * boundingBox.width
+    var height = view.bounds.height * boundingBox.height
+    var xPosition = view.bounds.width * boundingBox.origin.x
+    var yPosition = view.bounds.height * (1 - boundingBox.origin.y) - height
     
-    let tooltip = NSTextField(labelWithString: "xxxxx")
-    tooltip.frame = NSRect(x: xPosition, y: yPosition, width: width, height: height)
-    
+    var tooltip = NSTextField(labelWithString: "xxxxx")
+      //tooltip.frame = NSRect(x: xPosition, y: yPosition, width: width, height: height)
+    tooltip.frame.size = CGSize(width: width, height: height)
+      tooltip.frame.origin = boundingBox.origin
     // Style tooltip for bounding box
     tooltip.backgroundColor = .red
-    tooltip.layer?.borderColor = NSColor.red.cgColor
-    tooltip.layer?.borderWidth = 2.0
+    tooltip.layer?.borderColor = NSColor.systemGreen.cgColor
+    tooltip.layer?.borderWidth = 3.0
     tooltip.layer?.cornerRadius = 4.0
     tooltip.isBordered = true
     tooltip.isBezeled = false
     tooltip.drawsBackground = true
-      tooltip.
     
     // Add and remove bounding box tooltip
     view.addSubview(tooltip)
-    tooltip.alphaValue = 0
+    tooltip.alphaValue = 0.5
     
     NSAnimationContext.runAnimationGroup({ context in
       context.duration = 0.2
@@ -297,14 +297,18 @@ class ViewController: NSViewController, ObservableObject {
     if !isDetectionEnabled {
       print("Enabling object detection")
       isDetectionEnabled = true
+      showFadingTooltip(message: "Object detection triggered", at: CGPoint(x: 100, y: 100), duration: 3.0)
+    }
+    else {
+      isDetectionEnabled = false
+      showFadingTooltip(message: "Object detection disabled", at: CGPoint(x: 100, y: 100), duration: 3.0)
     }
     
     // Perform object detection
-    print("Manual object detection triggered")
-    performObjectDetection(on: pixelBuffer)
+//    print("Manual object detection triggered")
+//    performObjectDetection(on: pixelBuffer)
     
-    // Provide visual feedback
-    showFadingTooltip(message: "Object detection triggered", at: CGPoint(x: 100, y: 100), duration: 2.0)
+
   }
   @objc private func rotateRight() {
     currentRotationAngle += CGFloat(Double.pi / -2)
