@@ -3,8 +3,9 @@ import Cocoa
 import CoreImage
 import CoreML
 import Vision
+import SwiftUI
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, ObservableObject {
   private let cameraSession = AVCaptureSession()
   private var previewLayer: AVCaptureVideoPreviewLayer?
   private var videoDeviceInput: AVCaptureDeviceInput!
@@ -22,30 +23,10 @@ class ViewController: NSViewController {
   var fileURLs: [URL] = []
   private var recordingMonitorTimer: Timer?
   private var currentRotationAngle: CGFloat=0.0
-  
-  // Properties for Core Image and Core ML
-  //var ciContext = CIContext()
-  var selectedFilter: CIFilter?
-  var mlModel: VNCoreMLModel?
-  var applyFilter = false
-  var applyMLModel = false
-  var brightness: CGFloat = 0.0
-  var contrast: CGFloat = 1.0
-  var saturation: CGFloat = 1.0
-  var inputEV: CGFloat = 0.0
-  var gamma: CGFloat = 1.0
-  var hue: CGFloat = 0.0
-  var highlightAmount: CGFloat = 1.0
-  var shadowAmount: CGFloat = 0.0
-  var temperature: CGFloat = 6500.0
-  var tint: CGFloat = 0.0
-  var whitePoint: CGFloat = 1.0
-  var invert = false
-  var posterize = false
-  var sharpenLuminance = false
-  var unsharpMask = false
-  var edges = false
-  var gaborGradients = false
+  @Published var isDetectionEnabled: Bool = false
+  var detectionModel: VNCoreMLModel?
+  var lastCapturedPixelBuffer: CVPixelBuffer?
+
   
   // Additional properties for camera controls
   var activeAspectRatio: CGFloat = 16.0 / 9.0
@@ -80,6 +61,7 @@ class ViewController: NSViewController {
     super.viewDidAppear()
     cameraSession.startRunning()
     startRecordingMonitoring()
+    loadCoreMLModel()
     
   }
   override func viewDidDisappear() {
@@ -96,7 +78,102 @@ class ViewController: NSViewController {
 
     
   }
+  func loadCoreMLModel() {
+    // Load the compiled Core ML model from the bundle
+    guard let modelURL = Bundle.main.url(forResource: "yolov8", withExtension: "mlmodelc"),
+          let coreMLModel = try? MLModel(contentsOf: modelURL) else {
+      print("Failed to load Core ML model")
+      return
+    }
+    
+    // Wrap it in a VNCoreMLModel for Vision requests
+    detectionModel = try? VNCoreMLModel(for: coreMLModel)
+    print("Core ML model loaded successfully")
   
+}
+  func performObjectDetection(on pixelBuffer: CVPixelBuffer) {
+    guard let model = detectionModel else {
+      print("Core ML model is not loaded")
+      return
+
+    }
+    let mmodel = try? VNCoreMLModel(for: yolov5s().model)
+
+    let request = VNCoreMLRequest(model: mmodel!) { request, error in
+      if let error = error {
+        print("Error during object detection: \(error.localizedDescription)")
+        return
+      }
+      DispatchQueue.global().async {
+
+      if let results = request.results as? [VNRecognizedObjectObservation] {
+
+          self.handleDetectedObjects(results)
+        } else {
+        print("No objects detected")
+      }
+    }
+    }
+    let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+    do {
+      try handler.perform([request])
+    } catch {
+      print("Failed to perform request: \(error.localizedDescription)")
+    }
+  }
+
+  
+  func handleDetectedObjects(_ objects: [VNRecognizedObjectObservation]) {
+    for object in objects {
+      let boundingBox = object.boundingBox
+      let confidence = object.confidence
+      print("Detected object with confidence \(confidence), bounding box: \(boundingBox)")
+      
+      // Convert bounding box to the frame's coordinate system
+      showBoundingBox(for: boundingBox)
+    }
+  }
+  func showBoundingBox(for boundingBox: CGRect) {
+    // Calculate tooltip position and size based on bounding box
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+    let width = view.bounds.width * boundingBox.width
+    let height = view.bounds.height * boundingBox.height
+    let xPosition = view.bounds.width * boundingBox.origin.x
+    let yPosition = view.bounds.height * (1 - boundingBox.origin.y) - height
+    
+    let tooltip = NSTextField(labelWithString: "xxxxx")
+    tooltip.frame = NSRect(x: xPosition, y: yPosition, width: width, height: height)
+    
+    // Style tooltip for bounding box
+    tooltip.backgroundColor = .red
+    tooltip.layer?.borderColor = NSColor.red.cgColor
+    tooltip.layer?.borderWidth = 2.0
+    tooltip.layer?.cornerRadius = 4.0
+    tooltip.isBordered = true
+    tooltip.isBezeled = false
+    tooltip.drawsBackground = true
+      tooltip.
+    
+    // Add and remove bounding box tooltip
+    view.addSubview(tooltip)
+    tooltip.alphaValue = 0
+    
+    NSAnimationContext.runAnimationGroup({ context in
+      context.duration = 0.2
+      tooltip.animator().alphaValue = 1
+    }, completionHandler: {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        NSAnimationContext.runAnimationGroup({ context in
+          context.duration = 0.2
+          tooltip.animator().alphaValue = 0
+        }, completionHandler: {
+          tooltip.removeFromSuperview()
+        })
+      }
+    })
+  }
+}
   func setVideoRangeFormat() {
     cameraSession.beginConfiguration()
     defer { cameraSession.commitConfiguration() }
@@ -198,7 +275,8 @@ class ViewController: NSViewController {
     menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop Persisting Recordings" : "Persist Recordings", action: #selector(togglePersistence), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Recording", action: #selector(savePreviousRecording), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
-    
+    menu.addItem(NSMenuItem(title: "Trigger Object Detection", action: #selector(triggerVisionPrediction), keyEquivalent: ""))
+
     menu.addItem(NSMenuItem(title: "Show Folder", action: #selector(showFolder), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Toggle Floating", action: #selector(toggleWindowLevel), keyEquivalent: "t"))
 
@@ -207,6 +285,26 @@ class ViewController: NSViewController {
     menu.addItem(NSMenuItem(title: "Hide", action: #selector(hide), keyEquivalent: "h"))
     
     view.menu = menu
+  }
+  @objc private func triggerVisionPrediction() {
+    guard let pixelBuffer = lastCapturedPixelBuffer else {
+      print("No pixel buffer available for object detection")
+      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
+      return
+    }
+    
+    // Enable object detection if it's not already enabled
+    if !isDetectionEnabled {
+      print("Enabling object detection")
+      isDetectionEnabled = true
+    }
+    
+    // Perform object detection
+    print("Manual object detection triggered")
+    performObjectDetection(on: pixelBuffer)
+    
+    // Provide visual feedback
+    showFadingTooltip(message: "Object detection triggered", at: CGPoint(x: 100, y: 100), duration: 2.0)
   }
   @objc private func rotateRight() {
     currentRotationAngle += CGFloat(Double.pi / -2)
@@ -446,6 +544,9 @@ class ViewController: NSViewController {
     
     videoDataOutput = AVCaptureVideoDataOutput()
     videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+    videoDataOutput.videoSettings = [
+      kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+    ]
     if cameraSession.canAddOutput(videoDataOutput) {
       cameraSession.addOutput(videoDataOutput)
     }
@@ -496,7 +597,13 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     // Capture the pixel buffer from the video output
     if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
       lastCapturedPixelBuffer = pixelBuffer
+      if isDetectionEnabled {
+        print("Object detection triggered on frame")
+
+        performObjectDetection(on: pixelBuffer)
+      }
     }
+    
   }
 }
 //extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {

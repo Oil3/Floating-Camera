@@ -36,6 +36,8 @@
 		34B449942C0AB8C8006AE3F2 /* MediaFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449932C0AB8C8006AE3F2 /* MediaFile.swift */; };
 		34B449962C0AB8F5006AE3F2 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */; };
 		34B449982C0AB903006AE3F2 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B449972C0AB903006AE3F2 /* GalleryView.swift */; };
+		34B631432C8BE7EC00434339 /* yolov8.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = 34B631422C8BE7EC00434339 /* yolov8.mlmodelc */; };
+		34B631452C8C022100434339 /* yolov5s.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 34B631442C8C022100434339 /* yolov5s.mlmodel */; };
 		34C437EF2BDA59F800DCC725 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437EE2BDA59F800DCC725 /* CameraView.swift */; };
 		34C437F12BDA5A4B00DCC725 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */; };
 		34E4C0622C0BE757007D3A05 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E4C0612C0BE757007D3A05 /* ImageViewer.swift */; };
@@ -94,6 +96,8 @@
 		34B449932C0AB8C8006AE3F2 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
 		34B449952C0AB8F5006AE3F2 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		34B449972C0AB903006AE3F2 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		34B631422C8BE7EC00434339 /* yolov8.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = yolov8.mlmodelc; sourceTree = "<group>"; };
+		34B631442C8C022100434339 /* yolov5s.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = yolov5s.mlmodel; sourceTree = "<group>"; };
 		34C437EE2BDA59F800DCC725 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		34C437F02BDA5A4B00DCC725 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		34CECC5C2BE877CA00DEA626 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -308,6 +312,8 @@
 				728A8FC32B7DAD8F00E10802 /* Assets.xcassets */,
 				728A8FC82B7DAD8F00E10802 /* Floating_Camera.entitlements */,
 				7204F95E2B7E856800596881 /* README.md */,
+				34B631442C8C022100434339 /* yolov5s.mlmodel */,
+				34B631422C8BE7EC00434339 /* yolov8.mlmodelc */,
 			);
 			path = "Floating Camera";
 			sourceTree = "<group>";
@@ -436,6 +442,7 @@
 			files = (
 				7204F95F2B7E856900596881 /* README.md in Resources */,
 				728A8FC42B7DAD8F00E10802 /* Assets.xcassets in Resources */,
+				34B631432C8BE7EC00434339 /* yolov8.mlmodelc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +503,7 @@
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,
 				725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */,
 				34FEE0C32C8589FD00567786 /* ViewController.swift in Sources */,
+				34B631452C8C022100434339 /* yolov5s.mlmodel in Sources */,
 				34FEE0BF2C857F0000567786 /* DeviceSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

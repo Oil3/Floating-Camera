@@ -1,9 +1,11 @@
 import SwiftUI
 import AVFoundation
+
 struct DeviceSettingsView: View {
   @ObservedObject  var viewModel: DeviceInfoViewModel
   @State private var selectedFramerate: Double = 24.0 // Default framerate
-  
+  @State  var isDetectionEnabled: Bool = false
+
   var body: some View {
     List {
       Section(header: Text("Camera Formats")) {

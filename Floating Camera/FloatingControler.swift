@@ -61,8 +61,9 @@ class FloatingController: NSWindowController, NSWindowDelegate {
   }
   
   func windowDidResize(_ notification: Notification) {
-    if let window = floatingWindow {
-    let aspectRatio = ViewController().getActiveAspectRatio()
+    if let window = floatingWindow,
+    let viewController = window.contentViewController as? ViewController {
+    let aspectRatio = viewController.getActiveAspectRatio()
 
       window.setFrame(calculateContentRect(for: window.frame, aspectRatio: aspectRatio), display: true, animate: false)
     }
