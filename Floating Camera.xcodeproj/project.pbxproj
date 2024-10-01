@@ -862,7 +862,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = july2024;
+				MARKETING_VERSION = september2024;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = macosx;
@@ -895,7 +895,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = july2024;
+				MARKETING_VERSION = september2024;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oil3.Floating-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = macosx;

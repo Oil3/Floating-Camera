@@ -27,13 +27,17 @@ class ViewController: NSViewController, ObservableObject {
   var detectionModel: VNCoreMLModel?
   var lastCapturedPixelBuffer: CVPixelBuffer?
   var currentBuffer: CVPixelBuffer?
+  var objectDetected: Bool = false //saving resources by reducing detection FPS until a detection occurs
+  var detectionTimer: Timer?
   
+  var filterValue: Float = 0.0
+  var activeFilterName: String = "CIColorControls"
   // Additional properties for camera controls
   var activeAspectRatio: CGFloat = 16.0 / 9.0
   var zoomFactor: CGFloat = 1.0 {
     didSet {
       do {
-        // Apply zoom logic if necessary
+        // Apply zoom logicy
       } catch {
         print("Failed to set zoom factor: \(error)")
       }
@@ -61,7 +65,12 @@ class ViewController: NSViewController, ObservableObject {
     super.viewDidAppear()
     cameraSession.startRunning()
     startRecordingMonitoring()
-    loadCoreMLModel()
+      previewLayer = AVCaptureVideoPreviewLayer(session: cameraSession)
+          if let preview = previewLayer {
+      view.layer?.addSublayer(preview)
+            
+      
+    }
     
   }
   override func viewDidDisappear() {
@@ -107,9 +116,11 @@ class ViewController: NSViewController, ObservableObject {
       DispatchQueue.global().async {
 
       if let results = request.results as? [VNRecognizedObjectObservation] {
+        self.objectDetected = true
 
           self.handleDetectedObjects(results)
         } else {
+          self.objectDetected = false
         print("No objects detected")
       }
     }
@@ -178,8 +189,22 @@ class ViewController: NSViewController, ObservableObject {
         })
       }
     })
-  }
 }
+}
+  func applyFilter(to pixelBuffer: CVPixelBuffer, with value: Float, filterName: String) -> CIImage? {
+    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+    guard let filter = CIFilter(name: filterName) else { return nil }
+    
+    filter.setValue(ciImage, forKey: kCIInputImageKey)
+    
+    // Add filter parameters based on the filter name
+    if filterName == "CIColorControls" {
+      filter.setValue(value, forKey: kCIInputBrightnessKey)
+    }
+    
+    return filter.outputImage
+  }
+
   func setVideoRangeFormat() {
     cameraSession.beginConfiguration()
     defer { cameraSession.commitConfiguration() }
@@ -281,24 +306,42 @@ class ViewController: NSViewController, ObservableObject {
     menu.addItem(NSMenuItem(title: isPersistingRecordings ? "Stop Persisting Recordings" : "Persist Recordings", action: #selector(togglePersistence), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Recording", action: #selector(savePreviousRecording), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Extract Last Minute", action: #selector(saveLastMinute), keyEquivalent: ""))
-    menu.addItem(NSMenuItem(title: "Trigger Object Detection", action: #selector(triggerVisionPrediction), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Toggle Object Detection", action: #selector(triggerVisionPrediction), keyEquivalent: ""))
 
     menu.addItem(NSMenuItem(title: "Show Folder", action: #selector(showFolder), keyEquivalent: ""))
     menu.addItem(NSMenuItem(title: "Toggle Floating", action: #selector(toggleWindowLevel), keyEquivalent: "t"))
 
     menu.addItem(NSMenuItem(title: "Settings", action: #selector(showSettings), keyEquivalent: ""))
+    menu.addItem(NSMenuItem(title: "Brightness", action: #selector(showBrightnessSlider), keyEquivalent: ""))
+
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
     menu.addItem(NSMenuItem(title: "Hide", action: #selector(hide), keyEquivalent: "h"))
     
     view.menu = menu
   }
+  @objc private func showBrightnessSlider() {
+    let slider = NSSlider(value: Double(filterValue), minValue: -1.0, maxValue: 1.0, target: self, action: #selector(brightnessValueChanged(_:)))
+    slider.frame = CGRect(x: view.bounds.width - 50, y: view.bounds.height / 2, width: 20, height: 150)
+    slider.isVertical = true
+    view.addSubview(slider)
+    
+    // Automatically hide slider after 5 seconds of inactivity
+    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+      slider.removeFromSuperview()
+    }
+  }
+  
+  @objc private func brightnessValueChanged(_ sender: NSSlider) {
+    filterValue = Float(sender.doubleValue)
+  }
+
   @objc private func triggerVisionPrediction() {
 //    guard let pixelBuffer = lastCapturedPixelBuffer else {
 //      print("No pixel buffer available for object detection")
 //      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
 //      return
 //    }
-    
+    loadCoreMLModel()
     // Enable object detection if it's not already enabled
     if !isDetectionEnabled {
       print("Enabling object detection")
@@ -330,7 +373,13 @@ class ViewController: NSViewController, ObservableObject {
       videoOutput.stopRecording()
     }
   }
-  
+  func triggerDetection() {
+    guard let pixelBuffer = lastCapturedPixelBuffer else {
+      print("No pixel buffer available")
+      return
+    }
+    performObjectDetection(on: pixelBuffer)
+  }
   @objc private func takePhoto() {
     let settings = AVCapturePhotoSettings()
     photoOutput.capturePhoto(with: settings, delegate: self)
@@ -342,15 +391,16 @@ class ViewController: NSViewController, ObservableObject {
     nsImage.addRepresentation(rep)
     return nsImage
   }
+  
   @objc private func copyFrame() {
-    guard let pixelBuffer = lastCapturedPixelBuffer else {
-      print("No pixel buffer available")
-      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
-      return
-    }
-    
+//    guard let pixelBuffer = lastCapturedPixelBuffer else {
+//      print("No pixel buffer available")
+//      showFadingTooltip(message: "Error: No frame available", at: CGPoint(x: 100, y: 100), duration: 2.0)
+//      return
+//    }
+    let pixelBuffer = lastCapturedPixelBuffer
     // Convert pixel buffer to NSImage
-    if let nsImage = convertPixelBufferToNSImage(pixelBuffer) {
+    if let nsImage = convertPixelBufferToNSImage(pixelBuffer!) {
       let pasteboard = NSPasteboard.general
       pasteboard.clearContents()
       pasteboard.writeObjects([nsImage])
@@ -538,6 +588,26 @@ class ViewController: NSViewController, ObservableObject {
       }
     }
   }
+  func startDetectionTimer() {
+    if objectDetected {
+      triggerDetection()
+      
+    } else {
+    detectionTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+      guard let self = self else { return }
+      if !self.objectDetected {
+        self.triggerDetection()
+      }
+      }
+    }
+  }
+  
+  
+  func stopDetectionTimer() {
+    detectionTimer?.invalidate()
+    detectionTimer = nil
+  }
+
   
   private func startRecordingMonitoring() {
     recordingMonitorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
@@ -578,6 +648,7 @@ class ViewController: NSViewController, ObservableObject {
     }
     
     videoDataOutput = AVCaptureVideoDataOutput()
+    videoDataOutput.alwaysDiscardsLateVideoFrames = true
     videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
     videoDataOutput.videoSettings = [
       kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
@@ -641,6 +712,38 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.lastCapturedPixelBuffer = nil
       }
     }
+    }
+
+    guard isDetectionEnabled else { return }
+    if lastCapturedPixelBuffer == nil,
+       let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+      lastCapturedPixelBuffer = pixelBuffer
+      
+      DispatchQueue.global(qos: .userInitiated).async {
+        // Get the filter-adjusted CIImage
+        if let filteredImage = self.applyFilter(to: pixelBuffer, with: self.filterValue, filterName: self.activeFilterName) {
+          // Convert the CIImage to NSImage and display it
+          self.displayFilteredImage(filteredImage)
+        }
+        self.lastCapturedPixelBuffer = nil
+      }
+    }
+  }
+  
+  func displayFilteredImage(_ ciImage: CIImage) {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+      
+      let nsImage = self.convertCIImageToNSImage(ciImage)
+      let pixelBufferImageView = NSImageView(image: nsImage)
+      pixelBufferImageView.frame = self.view.bounds
+      pixelBufferImageView.autoresizingMask = [.width, .height]
+      
+      // Remove the previous image overlay if any
+      self.view.subviews.filter { $0 is NSImageView }.forEach { $0.removeFromSuperview() }
+      
+      // Add the new filtered image
+      self.view.addSubview(pixelBufferImageView, positioned: .below, relativeTo: nil)
     }
   }
 }

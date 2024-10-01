@@ -34,7 +34,7 @@ class DeviceInfoViewModel: ObservableObject {
       }
     }
   }
-  @Published var videoCodecs: [String] = ["H.264"]
+  @Published var videoCodecs: [String] = ["H.264", "HEVC"]
   @Published var selectedCodecIndex: Int?
   @Published var presets: [String] = ["High", "Medium", "Low"]
   @Published var selectedPresetIndex: Int?
@@ -131,6 +131,7 @@ class DeviceInfoViewModel: ObservableObject {
     } catch {
       print("Error setting active format: \(error)")
     }
+    
   }
 }
 
