@@ -37,6 +37,7 @@ class ViewController: NSViewController, ObservableObject {
   var metalTextureCache: CVMetalTextureCache!
   var metalLibrary: MTLLibrary!
   var metalFunction: MTLFunction!
+  var brightness: Float = 1.0
   var filterValue: Float = 1.0
   var activeFilterName: String = "CIColorControls"
   // Additional properties for camera controls
@@ -89,8 +90,8 @@ class ViewController: NSViewController, ObservableObject {
     super.viewDidLayout()
     previewLayer?.frame = view.bounds
     // Apply a 90-degree rotation counterclockwise (or adjust the angle as needed)
-    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
-   previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
+    //let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
+  // previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
 
     
   }
