@@ -4,6 +4,7 @@ import CoreImage
 import CoreML
 import Vision
 import SwiftUI
+import Metal
 
 class ViewController: NSViewController, ObservableObject {
   private let cameraSession = AVCaptureSession()
@@ -30,7 +31,13 @@ class ViewController: NSViewController, ObservableObject {
   var objectDetected: Bool = false //saving resources by reducing detection FPS until a detection occurs
   var detectionTimer: Timer?
   
-  var filterValue: Float = 0.0
+  var metalDevice: MTLDevice!
+  var metalCommandQueue: MTLCommandQueue!
+  var metalPipelineState: MTLComputePipelineState!
+  var metalTextureCache: CVMetalTextureCache!
+  var metalLibrary: MTLLibrary!
+  var metalFunction: MTLFunction!
+  var filterValue: Float = 1.0
   var activeFilterName: String = "CIColorControls"
   // Additional properties for camera controls
   var activeAspectRatio: CGFloat = 16.0 / 9.0
@@ -56,7 +63,7 @@ class ViewController: NSViewController, ObservableObject {
         self?.setVideoRangeFormat()
       }
     }
-    
+    setupMetal()
     setupContextMenu()
     setupGestureRecognizers()
   }
@@ -82,8 +89,8 @@ class ViewController: NSViewController, ObservableObject {
     super.viewDidLayout()
     previewLayer?.frame = view.bounds
     // Apply a 90-degree rotation counterclockwise (or adjust the angle as needed)
-//    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
-//    previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
+    let rotationAngle = CGFloat(-Double.pi / 2) // 90 degrees counterclockwise
+   previewLayer?.setAffineTransform(CGAffineTransform(rotationAngle: rotationAngle))
 
     
   }
@@ -106,7 +113,7 @@ class ViewController: NSViewController, ObservableObject {
       return
 
     }
-    let mmodel = try? VNCoreMLModel(for: yolov5s().model)
+    let mmodel = try? VNCoreMLModel(for: yolov8s().model)
 
     let request = VNCoreMLRequest(model: mmodel!) { request, error in
       if let error = error {
@@ -132,7 +139,38 @@ class ViewController: NSViewController, ObservableObject {
       print("Failed to perform request: \(error.localizedDescription)")
     }
   }
-
+  func performObjectDetectionCI(on image : CIImage) {
+    guard let model = detectionModel else {
+      print("Core ML model is not loaded")
+      return
+      
+    }
+    let mmodel = try? VNCoreMLModel(for: yolov8s().model)
+    
+    let request = VNCoreMLRequest(model: mmodel!) { request, error in
+      if let error = error {
+        print("Error during object detection: \(error.localizedDescription)")
+        return
+      }
+      DispatchQueue.global().async {
+        
+        if let results = request.results as? [VNRecognizedObjectObservation] {
+          self.objectDetected = true
+          
+          self.handleDetectedObjects(results)
+        } else {
+          self.objectDetected = false
+          print("No objects detected")
+        }
+      }
+    }
+    let handler = VNImageRequestHandler(ciImage: image, options: [:])
+    do {
+      try handler.perform([request])
+    } catch {
+      print("Failed to perform request: \(error.localizedDescription)")
+    }
+  }
   
   func handleDetectedObjects(_ objects: [VNRecognizedObjectObservation]) {
     for object in objects {
@@ -191,19 +229,82 @@ class ViewController: NSViewController, ObservableObject {
     })
 }
 }
-  func applyFilter(to pixelBuffer: CVPixelBuffer, with value: Float, filterName: String) -> CIImage? {
-    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    guard let filter = CIFilter(name: filterName) else { return nil }
-    
-    filter.setValue(ciImage, forKey: kCIInputImageKey)
-    
-    // Add filter parameters based on the filter name
-    if filterName == "CIColorControls" {
-      filter.setValue(value, forKey: kCIInputBrightnessKey)
+  func applyMetalBrightnessAdjustment(to pixelBuffer: CVPixelBuffer, brightness: Float) -> CIImage? {
+    guard let metalDevice = metalDevice,
+          let metalCommandQueue = metalCommandQueue,
+          let metalPipelineState = metalPipelineState else {
+      return nil
     }
     
-    return filter.outputImage
+    let width = CVPixelBufferGetWidth(pixelBuffer)
+    let height = CVPixelBufferGetHeight(pixelBuffer)
+    
+    // Create Metal textures from the pixel buffer
+    var cvMetalTextureIn: CVMetalTexture?
+    var cvMetalTextureOut: CVMetalTexture?
+    
+    let pixelFormat = MTLPixelFormat.bgra8Unorm
+    
+    let statusIn = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                             metalTextureCache,
+                                                             pixelBuffer,
+                                                             nil,
+                                                             pixelFormat,
+                                                             width,
+                                                             height,
+                                                             0,
+                                                             &cvMetalTextureIn)
+    
+    let statusOut = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                              metalTextureCache,
+                                                              pixelBuffer,
+                                                              nil,
+                                                              pixelFormat,
+                                                              width,
+                                                              height,
+                                                              0,
+                                                              &cvMetalTextureOut)
+    
+    if statusIn != kCVReturnSuccess || statusOut != kCVReturnSuccess {
+      print("Failed to create Metal textures")
+      return nil
+    }
+    
+    guard let metalTextureIn = CVMetalTextureGetTexture(cvMetalTextureIn!),
+          let metalTextureOut = CVMetalTextureGetTexture(cvMetalTextureOut!) else {
+      return nil
+    }
+    
+    // Create a command buffer and encoder
+    guard let commandBuffer = metalCommandQueue.makeCommandBuffer(),
+          let commandEncoder = commandBuffer.makeComputeCommandEncoder() else {
+      return nil
+    }
+    
+    commandEncoder.setComputePipelineState(metalPipelineState)
+    commandEncoder.setTexture(metalTextureIn, index: 0)
+    commandEncoder.setTexture(metalTextureOut, index: 1)
+    
+    // Set the brightness value
+    var brightnessValue = brightness
+    commandEncoder.setBytes(&brightnessValue, length: MemoryLayout<Float>.size, index: 0)
+    
+    // Dispatch threads
+    let threadGroupSize = MTLSizeMake(8, 8, 1)
+    let threadGroups = MTLSizeMake((width + threadGroupSize.width - 1) / threadGroupSize.width,
+                                   (height + threadGroupSize.height - 1) / threadGroupSize.height,
+                                   1)
+    
+    commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupSize)
+    commandEncoder.endEncoding()
+    commandBuffer.commit()
+    commandBuffer.waitUntilCompleted()
+    
+    // Create CIImage from output texture
+    let ciImage = CIImage(mtlTexture: metalTextureOut, options: nil)
+    return ciImage
   }
+
 
   func setVideoRangeFormat() {
     cameraSession.beginConfiguration()
@@ -320,13 +421,13 @@ class ViewController: NSViewController, ObservableObject {
     view.menu = menu
   }
   @objc private func showBrightnessSlider() {
-    let slider = NSSlider(value: Double(filterValue), minValue: -1.0, maxValue: 1.0, target: self, action: #selector(brightnessValueChanged(_:)))
+    let slider = NSSlider(value: Double(filterValue), minValue: 1, maxValue: 10, target: self, action: #selector(brightnessValueChanged(_:)))
     slider.frame = CGRect(x: view.bounds.width - 50, y: view.bounds.height / 2, width: 20, height: 150)
     slider.isVertical = true
     view.addSubview(slider)
     
     // Automatically hide slider after 5 seconds of inactivity
-    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
       slider.removeFromSuperview()
     }
   }
@@ -667,6 +768,24 @@ class ViewController: NSViewController, ObservableObject {
       
     }
   }
+  
+  func setupMetal() {
+    // Initialize Metal device and command queue
+    metalDevice = MTLCreateSystemDefaultDevice()
+    metalCommandQueue = metalDevice.makeCommandQueue()
+    CVMetalTextureCacheCreate(nil, nil, metalDevice, nil, &metalTextureCache)
+    
+    // Load the compute function from the default library
+    metalLibrary = metalDevice.makeDefaultLibrary()
+    metalFunction = metalLibrary.makeFunction(name: "brightnessAdjustment")
+    
+    do {
+      metalPipelineState = try metalDevice.makeComputePipelineState(function: metalFunction)
+    } catch {
+      print("Failed to create pipeline state: \(error)")
+    }
+  }
+  
 }
 
 extension ViewController: AVCapturePhotoCaptureDelegate {
@@ -700,19 +819,24 @@ var lastCapturedPixelBuffer: CVPixelBuffer?
 
 extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    // failsafe: only gets a frame when ready to process
-    if isDetectionEnabled {
     if lastCapturedPixelBuffer == nil,
      let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
       lastCapturedPixelBuffer = pixelBuffer
       DispatchQueue.global(qos: .userInitiated).async { [self] in
-        print("Object detection triggered on frame")
 
-        performObjectDetection(on: pixelBuffer)
+        if let adjustedCIImage = self.applyMetalBrightnessAdjustment(to: pixelBuffer, brightness: self.filterValue) {
+          self.displayFilteredImage(adjustedCIImage)
+          if isDetectionEnabled {
+            performObjectDetectionCI(on: adjustedCIImage/*pixelBuffer*/)
+            print("Object detection triggered on frame")
+            
+          }
+        }
+
         self.lastCapturedPixelBuffer = nil
       }
     }
-    }
+    
 
     guard isDetectionEnabled else { return }
     if lastCapturedPixelBuffer == nil,
@@ -721,9 +845,9 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
       
       DispatchQueue.global(qos: .userInitiated).async {
         // Get the filter-adjusted CIImage
-        if let filteredImage = self.applyFilter(to: pixelBuffer, with: self.filterValue, filterName: self.activeFilterName) {
+        if let adjustedCIImage = self.applyMetalBrightnessAdjustment(to: pixelBuffer, brightness: self.filterValue) {
           // Convert the CIImage to NSImage and display it
-          self.displayFilteredImage(filteredImage)
+          self.displayFilteredImage(adjustedCIImage)
         }
         self.lastCapturedPixelBuffer = nil
       }
@@ -734,16 +858,38 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
       
+      // Convert CIImage to NSImage
       let nsImage = self.convertCIImageToNSImage(ciImage)
-      let pixelBufferImageView = NSImageView(image: nsImage)
-      pixelBufferImageView.frame = self.view.bounds
-      pixelBufferImageView.autoresizingMask = [.width, .height]
       
-      // Remove the previous image overlay if any
+      // Remove previous image overlay if any
       self.view.subviews.filter { $0 is NSImageView }.forEach { $0.removeFromSuperview() }
       
-      // Add the new filtered image
-      self.view.addSubview(pixelBufferImageView, positioned: .below, relativeTo: nil)
+      // Create an image view with the adjusted image
+      let imageView = NSImageView(image: nsImage)
+      imageView.frame = self.view.bounds
+      imageView.autoresizingMask = [.width, .height]
+      imageView.imageScaling = .scaleAxesIndependently
+      
+      // Add the image view to the view hierarchy
+      self.view.addSubview(imageView, positioned: .below, relativeTo: nil)
     }
   }
+
+  //  func displayFilteredImage(_ ciImage: CIImage) {
+//    DispatchQueue.main.async { [weak self] in
+//      guard let self = self else { return }
+//      
+//      let nsImage = self.convertCIImageToNSImage(ciImage)
+//      let pixelBufferImageView = NSImageView(image: nsImage)
+//      pixelBufferImageView.frame = self.view.bounds
+//      pixelBufferImageView.autoresizingMask = [.width, .height]
+//      
+//      // Remove the previous image overlay if any
+//      self.view.subviews.filter { $0 is NSImageView }.forEach { $0.removeFromSuperview() }
+//      
+//      // Add the new filtered image
+//      self.view.addSubview(pixelBufferImageView, positioned: .below, relativeTo: nil)
+//    }
+//  }
 }
+
