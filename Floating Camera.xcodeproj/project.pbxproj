@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		340880362CABC51E00FC9759 /* brightness.metal in Sources */ = {isa = PBXBuildFile; fileRef = 340880352CABC51E00FC9759 /* brightness.metal */; };
+		340880362CABC51E00FC9759 /* LowLight.metal in Sources */ = {isa = PBXBuildFile; fileRef = 340880352CABC51E00FC9759 /* LowLight.metal */; };
 		34089B372C02881B006130E1 /* CamMLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B362C02881B006130E1 /* CamMLApp.swift */; };
 		34089B392C02881B006130E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B382C02881B006130E1 /* ContentView.swift */; };
 		34089B3B2C02881C006130E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34089B3A2C02881C006130E1 /* Assets.xcassets */; };
@@ -60,7 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		340880352CABC51E00FC9759 /* brightness.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = brightness.metal; path = "Floating Camera/brightness.metal"; sourceTree = "<group>"; };
+		340880352CABC51E00FC9759 /* LowLight.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = LowLight.metal; path = "Floating Camera/LowLight.metal"; sourceTree = "<group>"; };
 		34089B342C02881B006130E1 /* CamML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamML.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34089B362C02881B006130E1 /* CamMLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamMLApp.swift; sourceTree = "<group>"; };
 		34089B382C02881B006130E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 		728A8FB32B7DAD8D00E10802 = {
 			isa = PBXGroup;
 			children = (
-				340880352CABC51E00FC9759 /* brightness.metal */,
+				340880352CABC51E00FC9759 /* LowLight.metal */,
 				728A8FBE2B7DAD8D00E10802 /* Floating Camera */,
 				728A8FD02B7DC0C200E10802 /* WindowController.swift */,
 				725DEA172B8F3B8A009E330D /* swifttoboard.swift */,
@@ -505,7 +505,7 @@
 				725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */,
 				34FEE0C22C85886500567786 /* RuntimeData.swift in Sources */,
 				34FEE0C12C857FF400567786 /* FiltersViewAdjustmntsView.swift in Sources */,
-				340880362CABC51E00FC9759 /* brightness.metal in Sources */,
+				340880362CABC51E00FC9759 /* LowLight.metal in Sources */,
 				728A8FC02B7DAD8D00E10802 /* AppDelegate.swift in Sources */,
 				725DEA142B8F286D009E330D /* DeviceInfoViewModel.swift in Sources */,
 				34FEE0C32C8589FD00567786 /* ViewController.swift in Sources */,
