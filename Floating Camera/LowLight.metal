@@ -4,22 +4,32 @@
 //
 //  Created by Almahdi Morris on 1/10/24.
 //
-
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void brightnessAdjustment(texture2d<float, access::read> inTexture [[texture(0)]],
+kernel void brightnessAdjustment(texture2d<float> inTexture [[texture(0)]],
                                  texture2d<float, access::write> outTexture [[texture(1)]],
                                  constant float &brightness [[buffer(0)]],
-                                 constant float &gamma [[buffer(1)]],
                                  uint2 gid [[thread_position_in_grid]]) {
-  if (gid.x >= outTexture.get_width() || gid.y >= outTexture.get_height()) {
+  uint width = outTexture.get_width();
+  uint height = outTexture.get_height();
+  
+  if (gid.x >= width || gid.y >= height) {
     return;
   }
   
-  float4 color = inTexture.read(gid);
-  color.rgb = pow(color.rgb, float3(1.0 / gamma));
+  // Calculate normalized coordinates (0.0 to 1.0)
+  float2 uv = float2(gid) / float2(width, height);
+  
+  // Use a sampler for texture sampling
+  constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
+  
+  // Sample the input texture using normalized coordinates
+  float4 color = inTexture.sample(textureSampler, uv);
+  
+  // Apply brightness adjustment
   color.rgb *= brightness;
+  
+  // Write the adjusted color to the output texture
   outTexture.write(color, gid);
 }
-

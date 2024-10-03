@@ -28,7 +28,7 @@ struct FiltersView: View {
 }
 
 struct AdjustmentsView: View {
-  @State private var brightness: CGFloat = 0.0
+  @State private var brightness: CGFloat = 1.0
   @State private var contrast: CGFloat = 1.0
   @State private var saturation: CGFloat = 1.0
   

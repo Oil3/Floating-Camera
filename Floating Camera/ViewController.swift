@@ -8,7 +8,8 @@ import MetalKit
 
 class ViewController: NSViewController, ObservableObject, MTKViewDelegate {
   func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-//
+    // Update the drawable size
+    view.drawableSize = size
   }
   
   private let cameraSession = AVCaptureSession()
@@ -805,7 +806,7 @@ class ViewController: NSViewController, ObservableObject, MTKViewDelegate {
     mtkView.framebufferOnly = false
     mtkView.enableSetNeedsDisplay = false
     mtkView.isPaused = true
-    mtkView.autoResizeDrawable = true
+    mtkView.autoResizeDrawable = false
     
     //mtkView.contentMode = .scaleAspectFit
     mtkView.autoresizingMask = [.width, .height]
@@ -849,29 +850,53 @@ class ViewController: NSViewController, ObservableObject, MTKViewDelegate {
       return
     }
     
+    // Create an output texture matching the drawable size
+    let pixelFormat = drawable.texture.pixelFormat
+    let width = Int(view.drawableSize.width)
+    let height = Int(view.drawableSize.height)
+    let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat,
+                                                                     width: width,
+                                                                     height: height,
+                                                                     mipmapped: false)
+    textureDescriptor.usage = [.shaderRead, .shaderWrite]
+    guard let outputTexture = metalDevice.makeTexture(descriptor: textureDescriptor) else {
+      return
+    }
+    
     commandEncoder.setComputePipelineState(metalPipelineState)
     commandEncoder.setTexture(inputTexture, index: 0)
-    commandEncoder.setTexture(drawable.texture, index: 1)
+    commandEncoder.setTexture(outputTexture, index: 1)
     
-    var brightnessValue = filterValue // FilterValue defaults to 1.0 ?
-    var gammaValue: Float = 1.0
+    var brightnessValue = filterValue
     commandEncoder.setBytes(&brightnessValue, length: MemoryLayout<Float>.size, index: 0)
-    commandEncoder.setBytes(&gammaValue, length: MemoryLayout<Float>.size, index: 1)
-
     
     let threadGroupSize = MTLSizeMake(8, 8, 1)
     let threadGroups = MTLSizeMake(
-      (inputTexture.width + threadGroupSize.width - 1) / threadGroupSize.width,
-      (inputTexture.height + threadGroupSize.height - 1) / threadGroupSize.height,
+      (width + threadGroupSize.width - 1) / threadGroupSize.width,
+      (height + threadGroupSize.height - 1) / threadGroupSize.height,
       1)
     
     commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupSize)
     commandEncoder.endEncoding()
     
+    // Copy the output texture to the drawable
+    guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else {
+      return
+    }
+    blitEncoder.copy(from: outputTexture,
+                     sourceSlice: 0,
+                     sourceLevel: 0,
+                     sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0),
+                     sourceSize: MTLSize(width: width, height: height, depth: 1),
+                     to: drawable.texture,
+                     destinationSlice: 0,
+                     destinationLevel: 0,
+                     destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+    blitEncoder.endEncoding()
+    
     commandBuffer.present(drawable)
     commandBuffer.commit()
   }
-  
   func setupPixelBufferPool() {
     let attributes: [String: Any] = [
       kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),

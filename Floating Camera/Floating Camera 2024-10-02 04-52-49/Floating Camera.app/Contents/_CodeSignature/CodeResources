@@ -18,7 +18,7 @@
 		</data>
 		<key>Resources/default.metallib</key>
 		<data>
-		g3SKOzglfTzRmi3lqO8WJUceX6A=
+		AdcMtn+THmm6sx3kwT8aswHSgNc=
 		</data>
 		<key>Resources/yolov8.mlmodelc/analytics/coremldata.bin</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Resources/yolov8s.mlmodelc/metadata.json</key>
 		<data>
-		ChNUj/2UDjTp1CLKHgMy+18fSAg=
+		+xM8GBz5YYq55GReiUx70LtIhdI=
 		</data>
 		<key>Resources/yolov8s.mlmodelc/model0/analytics/coremldata.bin</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Resources/yolov8s.mlmodelc/model0/coremldata.bin</key>
 		<data>
-		VyZd+h6cH7DQzXZsUsOBNhB2CNM=
+		UNCfBxsxJw8iu63+7qYlvm6rrgc=
 		</data>
 		<key>Resources/yolov8s.mlmodelc/model0/model.espresso.net</key>
 		<data>
@@ -108,7 +108,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SpckeS1PAK4CfYHCuP37c+D7V+zO2MwHDIeV8E0ak80=
+			qMBqOTt6ooxRjmyuDKbRAePLdUgwyuPrcSZPCq/Mh9o=
 			</data>
 		</dict>
 		<key>Resources/yolov8.mlmodelc/analytics/coremldata.bin</key>
@@ -157,7 +157,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			oSwa+wYJj0OzZNiO19STcXA/JZtHhFV+eflgisodOZM=
+			OxxM8VGvQ85Uf/KQG4a6z/Yb7jY64FV1SWlW6nryq3E=
 			</data>
 		</dict>
 		<key>Resources/yolov8s.mlmodelc/model0/analytics/coremldata.bin</key>
@@ -171,7 +171,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			o70xyrQTd6YwloMOr9sRaW7WJL/pYatnhd0NXmtbWVM=
+			BtGP2yWbfQtZVPI0NecyCICI5UvVW9v0oSKGKBBwsGc=
 			</data>
 		</dict>
 		<key>Resources/yolov8s.mlmodelc/model0/model.espresso.net</key>

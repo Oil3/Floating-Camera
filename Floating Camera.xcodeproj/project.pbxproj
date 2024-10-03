@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3402B62C2CAE94CB0054DDA1 /* FloatingControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */; };
 		340880362CABC51E00FC9759 /* LowLight.metal in Sources */ = {isa = PBXBuildFile; fileRef = 340880352CABC51E00FC9759 /* LowLight.metal */; };
 		34089B372C02881B006130E1 /* CamMLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B362C02881B006130E1 /* CamMLApp.swift */; };
 		34089B392C02881B006130E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34089B382C02881B006130E1 /* ContentView.swift */; };
@@ -47,7 +48,6 @@
 		34E631792BDA537E00BFA742 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E631782BDA537E00BFA742 /* ContentView.swift */; };
 		34E6317B2BDA537F00BFA742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317A2BDA537F00BFA742 /* Assets.xcassets */; };
 		34E6317F2BDA537F00BFA742 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34E6317E2BDA537F00BFA742 /* Preview Assets.xcassets */; };
-		34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DAC9972C4380A900DAEFE3 /* FloatingControler.swift */; };
 		34FEE0BF2C857F0000567786 /* DeviceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F34C92BB141900038B68B /* DeviceSettingsView.swift */; };
 		34FEE0C12C857FF400567786 /* FiltersViewAdjustmntsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FEE0C02C857FF400567786 /* FiltersViewAdjustmntsView.swift */; };
 		34FEE0C22C85886500567786 /* RuntimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728A8FCE2B7DC08B00E10802 /* RuntimeData.swift */; };
@@ -501,7 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FCF5542C782443001C38EC /* FloatingControler.swift in Sources */,
+				3402B62C2CAE94CB0054DDA1 /* FloatingControler.swift in Sources */,
 				725DEA162B8F3741009E330D /* DeviceInfoView.swift in Sources */,
 				34FEE0C22C85886500567786 /* RuntimeData.swift in Sources */,
 				34FEE0C12C857FF400567786 /* FiltersViewAdjustmntsView.swift in Sources */,
